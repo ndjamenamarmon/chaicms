@@ -1,3 +1,3 @@
 # ChaiCMS
 
-An React CMS for the JAMstack.
+A React CMS for the JAMstack.
