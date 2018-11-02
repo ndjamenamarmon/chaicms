@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+// const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
@@ -14,7 +15,10 @@ if (process.env.NODE_ENV === "test") {
 
 module.exports = env => {
   const isProduction = env === "production";
-  const CSSExtract = new ExtractTextPlugin("styles.css");
+  const CSSExtract = new MiniCssExtractPlugin({
+    filename: "styles.css",
+    chunkFilename: "styles.css"
+  });
 
   return {
     entry: ["babel-polyfill", "./src/app.js"],
@@ -31,22 +35,39 @@ module.exports = env => {
         },
         {
           test: /\.s?css$/,
-          use: CSSExtract.extract({
-            use: [
-              {
-                loader: "css-loader",
-                options: {
-                  sourceMap: true
-                }
-              },
-              {
-                loader: "sass-loader",
-                options: {
-                  sourceMap: true
-                }
-              }
-            ]
-          })
+          use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+          // use: CSSExtract.extract({
+          //   use: [
+          //     {
+          //       loader: "css-loader",
+          //       options: {
+          //         sourceMap: true
+          //       }
+          //     },
+          //     {
+          //       loader: "sass-loader",
+          //       options: {
+          //         sourceMap: true
+          //       }
+          //     }
+          //   ]
+          // })
         }
       ]
     },
