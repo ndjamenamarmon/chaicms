@@ -17,7 +17,7 @@ export const PrivateRoute = ({
           <Header />
           <div className="main-container">
             <Sidebar />
-            <div className="content-container content-container--full-width">
+            <div className="main-container__right">
               <Component {...props} />
             </div>
           </div>

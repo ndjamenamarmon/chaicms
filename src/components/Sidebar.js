@@ -144,14 +144,14 @@ export const Sidebar = () => (
       </li>
     </ul>
 
-    <ul class="sidebar-list">
+    <ul className="sidebar-list">
       <li>
-        <Link className="sidebar-list__link" to="/dashboard">
+        <Link className="sidebar-list__link" to="/settings">
           Themes
         </Link>
       </li>
       <li>
-        <Link className="sidebar-list__link" to="/dashboard">
+        <Link className="sidebar-list__link" to="/settings">
           Settings
         </Link>
       </li>
