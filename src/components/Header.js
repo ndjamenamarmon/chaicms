@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startLogout } from "../actions/auth";
 
-export const Header = ({ startLogout }) => (
+export const Header = ({ startLogout, settings }) => (
   <header className="header">
     <div className="content-container">
       <div className="header__content">
         <Link className="header__title" to="/dashboard">
-          <h1>ChaiCMS</h1>
+          <h1>{settings.siteTitle}</h1>
         </Link>
         <button className="button button--link" onClick={startLogout}>
           Logout
@@ -18,11 +18,17 @@ export const Header = ({ startLogout }) => (
   </header>
 );
 
+const mapStateToProps = (state, props) => {
+  return {
+    settings: state.settings
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
   startLogout: () => dispatch(startLogout())
 });
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(Header);

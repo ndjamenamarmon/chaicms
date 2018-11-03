@@ -1,0 +1,11 @@
+.main-container {
+  @media (min-width: $desktop-breakpoint) {
+    display: flex;
+  }
+}
+
+.main-container__right {
+  @media (min-width: $desktop-breakpoint) {
+    flex-grow: 1;
+  }
+}

@@ -2,11 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { startLogin } from "../actions/auth";
 
-export const LoginPage = ({ startLogin }) => (
+export const LoginPage = ({ startLogin, settings }) => (
   <div className="box-layout">
     <div className="box-layout__box">
-      <h1 className="box-layout__title">ChaiCMS</h1>
-      <p>A React CMS for the JAMstack.</p>
+      <h1 className="box-layout__title">{settings.siteTitle}</h1>
+      <p>{settings.siteDescription}</p>
       <button className="button" onClick={startLogin}>
         Login with Google
       </button>
@@ -14,11 +14,17 @@ export const LoginPage = ({ startLogin }) => (
   </div>
 );
 
+const mapStateToProps = (state, props) => {
+  return {
+    settings: state.settings
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
   startLogin: () => dispatch(startLogin())
 });
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(LoginPage);

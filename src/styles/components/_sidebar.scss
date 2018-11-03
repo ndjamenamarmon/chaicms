@@ -1,0 +1,26 @@
+.sidebar {
+  background: $theme-color-primary;
+}
+
+.sidebar-list {
+  border-bottom: 1px solid lighten($theme-color-primary, 5%);
+  color: white;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar-list__link {
+  color: white;
+  display: block;
+  padding: 10px 20px;
+  text-decoration: none;
+
+  &:hover {
+    background: lighten($theme-color-primary, 5%);
+  }
+}
+
+.sidebar-list--second-level .sidebar-list__link {
+  padding-left: 40px;
+}
