@@ -5,7 +5,7 @@ import { startLogout } from "../actions/auth";
 
 export const Header = ({ startLogout }) => (
   <header className="header">
-    <div className="content-container">
+    <div className="content-container content-container--full-width">
       <div className="header__content">
         <Link className="header__title" to="/dashboard">
           <h1>ChaiCMS</h1>
