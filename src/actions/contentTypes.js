@@ -9,8 +9,8 @@ export const addContentType = contentType => ({
 
 export const startAddContentType = (contentTypeData = {}) => {
   return (dispatch, getState) => {
-    const { title = "", slug = "" } = contentTypeData;
-    const contentType = { title, slug };
+    const { title = "", slug = "", fields = [] } = contentTypeData;
+    const contentType = { title, slug, fields };
 
     return database
       .ref(`content_types`)

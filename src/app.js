@@ -6,6 +6,7 @@ import configureStore from "./store/configureStore";
 import { login, logout } from "./actions/auth";
 import { startSetSettings } from "./actions/settings";
 import { startSetContentTypes } from "./actions/contentTypes";
+import { startSetFields } from "./actions/fields";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import "react-dates/lib/css/_datepicker.css";
@@ -35,10 +36,12 @@ firebase.auth().onAuthStateChanged(user => {
 
     store.dispatch(startSetSettings()).then(() => {
       store.dispatch(startSetContentTypes()).then(() => {
-        renderApp();
-        if (history.location.pathname === "/") {
-          history.push("/dashboard");
-        }
+        store.dispatch(startSetFields()).then(() => {
+          renderApp();
+          if (history.location.pathname === "/") {
+            history.push("/dashboard");
+          }
+        });
       });
     });
   } else {

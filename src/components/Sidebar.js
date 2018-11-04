@@ -20,6 +20,13 @@ export const Sidebar = props => (
       </li>
     </ul>
     <ul className="sidebar-list">
+      <li className="sidebar-list__heading">
+        <NavLink className="sidebar-list__link" to="/fields">
+          Fields
+        </NavLink>
+      </li>
+    </ul>
+    <ul className="sidebar-list">
       {props.contentTypes.map(contentType => {
         return (
           <li key={contentType.id}>
@@ -35,11 +42,6 @@ export const Sidebar = props => (
     </ul>
 
     <ul className="sidebar-list">
-      <li>
-        <Link className="sidebar-list__link" to="/settings">
-          Themes
-        </Link>
-      </li>
       <li>
         <Link className="sidebar-list__link" to="/settings">
           Settings

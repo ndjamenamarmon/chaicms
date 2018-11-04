@@ -5,9 +5,17 @@ import DashboardPage from "../components/DashboardPage";
 import LoginPage from "../components/LoginPage";
 import NotFoundPage from "../components/NotFoundPage";
 import SettingsPage from "../components/SettingsPage";
+
+// Content Types
 import ContentTypesPage from "../components/ContentTypes/ContentTypesPage";
 import AddContentTypePage from "../components/ContentTypes/AddContentTypePage";
 import EditContentTypePage from "../components/ContentTypes/EditContentTypePage";
+
+// Fields
+import FieldsPage from "../components/Fields/FieldsPage";
+import AddFieldPage from "../components/Fields/AddFieldPage";
+import EditFieldPage from "../components/Fields/EditFieldPage";
+
 import ContentPage from "../components/ContentPage";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
@@ -33,6 +41,9 @@ const AppRouter = () => (
           path="/content-types/edit/:id"
           component={EditContentTypePage}
         />
+        <PrivateRoute path="/fields" component={FieldsPage} exact={true} />
+        <PrivateRoute path="/fields/add" component={AddFieldPage} />
+        <PrivateRoute path="/fields/edit/:id" component={EditFieldPage} />
         <PrivateRoute path="/content/:slug" component={ContentPage} />
         <PrivateRoute path="/settings" component={SettingsPage} />
         <Route component={NotFoundPage} />

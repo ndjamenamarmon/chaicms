@@ -7,6 +7,7 @@ export default class ContentTypeForm extends React.Component {
     this.state = {
       title: props.contentType ? props.contentType.title : "",
       slug: props.contentType ? props.contentType.slug : "",
+      fields: props.contentType ? props.contentType.fields : [],
       error: ""
     };
   }
@@ -38,6 +39,22 @@ export default class ContentTypeForm extends React.Component {
       slug
     }));
   };
+  onFieldChange = e => {
+    const field = e.target.checked ? e.target.value : null;
+    let fields = this.state.fields ? this.state.fields : [];
+    let newFields = fields;
+
+    if (field) {
+      newFields.push(field);
+    } else {
+      newFields = fields.filter(function(value, index, arr) {
+        return value !== e.target.value;
+      });
+    }
+    this.setState(() => ({
+      fields: newFields
+    }));
+  };
   onSubmit = e => {
     e.preventDefault();
     // TO DO: Check that slug is unique in db
@@ -51,7 +68,8 @@ export default class ContentTypeForm extends React.Component {
       this.setState(() => ({ error, success }));
       this.props.onSubmit({
         title: this.state.title,
-        slug: this.state.slug
+        slug: this.state.slug,
+        fields: this.state.fields
       });
     }
   };
@@ -77,6 +95,19 @@ export default class ContentTypeForm extends React.Component {
           value={this.state.slug}
           onChange={this.onSlugChange}
         />
+        {this.props.fields.map(field => {
+          return (
+            <div key={field.id}>
+              <input
+                type="checkbox"
+                value={field.slug}
+                onChange={this.onFieldChange}
+                checked={this.state.fields.includes(field.slug)}
+              />{" "}
+              {field.name}
+            </div>
+          );
+        })}
         <div>
           <button className="button">Save Content Type</button>
         </div>

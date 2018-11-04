@@ -5,6 +5,7 @@ import {
   startEditContentType,
   startRemoveContentType
 } from "../../actions/contentTypes";
+import selectFields from "../../selectors/fields";
 
 export class EditContentTypePage extends React.Component {
   onSubmit = contentType => {
@@ -26,6 +27,7 @@ export class EditContentTypePage extends React.Component {
         <div className="content-container">
           <ContentTypeForm
             contentType={this.props.contentType}
+            fields={this.props.fields}
             onSubmit={this.onSubmit}
           />
           <button className="button button--secondary" onClick={this.onRemove}>
@@ -41,7 +43,8 @@ const mapStateToProps = (state, props) => {
   return {
     contentType: state.contentTypes.find(
       contentType => contentType.id === props.match.params.id
-    )
+    ),
+    fields: selectFields(state.fields)
   };
 };
 

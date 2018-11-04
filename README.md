@@ -15,3 +15,4 @@ A React CMS for the JAMstack.
 - [ ] More robust user authentication with invite links, etc
 - [ ] Look into using Hooks
 - [ ] Build a REST API with Express to handle all CRUD actions
+- [ ] Change sidebar to slide in menu
