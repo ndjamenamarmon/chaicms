@@ -4,7 +4,7 @@ import ContentTypeForm from "./ContentTypeForm";
 import {
   startEditContentType,
   startRemoveContentType
-} from "../actions/contentTypes";
+} from "../../actions/contentTypes";
 
 export class EditContentTypePage extends React.Component {
   onSubmit = contentType => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import ContentTypeListItem from "./ContentTypeListItem";
-import selectContentTypes from "../selectors/contentTypes";
+import selectContentTypes from "../../selectors/contentTypes";
 
 export const ContentTypesList = props => (
   <div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import ContentTypeForm from "./ContentTypeForm.js";
-import { startAddContentType } from "../actions/contentTypes";
+import { startAddContentType } from "../../actions/contentTypes";
 
 export class AddContentTypePage extends React.Component {
   onSubmit = contentType => {
