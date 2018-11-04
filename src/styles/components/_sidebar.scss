@@ -19,6 +19,10 @@
   &:hover {
     background: lighten($theme-color-primary, 5%);
   }
+  &.active {
+    background: lighten($theme-color-primary, 5%);
+    border-left: 2px solid $theme-color-secondary;
+  }
 }
 
 .sidebar-list--second-level .sidebar-list__link {
