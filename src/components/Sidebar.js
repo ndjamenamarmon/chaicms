@@ -32,7 +32,7 @@ export const Sidebar = props => (
           <li key={contentType.id}>
             <Link
               className="sidebar-list__link"
-              to={`/content/${contentType.slug}`}
+              to={`/entry/${contentType.slug}`}
             >
               {contentType.title}
             </Link>

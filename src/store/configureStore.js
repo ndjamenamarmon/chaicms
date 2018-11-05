@@ -4,6 +4,7 @@ import authReducer from "../reducers/auth";
 import settingsReducer from "../reducers/settings";
 import contentTypesReducer from "../reducers/contentTypes";
 import fieldsReducer from "../reducers/fields";
+import entriesReducer from "../reducers/entries";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -13,7 +14,8 @@ export default () => {
       auth: authReducer,
       settings: settingsReducer,
       contentTypes: contentTypesReducer,
-      fields: fieldsReducer
+      fields: fieldsReducer,
+      entries: entriesReducer
     }),
     composeEnhancers(applyMiddleware(thunk))
   );

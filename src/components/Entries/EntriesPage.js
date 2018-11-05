@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 // import ContentList from "./ContentList";
 
-export class ContentPage extends React.Component {
+export class EntriesPage extends React.Component {
   render() {
     return (
       <div>
@@ -36,4 +36,4 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps)(ContentPage);
+export default connect(mapStateToProps)(EntriesPage);

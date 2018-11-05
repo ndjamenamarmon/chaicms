@@ -16,3 +16,5 @@ A React CMS for the JAMstack.
 - [ ] Look into using Hooks
 - [ ] Build a REST API with Express to handle all CRUD actions
 - [ ] Change sidebar to slide in menu
+- [ ] Add draft/publish functionality to entries
+- [ ] Add version history to entries

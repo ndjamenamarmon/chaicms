@@ -16,7 +16,11 @@ import FieldsPage from "../components/Fields/FieldsPage";
 import AddFieldPage from "../components/Fields/AddFieldPage";
 import EditFieldPage from "../components/Fields/EditFieldPage";
 
-import ContentPage from "../components/ContentPage";
+// Entries
+import EntriesPage from "../components/Entries/EntriesPage";
+import AddEntryPage from "../components/Entries/AddEntryPage";
+import EditEntryPage from "../components/Entries/EditEntryPage";
+
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 
@@ -44,7 +48,9 @@ const AppRouter = () => (
         <PrivateRoute path="/fields" component={FieldsPage} exact={true} />
         <PrivateRoute path="/fields/add" component={AddFieldPage} />
         <PrivateRoute path="/fields/edit/:id" component={EditFieldPage} />
-        <PrivateRoute path="/content/:slug" component={ContentPage} />
+        <PrivateRoute path="/entry/:slug" component={EntriesPage} />
+        <PrivateRoute path="/entry/:slug/add" component={AddEntryPage} />
+        <PrivateRoute path="/entry/:slug/edit/:id" component={EditEntryPage} />
         <PrivateRoute path="/settings" component={SettingsPage} />
         <Route component={NotFoundPage} />
       </Switch>
