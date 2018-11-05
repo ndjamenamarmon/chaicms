@@ -47,9 +47,9 @@ export const ContentTypeForm = props => {
       setError(error);
       setSuccess(success);
       props.onSubmit({
-        title: title,
-        slug: slug,
-        fields: fields
+        title,
+        slug,
+        fields
       });
     }
   };

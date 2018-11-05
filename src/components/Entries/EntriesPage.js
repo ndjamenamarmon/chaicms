@@ -15,7 +15,7 @@ export class EntriesPage extends React.Component {
             <div className="page-header__actions">
               <Link
                 className="button"
-                to={`/content/${this.props.contentType.slug}/add`}
+                to={`/entry/${this.props.contentType.slug}/add`}
               >
                 Add {this.props.contentType.title}
               </Link>

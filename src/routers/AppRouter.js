@@ -48,7 +48,11 @@ const AppRouter = () => (
         <PrivateRoute path="/fields" component={FieldsPage} exact={true} />
         <PrivateRoute path="/fields/add" component={AddFieldPage} />
         <PrivateRoute path="/fields/edit/:id" component={EditFieldPage} />
-        <PrivateRoute path="/entry/:slug" component={EntriesPage} />
+        <PrivateRoute
+          path="/entry/:slug"
+          component={EntriesPage}
+          exact={true}
+        />
         <PrivateRoute path="/entry/:slug/add" component={AddEntryPage} />
         <PrivateRoute path="/entry/:slug/edit/:id" component={EditEntryPage} />
         <PrivateRoute path="/settings" component={SettingsPage} />
