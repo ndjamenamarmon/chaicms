@@ -95,19 +95,20 @@ export default class ContentTypeForm extends React.Component {
           value={this.state.slug}
           onChange={this.onSlugChange}
         />
-        {this.props.fields.map(field => {
-          return (
-            <div key={field.id}>
-              <input
-                type="checkbox"
-                value={field.slug}
-                onChange={this.onFieldChange}
-                checked={this.state.fields.includes(field.slug)}
-              />{" "}
-              {field.name}
-            </div>
-          );
-        })}
+        {this.props.fields &&
+          this.props.fields.map(field => {
+            return (
+              <div key={field.id}>
+                <input
+                  type="checkbox"
+                  value={field.slug}
+                  onChange={this.onFieldChange}
+                  checked={this.state.fields.includes(field.slug)}
+                />{" "}
+                {field.name}
+              </div>
+            );
+          })}
         <div>
           <button className="button">Save Content Type</button>
         </div>
