@@ -54,7 +54,7 @@ const AppRouter = () => (
           exact={true}
         />
         <PrivateRoute path="/entry/:slug/add" component={AddEntryPage} />
-        <PrivateRoute path="/entry/:slug/edit/:id" component={EditEntryPage} />
+        <PrivateRoute path="/entry/edit/:id" component={EditEntryPage} />
         <PrivateRoute path="/settings" component={SettingsPage} />
         <Route component={NotFoundPage} />
       </Switch>

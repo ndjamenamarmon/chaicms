@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-// import ContentList from "./ContentList";
+import EntriesList from "./EntriesList";
 
 export class EntriesPage extends React.Component {
   render() {
@@ -22,7 +22,9 @@ export class EntriesPage extends React.Component {
             </div>
           </div>
         </div>
-        <div className="content-container">{/* <ContentList /> */}</div>
+        <div className="content-container">
+          <EntriesList />
+        </div>
       </div>
     );
   }

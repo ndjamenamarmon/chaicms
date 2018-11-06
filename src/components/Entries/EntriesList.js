@@ -7,8 +7,8 @@ export const EntriesList = props => (
   <div>
     <div className="list-header">
       <div className="show-for-mobile">Entries</div>
-      <div className="show-for-desktop">Name</div>
-      <div className="show-for-desktop">Type</div>
+      <div className="show-for-desktop">Title</div>
+      {/* <div className="show-for-desktop">Type</div> */}
     </div>
     <div className="list-body">
       {props.entries.length === 0 ? (
@@ -16,7 +16,7 @@ export const EntriesList = props => (
           <span>No entries</span>
         </div>
       ) : (
-        props.entries.map(field => {
+        props.entries.map(entry => {
           return <EntryListItem {...entry} key={entry.id} />;
         })
       )}
