@@ -7,7 +7,14 @@ import { startAddEntry } from "../../actions/entries";
 export class AddEntryPage extends React.Component {
   onSubmit = entry => {
     this.props.startAddEntry(entry);
-    this.props.history.push("/entries");
+    this.props.history.push(`/entry/${this.props.contentType.slug}`);
+  };
+  emptyEntry = () => {
+    let newEntry = {};
+    this.props.contentType.fields.map(fieldType => {
+      newEntry[fieldType] = "";
+    });
+    return newEntry;
   };
   render() {
     console.log(this.props.contentType);
@@ -25,6 +32,7 @@ export class AddEntryPage extends React.Component {
             onSubmit={this.onSubmit}
             contentType={this.props.contentType}
             fields={this.props.fields}
+            entry={this.emptyEntry}
           />
         </div>
       </div>
