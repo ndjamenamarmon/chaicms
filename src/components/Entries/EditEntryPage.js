@@ -5,14 +5,21 @@ import { startEditEntry, startRemoveEntry } from "../../actions/entries";
 
 export class EditEntryPage extends React.Component {
   onSubmit = entry => {
-    this.props.startEditEntry(this.props.entry.id, entry);
-    this.props.history.push("/entries");
+    this.props.startEditEntry(this.props.entry.id, entry.entry);
+    // this.props.history.push(`/entry/edit/${this.props.entry.id}`);
   };
   onRemove = () => {
     this.props.startRemoveEntry({ id: this.props.entry.id });
-    this.props.history.push("/entries");
+    const contentType = this.props.contentTypes.find(
+      contentType => contentType.id === this.props.entry.contentTypeId
+    );
+
+    this.props.history.push(`/entry/${contentType.slug}`);
   };
   render() {
+    const contentType = this.props.contentTypes.find(
+      contentType => contentType.id === this.props.entry.contentTypeId
+    );
     return (
       <div>
         <div className="page-header">
@@ -21,7 +28,12 @@ export class EditEntryPage extends React.Component {
           </div>
         </div>
         <div className="content-container">
-          <EntryForm entry={this.props.entry} onSubmit={this.onSubmit} />
+          <EntryForm
+            entry={this.props.entry}
+            onSubmit={this.onSubmit}
+            contentType={contentType}
+            fields={this.props.fields}
+          />
           <button className="button button--secondary" onClick={this.onRemove}>
             Delete Entry
           </button>
@@ -33,7 +45,9 @@ export class EditEntryPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    entry: state.entries.find(entry => entry.id === props.match.params.id)
+    entry: state.entries.find(entry => entry.id === props.match.params.id),
+    contentTypes: state.contentTypes,
+    fields: state.fields
   };
 };
 

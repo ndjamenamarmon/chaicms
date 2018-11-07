@@ -9,7 +9,10 @@ export const addEntry = entry => ({
 
 export const startAddEntry = (entryData = {}) => {
   return (dispatch, getState) => {
-    const entry = entryData.entry;
+    const entry = {
+      contentTypeId: entryData.contentTypeId,
+      ...entryData.entry
+    };
 
     return database
       .ref(`entries`)

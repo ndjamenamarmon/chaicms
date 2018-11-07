@@ -17,6 +17,7 @@ export const EntryForm = props => {
     setError(error);
     setSuccess(success);
     props.onSubmit({
+      contentTypeId: contentType.id,
       entry
     });
   };
@@ -30,8 +31,6 @@ export const EntryForm = props => {
     newEntry[fieldName] = fieldValue;
     setEntry(newEntry);
   };
-  console.log(fields);
-  console.log(fields.find(field => field.slug === "title"));
   return (
     <form className="form" onSubmit={onSubmit}>
       {error && <p className="form__error">{error}</p>}
