@@ -8,7 +8,7 @@ export const Header = ({ startLogout, settings }) => (
     <div className="content-container">
       <div className="header__content">
         <Link className="header__title" to="/dashboard">
-          <h1>{settings.siteTitle}</h1>
+          <h1>{settings ? settings.siteTitle : "ChaiCMS"}</h1>
         </Link>
         <button className="button button--link" onClick={startLogout}>
           Logout
