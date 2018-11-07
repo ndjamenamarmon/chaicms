@@ -17,7 +17,7 @@ export class AddEntryPage extends React.Component {
     return newEntry;
   };
   render() {
-    console.log(this.props.contentType);
+    // console.log(this.props.contentType);
     return (
       <div>
         <div className="page-header">

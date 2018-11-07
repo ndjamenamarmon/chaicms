@@ -23,7 +23,7 @@ export class EntriesPage extends React.Component {
           </div>
         </div>
         <div className="content-container">
-          <EntriesList />
+          <EntriesList contentType={this.props.contentType} />
         </div>
       </div>
     );

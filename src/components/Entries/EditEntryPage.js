@@ -10,28 +10,24 @@ export class EditEntryPage extends React.Component {
   };
   onRemove = () => {
     this.props.startRemoveEntry({ id: this.props.entry.id });
-    const contentType = this.props.contentTypes.find(
-      contentType => contentType.id === this.props.entry.contentTypeId
-    );
 
-    this.props.history.push(`/entry/${contentType.slug}`);
+    this.props.history.push(`/entry/${this.props.contentType.slug}`);
   };
   render() {
-    const contentType = this.props.contentTypes.find(
-      contentType => contentType.id === this.props.entry.contentTypeId
-    );
     return (
       <div>
         <div className="page-header">
           <div className="content-container">
-            <h1 className="page-header__title">Edit Entry</h1>
+            <h1 className="page-header__title">
+              Edit {this.props.contentType.title}
+            </h1>
           </div>
         </div>
         <div className="content-container">
           <EntryForm
             entry={this.props.entry}
             onSubmit={this.onSubmit}
-            contentType={contentType}
+            contentType={this.props.contentType}
             fields={this.props.fields}
           />
           <button className="button button--secondary" onClick={this.onRemove}>
@@ -46,7 +42,9 @@ export class EditEntryPage extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     entry: state.entries.find(entry => entry.id === props.match.params.id),
-    contentTypes: state.contentTypes,
+    contentType: state.contentTypes.find(
+      contentType => contentType.slug === props.match.params.slug
+    ),
     fields: state.fields
   };
 };

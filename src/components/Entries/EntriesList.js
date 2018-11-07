@@ -17,7 +17,8 @@ export const EntriesList = props => (
         </div>
       ) : (
         props.entries.map(entry => {
-          return <EntryListItem {...entry} key={entry.id} />;
+          const newProps = { entry, contentType: props.contentType };
+          return <EntryListItem {...newProps} key={entry.id} />;
         })
       )}
     </div>
