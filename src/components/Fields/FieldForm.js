@@ -6,38 +6,31 @@ export default class FieldForm extends React.Component {
 
     this.state = {
       name: props.field ? props.field.name : "",
-      slug: props.field ? props.field.slug : "",
+      apiKey: props.field ? props.field.apiKey : "",
       type: props.field ? props.field.type : "",
       display: props.field ? props.field.display : "",
       error: ""
     };
   }
-  useSlugify = string => {
-    const a = "àáäâãåèéëêìíïîòóöôùúüûñçßÿœæŕśńṕẃǵǹḿǘẍźḧ·/_,:;";
-    const b = "aaaaaaeeeeiiiioooouuuuncsyoarsnpwgnmuxzh------";
-    const p = new RegExp(a.split("").join("|"), "g");
-    return string
-      .toString()
-      .toLowerCase()
-      .replace(/\s+/g, "-") // Replace spaces with
-      .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
-      .replace(/&/g, "-and-") // Replace & with ‘and’
-      .replace(/[^\w\-]+/g, "") // Remove all non-word characters
-      .replace(/\-\-+/g, "-") // Replace multiple — with single -
-      .replace(/^-+/, ""); // Trim — from start of text .replace(/-+$/, '') // Trim — from end of text
+
+  useCamelify = string => {
+    return string.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => {
+      if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+      return index == 0 ? match.toLowerCase() : match.toUpperCase();
+    });
   };
   onNameChange = e => {
     const name = e.target.value;
-    const slug = this.useSlugify(name);
+    const apiKey = this.useCamelify(name);
     this.setState(() => ({
       name,
-      slug
+      apiKey
     }));
   };
-  onSlugChange = e => {
-    const slug = e.target.value;
+  onApiKeyChange = e => {
+    const apiKey = e.target.value;
     this.setState(() => ({
-      slug
+      apiKey
     }));
   };
   onTypeChange = e => {
@@ -54,7 +47,7 @@ export default class FieldForm extends React.Component {
   };
   onSubmit = e => {
     e.preventDefault();
-    // TO DO: Check that slug/name is unique in db
+    // TO DO: Check that apiKey/name is unique in db
     if (!this.state.name || !this.state.type) {
       const error = "Please provide name and type";
       const success = "";
@@ -65,7 +58,7 @@ export default class FieldForm extends React.Component {
       this.setState(() => ({ error, success }));
       this.props.onSubmit({
         name: this.state.name,
-        slug: this.state.slug,
+        apiKey: this.state.apiKey,
         type: this.state.type,
         display: this.state.display
       });
@@ -89,9 +82,9 @@ export default class FieldForm extends React.Component {
         <input
           className="text-input"
           type="text"
-          placeholder="Slug"
-          value={this.state.slug}
-          onChange={this.onSlugChange}
+          placeholder="API Key"
+          value={this.state.apiKey}
+          onChange={this.onApiKeyChange}
         />
         <select
           className="select"

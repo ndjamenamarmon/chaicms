@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import moment from "moment";
-import useSlugify from "../../hooks/useSlugify";
+import useCamelify from "../../hooks/useCamelify";
 
 export const ContentTypeForm = props => {
   const [title, setTitle] = useState(
     props.contentType ? props.contentType.title : ""
   );
-  const [slug, setSlug] = useState(
-    props.contentType ? props.contentType.slug : ""
+  const [apiKey, setApiKey] = useState(
+    props.contentType ? props.contentType.apiKey : ""
   );
   const [fields, setFields] = useState(
     props.contentType ? props.contentType.fields : []
@@ -18,11 +18,11 @@ export const ContentTypeForm = props => {
   const [lastUpdated, setLastUpdated] = useState(moment());
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const slugify = useSlugify(null);
+  const camelify = useCamelify(null);
 
   const onTitleChange = e => {
     setTitle(e.target.value);
-    setSlug(useSlugify(e.target.value));
+    setApiKey(useCamelify(e.target.value));
   };
   const onFieldChange = e => {
     const field = e.target.checked ? e.target.value : null;
@@ -40,9 +40,9 @@ export const ContentTypeForm = props => {
   };
   const onSubmit = e => {
     e.preventDefault();
-    // TO DO: Check that slug is unique in db
-    if (!title || !slug) {
-      const error = "Please provide title and slug";
+    // TO DO: Check that apiKey is unique in db
+    if (!title || !apiKey) {
+      const error = "Please provide title and API Key";
       const success = "";
       setError(error);
       setSuccess(success);
@@ -53,7 +53,7 @@ export const ContentTypeForm = props => {
       setSuccess(success);
       props.onSubmit({
         title,
-        slug,
+        apiKey,
         fields,
         createdAt: createdAt.valueOf(),
         lastUpdated: lastUpdated.valueOf()
@@ -75,9 +75,9 @@ export const ContentTypeForm = props => {
       <input
         className="text-input"
         type="text"
-        placeholder="Slug"
-        value={slug}
-        onChange={e => setSlug(e.target.value)}
+        placeholder="API Key"
+        value={apiKey}
+        onChange={e => setApiKey(e.target.value)}
       />
       {props.fields &&
         props.fields.map(field => {
@@ -85,9 +85,9 @@ export const ContentTypeForm = props => {
             <div key={field.id}>
               <input
                 type="checkbox"
-                value={field.slug}
+                value={field.apiKey}
                 onChange={onFieldChange}
-                checked={fields.includes(field.slug)}
+                checked={fields.includes(field.apiKey)}
               />{" "}
               {field.name}
             </div>

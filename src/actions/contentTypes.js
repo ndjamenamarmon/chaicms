@@ -12,12 +12,12 @@ export const startAddContentType = (contentTypeData = {}) => {
   return (dispatch, getState) => {
     const {
       title = "",
-      slug = "",
+      apiKey = "",
       fields = [],
       createdAt = 0,
       lastUpdated = 0
     } = contentTypeData;
-    const contentType = { title, slug, fields, createdAt, lastUpdated };
+    const contentType = { title, apiKey, fields, createdAt, lastUpdated };
 
     return database
       .ref(`content_types`)
