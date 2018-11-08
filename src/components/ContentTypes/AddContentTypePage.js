@@ -2,11 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import ContentTypeForm from "./ContentTypeForm.js";
 import { startAddContentType } from "../../actions/contentTypes";
+import selectContentTypes from "../../selectors/contentTypes";
 
 export class AddContentTypePage extends React.Component {
   onSubmit = contentType => {
-    this.props.startAddContentType(contentType);
-    this.props.history.push("/content-types");
+    this.props.startAddContentType(contentType).then(() => {
+      this.props.history.push(
+        `/content-types/edit/${this.props.lastContentType.id}`
+      );
+    });
   };
   render() {
     return (
@@ -24,11 +28,19 @@ export class AddContentTypePage extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    lastContentType: selectContentTypes(state.contentTypes, {
+      sortBy: "createdAt"
+    })[0]
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
   startAddContentType: contentType => dispatch(startAddContentType(contentType))
 });
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(AddContentTypePage);

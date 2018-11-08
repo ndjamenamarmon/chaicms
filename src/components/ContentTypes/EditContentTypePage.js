@@ -24,7 +24,7 @@ export class EditContentTypePage extends React.Component {
             <h1 className="page-header__title">Edit Content Type</h1>
           </div>
         </div>
-        <div className="content-container">
+        <div className="content-container content-container--centered">
           <ContentTypeForm
             contentType={this.props.contentType}
             fields={this.props.fields}

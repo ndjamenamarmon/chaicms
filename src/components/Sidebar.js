@@ -53,7 +53,7 @@ export const Sidebar = props => (
 
 const mapStateToProps = state => {
   return {
-    contentTypes: selectContentTypes(state.contentTypes)
+    contentTypes: selectContentTypes(state.contentTypes, { sortBy: "title" })
   };
 };
 

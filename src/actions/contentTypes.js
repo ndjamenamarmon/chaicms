@@ -1,5 +1,6 @@
 import uuid from "uuid";
 import database from "../firebase/firebase";
+import moment from "moment";
 
 // ADD_CONTENT_TYPE
 export const addContentType = contentType => ({
@@ -9,8 +10,14 @@ export const addContentType = contentType => ({
 
 export const startAddContentType = (contentTypeData = {}) => {
   return (dispatch, getState) => {
-    const { title = "", slug = "", fields = [] } = contentTypeData;
-    const contentType = { title, slug, fields };
+    const {
+      title = "",
+      slug = "",
+      fields = [],
+      createdAt = 0,
+      lastUpdated = 0
+    } = contentTypeData;
+    const contentType = { title, slug, fields, createdAt, lastUpdated };
 
     return database
       .ref(`content_types`)

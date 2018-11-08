@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from "moment";
 import useSlugify from "../../hooks/useSlugify";
 
 export const ContentTypeForm = props => {
@@ -11,6 +12,10 @@ export const ContentTypeForm = props => {
   const [fields, setFields] = useState(
     props.contentType ? props.contentType.fields : []
   );
+  const [createdAt, setCreatedAt] = useState(
+    props.contentType ? moment(props.contentType.createdAt) : moment()
+  );
+  const [lastUpdated, setLastUpdated] = useState(moment());
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const slugify = useSlugify(null);
@@ -49,7 +54,9 @@ export const ContentTypeForm = props => {
       props.onSubmit({
         title,
         slug,
-        fields
+        fields,
+        createdAt: createdAt.valueOf(),
+        lastUpdated: lastUpdated.valueOf()
       });
     }
   };

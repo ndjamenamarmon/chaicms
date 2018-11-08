@@ -11,7 +11,7 @@ export class AddEntryPage extends React.Component {
   };
   emptyEntry = () => {
     let newEntry = {};
-    this.props.contentType.fields.map(fieldType => {
+    this.props.contentType.fields.forEach(fieldType => {
       newEntry[fieldType] = "";
     });
     return newEntry;
