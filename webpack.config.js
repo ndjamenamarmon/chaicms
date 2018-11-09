@@ -35,22 +35,22 @@ module.exports = env => {
         {
           test: /\.s?css$/,
           use: [
-          {
-            loader: MiniCssExtractPlugin.loader
-          },
-          {
-            loader: "css-loader",
-            options: {
-              sourceMap: true
+            {
+              loader: MiniCssExtractPlugin.loader
+            },
+            {
+              loader: "css-loader",
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: "sass-loader",
+              options: {
+                sourceMap: true
+              }
             }
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
+          ]
           // use: CSSExtract.extract({
           //   use: [
           //     {
@@ -90,7 +90,8 @@ module.exports = env => {
         ),
         "process.env.FIREBASE_MESSAGING_SENDER_ID": JSON.stringify(
           process.env.FIREBASE_MESSAGING_SENDER_ID
-        )
+        ),
+        "process.env.THEME": JSON.stringify(process.env.THEME)
       })
     ],
     devtool: isProduction ? "source-map" : "inline-source-map",

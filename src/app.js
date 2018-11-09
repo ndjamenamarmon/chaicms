@@ -9,10 +9,15 @@ import { startSetContentTypes } from "./actions/contentTypes";
 import { startSetFields } from "./actions/fields";
 import { startSetEntries } from "./actions/entries";
 import "normalize.css/normalize.css";
-import "./styles/styles.scss";
 import "react-dates/lib/css/_datepicker.css";
 import { firebase } from "./firebase/firebase";
 import LoadingPage from "./components/LoadingPage";
+
+if (process.env.THEME) {
+  require(`./themes/${process.env.THEME}/styles.scss`);
+} else {
+  require("./themes/earl-grey/styles.scss");
+}
 
 const store = configureStore();
 
