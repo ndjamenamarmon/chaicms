@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 export default class FieldForm extends React.Component {
   constructor(props) {
@@ -9,6 +10,8 @@ export default class FieldForm extends React.Component {
       apiKey: props.field ? props.field.apiKey : "",
       type: props.field ? props.field.type : "",
       display: props.field ? props.field.display : "",
+      // createdAt: props.field ? props.field.createdAt : moment(),
+      // lastUpdated: moment(),
       error: ""
     };
   }
@@ -60,7 +63,11 @@ export default class FieldForm extends React.Component {
         name: this.state.name,
         apiKey: this.state.apiKey,
         type: this.state.type,
-        display: this.state.display
+        display: this.state.display,
+        createdAt: this.props.field
+          ? moment(this.props.field.createdAt).valueOf()
+          : moment().valueOf(),
+        lastUpdated: moment().valueOf()
       });
     }
   };

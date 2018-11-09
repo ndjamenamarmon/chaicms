@@ -12,10 +12,10 @@ export const ContentTypeForm = props => {
   const [fields, setFields] = useState(
     props.contentType ? props.contentType.fields : []
   );
-  const [createdAt, setCreatedAt] = useState(
-    props.contentType ? moment(props.contentType.createdAt) : moment()
-  );
-  const [lastUpdated, setLastUpdated] = useState(moment());
+  // const [createdAt, setCreatedAt] = useState(
+  //   props.contentType ? moment(props.contentType.createdAt) : moment()
+  // );
+  // const [lastUpdated, setLastUpdated] = useState(moment());
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const camelify = useCamelify(null);
@@ -55,15 +55,18 @@ export const ContentTypeForm = props => {
         title,
         apiKey,
         fields,
-        createdAt: createdAt.valueOf(),
-        lastUpdated: lastUpdated.valueOf()
+        // createdAt: createdAt.valueOf(),
+        createdAt: props.contentType
+          ? moment(props.contentType.createdAt).valueOf()
+          : moment().valueOf(),
+        lastUpdated: moment().valueOf()
       });
     }
   };
   return (
     <form className="form" onSubmit={onSubmit}>
       {error && <p className="form__error">{error}</p>}
-      {success && <p className="form__success">{success}</p>}
+      {/* {success && <p className="form__success">{success}</p>} */}
       <input
         className="text-input"
         type="text"
