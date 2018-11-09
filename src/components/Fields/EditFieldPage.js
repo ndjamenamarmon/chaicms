@@ -20,7 +20,7 @@ export class EditFieldPage extends React.Component {
             <h1 className="page-header__title">Edit Field</h1>
           </div>
         </div>
-        <div className="content-container">
+        <div className="content-container content-container--centered">
           <FieldForm field={this.props.field} onSubmit={this.onSubmit} />
           <button className="button button--secondary" onClick={this.onRemove}>
             Delete Field

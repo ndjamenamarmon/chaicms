@@ -9,8 +9,24 @@ export const addField = field => ({
 
 export const startAddField = (fieldData = {}) => {
   return (dispatch, getState) => {
-    const { name = "", apiKey = "", type = "", display = "" } = fieldData;
-    const field = { name, apiKey, type, display };
+    const {
+      name = "",
+      apiKey = "",
+      type = "",
+      display = "",
+      helpText = "",
+      isRequired = false,
+      isUnique = false
+    } = fieldData;
+    const field = {
+      name,
+      apiKey,
+      type,
+      display,
+      helpText,
+      isRequired,
+      isUnique
+    };
 
     return database
       .ref(`fields`)

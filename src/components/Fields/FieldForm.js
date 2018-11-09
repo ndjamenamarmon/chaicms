@@ -8,10 +8,11 @@ export default class FieldForm extends React.Component {
     this.state = {
       name: props.field ? props.field.name : "",
       apiKey: props.field ? props.field.apiKey : "",
+      helpText: props.field ? props.field.helpText : "",
       type: props.field ? props.field.type : "",
       display: props.field ? props.field.display : "",
-      // createdAt: props.field ? props.field.createdAt : moment(),
-      // lastUpdated: moment(),
+      isRequired: props.field ? props.field.isRequired : false,
+      isUnique: props.field ? props.field.isUnique : false,
       error: ""
     };
   }
@@ -36,6 +37,12 @@ export default class FieldForm extends React.Component {
       apiKey
     }));
   };
+  onHelpTextChange = e => {
+    const helpText = e.target.value;
+    this.setState(() => ({
+      helpText
+    }));
+  };
   onTypeChange = e => {
     const type = e.target.value;
     this.setState(() => ({
@@ -48,11 +55,28 @@ export default class FieldForm extends React.Component {
       display
     }));
   };
+  onIsRequiredChange = e => {
+    const isRequired = e.target.checked ? true : false;
+    this.setState(() => ({
+      isRequired
+    }));
+  };
+  onIsUniqueChange = e => {
+    const isUnique = e.target.checked ? true : false;
+    this.setState(() => ({
+      isUnique
+    }));
+  };
   onSubmit = e => {
     e.preventDefault();
     // TO DO: Check that apiKey/name is unique in db
-    if (!this.state.name || !this.state.type) {
-      const error = "Please provide name and type";
+    if (
+      !this.state.name ||
+      !this.state.apiKey ||
+      !this.state.type ||
+      !this.state.display
+    ) {
+      const error = "Please complete all required fields.";
       const success = "";
       this.setState(() => ({ error, success }));
     } else {
@@ -67,7 +91,10 @@ export default class FieldForm extends React.Component {
         createdAt: this.props.field
           ? moment(this.props.field.createdAt).valueOf()
           : moment().valueOf(),
-        lastUpdated: moment().valueOf()
+        lastUpdated: moment().valueOf(),
+        helpText: this.state.helpText,
+        isRequired: this.state.isRequired,
+        isUnique: this.state.isUnique
       });
     }
   };
@@ -78,61 +105,104 @@ export default class FieldForm extends React.Component {
         {this.state.success && (
           <p className="form__success">{this.state.success}</p>
         )}
-        <input
-          className="text-input"
-          type="text"
-          placeholder="Name"
-          autoFocus
-          value={this.state.name}
-          onChange={this.onNameChange}
-        />
-        <input
-          className="text-input"
-          type="text"
-          placeholder="API Key"
-          value={this.state.apiKey}
-          onChange={this.onApiKeyChange}
-        />
-        <select
-          className="select"
-          value={this.state.type}
-          onChange={this.onTypeChange}
-        >
-          <option value="">Select a type...</option>
-          <option value="Short Text">Short Text</option>
-          <option value="Long Text">Long Text</option>
-          {/* <option value="Number">Number</option>
+        <label className="label">
+          Field Name <span className="fieldRequired">Required</span>
+          <input
+            className="text-input"
+            type="text"
+            autoFocus
+            value={this.state.name}
+            onChange={this.onNameChange}
+          />
+        </label>
+        <label className="label">
+          API Key <span className="fieldRequired">Required</span>
+          <input
+            className="text-input"
+            type="text"
+            value={this.state.apiKey}
+            onChange={this.onApiKeyChange}
+          />
+        </label>
+        <label className="label">
+          Help Text
+          <input
+            className="text-input"
+            type="text"
+            value={this.state.helpText}
+            onChange={this.onHelpTextChange}
+          />
+          <span className="fieldHelpText">
+            Help text will show up below the field on an entry form page
+          </span>
+        </label>
+        <label className="label">
+          Type of Field <span className="fieldRequired">Required</span>
+          <select
+            className="select select--fullWidth"
+            value={this.state.type}
+            onChange={this.onTypeChange}
+          >
+            <option value="">Select...</option>
+            <option value="Short Text">Short Text</option>
+            <option value="Long Text">Long Text</option>
+            {/* <option value="Number">Number</option>
           <option value="Date and Time">Date and Time</option>
           <option value="Location">Location</option>
           <option value="Media">Media</option>
           <option value="Boolean">Boolean</option>
           <option value="Reference">Reference</option> */}
-        </select>
-        {this.state.type === "Short Text" && (
-          <select
-            className="select"
-            value={this.state.display}
-            onChange={this.onDisplayChange}
-          >
-            <option value="">Choose how to display this field...</option>
-            <option value="Single line">Single line</option>
-            <option value="URL">URL</option>
-            <option value="Slug">Slug</option>
           </select>
+        </label>
+        {this.state.type === "Short Text" && (
+          <label className="label">
+            Field Display <span className="fieldRequired">Required</span>
+            <select
+              className="select select--fullWidth"
+              value={this.state.display}
+              onChange={this.onDisplayChange}
+            >
+              <option value="">Choose how to display this field...</option>
+              <option value="Single line">Single line</option>
+              <option value="URL">URL</option>
+              <option value="Slug">Slug</option>
+            </select>
+          </label>
         )}
         {this.state.type === "Long Text" && (
-          <select
-            className="select"
-            value={this.state.display}
-            onChange={this.onDisplayChange}
-          >
-            <option value="">Choose how to display this field...</option>
-            <option value="Multiple line">Multiple line</option>
-            <option value="Markdown">Markdown</option>
-          </select>
+          <label className="label">
+            Field Display <span className="fieldRequired">Required</span>
+            <select
+              className="select select--fullWidth"
+              value={this.state.display}
+              onChange={this.onDisplayChange}
+            >
+              <option value="">Choose how to display this field...</option>
+              <option value="Multiple line">Multiple line</option>
+              <option value="Markdown">Markdown</option>
+            </select>
+          </label>
         )}
-        <input type="checkbox" /> Required field
-        <input type="checkbox" /> Unique field
+        <label className="label">
+          <input
+            type="checkbox"
+            className="checkbox"
+            value={this.state.isRequired}
+            onChange={this.onIsRequiredChange}
+            checked={this.state.isRequired}
+          />{" "}
+          Required field
+        </label>
+        <label className="label">
+          <input
+            type="checkbox"
+            className="checkbox"
+            value={this.state.isUnique}
+            onChange={this.onIsUniqueChange}
+            checked={this.state.isUnique}
+          />{" "}
+          Unique field
+        </label>
         <div>
           <button className="button">Save Field</button>
         </div>

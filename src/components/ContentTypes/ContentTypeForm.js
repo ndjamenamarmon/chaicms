@@ -12,10 +12,6 @@ export const ContentTypeForm = props => {
   const [fields, setFields] = useState(
     props.contentType ? props.contentType.fields : []
   );
-  // const [createdAt, setCreatedAt] = useState(
-  //   props.contentType ? moment(props.contentType.createdAt) : moment()
-  // );
-  // const [lastUpdated, setLastUpdated] = useState(moment());
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const camelify = useCamelify(null);

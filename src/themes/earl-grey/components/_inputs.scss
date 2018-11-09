@@ -12,11 +12,32 @@
   width: auto;
 }
 
+.select--fullWidth {
+  display: block;
+  width: 100%;
+}
+
 .textarea {
   @extend .text-input;
   height: 10rem;
 }
 
+.checkbox {
+  height: 20px;
+  width: 20px;
+}
+
 .label {
   display: block;
+  font-size: $font-size-large;
+}
+
+.fieldHelpText {
+  font-size: $font-size-small;
+}
+
+.fieldRequired {
+  float: right;
+  font-size: $font-size-small;
+  font-style: italic;
 }
