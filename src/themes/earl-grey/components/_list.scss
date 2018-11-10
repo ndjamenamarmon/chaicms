@@ -64,3 +64,15 @@
     padding-left: $s-size;
   }
 }
+
+.list-item__sub-data {
+  @extend .list-item__sub-title;
+  display: block;
+  margin: $s-size 0 0 0;
+
+  @media (min-width: $desktop-breakpoint) {
+    margin: 0;
+    padding-left: $s-size;
+    text-align: right;
+  }
+}
