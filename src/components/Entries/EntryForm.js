@@ -16,13 +16,14 @@ export const EntryForm = props => {
     const success = "Content type saved successfully.";
     setError(error);
     setSuccess(success);
+    // console.log(entry);
     props.onSubmit({
       contentTypeId: contentType.id,
       entry
     });
   };
   const getFieldValue = (fieldType, fieldValue) => {
-    return fields.find(field => field.slug === fieldType)[fieldValue];
+    return fields.find(field => field.apiKey === fieldType)[fieldValue];
   };
   const onFieldChange = e => {
     const fieldName = e.target.name;
@@ -43,8 +44,8 @@ export const EntryForm = props => {
               getFieldValue(fieldType, "display") === "Markdown" && (
                 <textarea
                   className="textarea textarea--markdown"
-                  name={getFieldValue(fieldType, "slug")}
-                  value={entry[getFieldValue(fieldType, "slug")]}
+                  name={getFieldValue(fieldType, "apiKey")}
+                  value={entry[getFieldValue(fieldType, "apiKey")]}
                   onChange={onFieldChange}
                 />
               )}
@@ -53,8 +54,8 @@ export const EntryForm = props => {
                 <input
                   type="text"
                   className="text-input"
-                  name={getFieldValue(fieldType, "slug")}
-                  value={entry[getFieldValue(fieldType, "slug")]}
+                  name={getFieldValue(fieldType, "apiKey")}
+                  value={entry[getFieldValue(fieldType, "apiKey")]}
                   onChange={onFieldChange}
                 />
               )}

@@ -15,7 +15,7 @@ export class EntriesPage extends React.Component {
             <div className="page-header__actions">
               <Link
                 className="button"
-                to={`/entry/${this.props.contentType.slug}/add`}
+                to={`/entry/${this.props.contentType.apiKey}/add`}
               >
                 Add {this.props.contentType.title}
               </Link>
@@ -33,7 +33,7 @@ export class EntriesPage extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     contentType: state.contentTypes.find(
-      contentType => contentType.slug === props.match.params.slug
+      contentType => contentType.apiKey === props.match.params.slug
     )
   };
 };

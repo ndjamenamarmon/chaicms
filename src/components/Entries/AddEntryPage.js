@@ -7,7 +7,7 @@ import { startAddEntry } from "../../actions/entries";
 export class AddEntryPage extends React.Component {
   onSubmit = entry => {
     this.props.startAddEntry(entry);
-    this.props.history.push(`/entry/${this.props.contentType.slug}`);
+    this.props.history.push(`/entry/${this.props.contentType.apiKey}`);
   };
   emptyEntry = () => {
     let newEntry = {};
@@ -44,7 +44,7 @@ const mapStateToProps = (state, props) => {
   return {
     // contentTypes: selectContentTypes(state.contentTypes)
     contentType: state.contentTypes.find(
-      contentType => contentType.slug === props.match.params.slug
+      contentType => contentType.apiKey === props.match.params.slug
     ),
     fields: state.fields
   };

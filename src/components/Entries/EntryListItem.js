@@ -5,7 +5,7 @@ const EntryListItem = props => {
   return (
     <Link
       className="list-item"
-      to={`/entry/${props.contentType.slug}/edit/${props.entry.id}`}
+      to={`/entry/${props.contentType.apiKey}/edit/${props.entry.id}`}
     >
       <div>
         <h3 className="list-item__title">{props.entry.title}</h3>

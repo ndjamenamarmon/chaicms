@@ -11,7 +11,7 @@ export class EditEntryPage extends React.Component {
   onRemove = () => {
     this.props.startRemoveEntry({ id: this.props.entry.id });
 
-    this.props.history.push(`/entry/${this.props.contentType.slug}`);
+    this.props.history.push(`/entry/${this.props.contentType.apiKey}`);
   };
   render() {
     return (
@@ -23,7 +23,7 @@ export class EditEntryPage extends React.Component {
             </h1>
           </div>
         </div>
-        <div className="content-container">
+        <div className="content-container content-container--centered">
           <EntryForm
             entry={this.props.entry}
             onSubmit={this.onSubmit}
@@ -43,7 +43,7 @@ const mapStateToProps = (state, props) => {
   return {
     entry: state.entries.find(entry => entry.id === props.match.params.id),
     contentType: state.contentTypes.find(
-      contentType => contentType.slug === props.match.params.slug
+      contentType => contentType.apiKey === props.match.params.slug
     ),
     fields: state.fields
   };

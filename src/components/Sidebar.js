@@ -32,7 +32,7 @@ export const Sidebar = props => (
           <li key={contentType.id}>
             <NavLink
               className="sidebar-list__link"
-              to={`/entry/${contentType.slug}`}
+              to={`/entry/${contentType.apiKey}`}
             >
               {contentType.title}
             </NavLink>
