@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import moment from "moment";
+import Modal from "react-modal";
 import useCamelify from "../../hooks/useCamelify";
+
+Modal.setAppElement("#app");
 
 export const ContentTypeForm = props => {
   const [title, setTitle] = useState(
@@ -12,13 +15,20 @@ export const ContentTypeForm = props => {
   const [fields, setFields] = useState(
     props.contentType ? props.contentType.fields : []
   );
+  const [titleField, setTitleField] = useState(
+    props.contentType ? props.contentType.titleField : ""
+  );
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const camelify = useCamelify(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const onTitleChange = e => {
     setTitle(e.target.value);
     setApiKey(useCamelify(e.target.value));
+  };
+  const onTitleFieldChange = e => {
+    setTitleField(e.target.value);
   };
   const onFieldChange = e => {
     const field = e.target.checked ? e.target.value : null;
@@ -37,8 +47,8 @@ export const ContentTypeForm = props => {
   const onSubmit = e => {
     e.preventDefault();
     // TO DO: Check that apiKey is unique in db
-    if (!title || !apiKey) {
-      const error = "Please provide title and API Key";
+    if (!title || !apiKey || !titleField) {
+      const error = "Please provide title, API Key, and title field";
       const success = "";
       setError(error);
       setSuccess(success);
@@ -55,7 +65,8 @@ export const ContentTypeForm = props => {
         createdAt: props.contentType
           ? moment(props.contentType.createdAt).valueOf()
           : moment().valueOf(),
-        lastUpdated: moment().valueOf()
+        lastUpdated: moment().valueOf(),
+        titleField
       });
     }
   };
@@ -78,20 +89,100 @@ export const ContentTypeForm = props => {
         value={apiKey}
         onChange={e => setApiKey(e.target.value)}
       />
-      {props.fields &&
-        props.fields.map(field => {
-          return (
-            <div key={field.id}>
-              <input
-                type="checkbox"
-                value={field.apiKey}
-                onChange={onFieldChange}
-                checked={fields.includes(field.apiKey)}
-              />{" "}
-              {field.name}
-            </div>
-          );
-        })}
+      {fields.length > 0 && (
+        <p>
+          <strong>Selected Fields</strong>
+        </p>
+      )}
+      {fields.map(field => {
+        return (
+          <div key={field}>
+            {
+              props.fields.find(propField => {
+                return propField.apiKey === field;
+              }).name
+            }
+          </div>
+        );
+      })}
+
+      <button
+        className="button button--secondary"
+        onClick={e => {
+          e.preventDefault();
+          setModalIsOpen(true);
+        }}
+      >
+        Add Field
+      </button>
+      <Modal
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.75)"
+          }
+        }}
+        isOpen={modalIsOpen}
+        onRequestClose={() => {
+          setModalIsOpen(false);
+        }}
+        contentLabel="Add Field"
+        closeTimeoutMS={200}
+        className="modal"
+      >
+        <h3 className="modal__title">Add Fields</h3>
+        <p className="modal__body">
+          {props.fields &&
+            props.fields.map(field => {
+              return (
+                <label className="label" key={field.id}>
+                  <input
+                    type="checkbox"
+                    className="checkbox"
+                    value={field.apiKey}
+                    onChange={onFieldChange}
+                    checked={fields.includes(field.apiKey)}
+                  />{" "}
+                  {field.name}
+                </label>
+              );
+            })}
+          <button
+            className="button"
+            onClick={() => {
+              setModalIsOpen(false);
+            }}
+          >
+            Done
+          </button>
+        </p>
+      </Modal>
+
+      <label className="label">
+        Title Field <span className="fieldRequired">Required</span>
+        <select
+          className="select select--fullWidth"
+          value={titleField}
+          onChange={onTitleFieldChange}
+        >
+          <option value="">
+            Choose a required field to be the entry title...
+          </option>
+          {fields.map(field => {
+            return (
+              <option key={field} value={field}>
+                {
+                  props.fields.find(propField => {
+                    return (
+                      propField.apiKey === field &&
+                      propField.isRequired === true
+                    );
+                  }).name
+                }
+              </option>
+            );
+          })}
+        </select>
+      </label>
       <div>
         <button className="button">Save Content Type</button>
       </div>

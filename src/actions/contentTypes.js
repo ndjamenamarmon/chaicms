@@ -15,9 +15,17 @@ export const startAddContentType = (contentTypeData = {}) => {
       apiKey = "",
       fields = [],
       createdAt = 0,
-      lastUpdated = 0
+      lastUpdated = 0,
+      titleField = ""
     } = contentTypeData;
-    const contentType = { title, apiKey, fields, createdAt, lastUpdated };
+    const contentType = {
+      title,
+      apiKey,
+      fields,
+      createdAt,
+      lastUpdated,
+      titleField
+    };
 
     return database
       .ref(`content_types`)

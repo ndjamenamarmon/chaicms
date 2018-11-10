@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import ContentTypeForm from "./ContentTypeForm.js";
 import { startAddContentType } from "../../actions/contentTypes";
 import selectContentTypes from "../../selectors/contentTypes";
+import selectFields from "../../selectors/fields";
 
 export class AddContentTypePage extends React.Component {
   onSubmit = contentType => {
@@ -21,7 +22,10 @@ export class AddContentTypePage extends React.Component {
           </div>
         </div>
         <div className="content-container content-container--centered">
-          <ContentTypeForm onSubmit={this.onSubmit} />
+          <ContentTypeForm
+            fields={this.props.fields}
+            onSubmit={this.onSubmit}
+          />
         </div>
       </div>
     );
@@ -32,7 +36,8 @@ const mapStateToProps = state => {
   return {
     lastContentType: selectContentTypes(state.contentTypes, {
       sortBy: "createdAt"
-    })[0]
+    })[0],
+    fields: selectFields(state.fields)
   };
 };
 
