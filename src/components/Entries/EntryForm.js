@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useSlugify from "../../hooks/useSlugify";
+import MarkdownEditor from "./FormFields/MarkdownEditor";
 
 export const EntryForm = props => {
   const [contentType, setContentType] = useState(props.contentType);
@@ -32,6 +33,13 @@ export const EntryForm = props => {
     newEntry[fieldName] = fieldValue;
     setEntry(newEntry);
   };
+  const onMarkdownChange = (content, name) => {
+    const fieldName = name;
+    const fieldValue = content;
+    let newEntry = entry;
+    newEntry[fieldName] = fieldValue;
+    setEntry(newEntry);
+  };
   return (
     <form className="form" onSubmit={onSubmit}>
       {error && <p className="form__error">{error}</p>}
@@ -41,12 +49,20 @@ export const EntryForm = props => {
           <div key={fieldType}>
             <label className="label">{getFieldValue(fieldType, "name")}</label>
             {getFieldValue(fieldType, "type") === "Long Text" &&
-              getFieldValue(fieldType, "display") === "Markdown" && (
+              getFieldValue(fieldType, "display") === "Multiple line" && (
                 <textarea
                   className="textarea textarea--markdown"
                   name={getFieldValue(fieldType, "apiKey")}
                   value={entry[getFieldValue(fieldType, "apiKey")]}
                   onChange={onFieldChange}
+                />
+              )}
+            {getFieldValue(fieldType, "type") === "Long Text" &&
+              getFieldValue(fieldType, "display") === "Markdown" && (
+                <MarkdownEditor
+                  initialValue={entry[getFieldValue(fieldType, "apiKey")]}
+                  name={getFieldValue(fieldType, "apiKey")}
+                  onChange={onMarkdownChange}
                 />
               )}
             {getFieldValue(fieldType, "type") === "Short Text" &&

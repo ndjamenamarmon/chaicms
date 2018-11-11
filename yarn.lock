@@ -1582,6 +1582,10 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+classnames@^2.2.5:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+
 cliui@^3.0.3, cliui@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-3.2.0.tgz#120601537a916d29940f934da3b48d585a39213d"
@@ -2160,6 +2164,40 @@ dotenv@6.1.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.1.0.tgz#9853b6ca98292acb7dec67a95018fa40bccff42c"
 
+draft-js-import-element@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/draft-js-import-element/-/draft-js-import-element-1.2.1.tgz#9a6a56d74690d48d35d8d089564e6d710b4926eb"
+  dependencies:
+    draft-js-utils "^1.2.0"
+    synthetic-dom "^1.2.0"
+
+draft-js-import-markdown@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/draft-js-import-markdown/-/draft-js-import-markdown-1.2.1.tgz#ec18eb15008bab13d9878d65db50e181dd64a5ce"
+  dependencies:
+    draft-js-import-element "^1.2.1"
+    synthetic-dom "^1.2.0"
+
+draft-js-utils@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/draft-js-utils/-/draft-js-utils-1.2.0.tgz#f5cb23eb167325ffed3d79882fdc317721d2fd12"
+
+draft-js@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
+  dependencies:
+    fbjs "^0.8.15"
+    immutable "~3.7.4"
+    object-assign "^4.1.0"
+
+draftjs-to-markdown@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/draftjs-to-markdown/-/draftjs-to-markdown-0.5.1.tgz#ad4cd3f6d1dfffd01680c6f2588e24e67e9ec988"
+
+draftjs-utils@^0.9.3:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/draftjs-utils/-/draftjs-utils-0.9.4.tgz#976c61aa133dbbbfedd65ae1dd6627d7b98c6f08"
+
 duplexify@^3.4.2, duplexify@^3.6.0:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/duplexify/-/duplexify-3.6.1.tgz#b1a7a29c4abfd639585efaecce80d666b1e34125"
@@ -2571,7 +2609,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.4:
+fbjs@^0.8.15, fbjs@^0.8.4:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -3056,6 +3094,10 @@ html-entities@^1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/html-entities/-/html-entities-1.2.1.tgz#0df29351f0721163515dfb9e5543e5f6eed5162f"
 
+html-to-draftjs@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/html-to-draftjs/-/html-to-draftjs-1.4.0.tgz#8a3cbbba5b49d50be8ce85cc08b112d5bf00fc1d"
+
 htmlparser2@^3.9.1:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.10.0.tgz#5f5e422dcf6119c0d983ed36260ce9ded0bee464"
@@ -3148,6 +3190,10 @@ ignore-walk@^3.0.1:
   resolved "https://registry.yarnpkg.com/ignore-walk/-/ignore-walk-3.0.1.tgz#a83e62e7d272ac0e3b551aaa82831a19b69f82f8"
   dependencies:
     minimatch "^3.0.4"
+
+immutable@~3.7.4:
+  version "3.7.6"
+  resolved "http://registry.npmjs.org/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
 
 import-local@^1.0.0:
   version "1.0.0"
@@ -4018,6 +4064,12 @@ levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
+
+linkify-it@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.0.3.tgz#d94a4648f9b1c179d64fa97291268bdb6ce9434f"
+  dependencies:
+    uc.micro "^1.0.1"
 
 load-json-file@^1.0.0:
   version "1.1.0"
@@ -5337,6 +5389,16 @@ react-dom@^16.7.0-alpha.0:
     prop-types "^15.6.2"
     scheduler "^0.11.0-alpha.0"
 
+react-draft-wysiwyg@^1.12.13:
+  version "1.12.13"
+  resolved "https://registry.yarnpkg.com/react-draft-wysiwyg/-/react-draft-wysiwyg-1.12.13.tgz#609bf9918607837223b67893b1e40d58e20341f4"
+  dependencies:
+    classnames "^2.2.5"
+    draftjs-utils "^0.9.3"
+    html-to-draftjs "^1.4.0"
+    linkify-it "^2.0.3"
+    prop-types "^15.6.0"
+
 react-is@^16.3.2, react-is@^16.5.2, react-is@^16.6.0:
   version "16.6.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.6.0.tgz#456645144581a6e99f6816ae2bd24ee94bdd0c01"
@@ -6268,6 +6330,10 @@ symbol-tree@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
 
+synthetic-dom@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/synthetic-dom/-/synthetic-dom-1.2.0.tgz#f3589aafe2b5e299f337bb32973a9be42dd5625e"
+
 tapable@^1.0.0, tapable@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-1.1.0.tgz#0d076a172e3d9ba088fd2272b2668fb8d194b78c"
@@ -6426,6 +6492,10 @@ typedarray@^0.0.6:
 ua-parser-js@^0.7.18:
   version "0.7.19"
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.19.tgz#94151be4c0a7fb1d001af7022fdaca4642659e4b"
+
+uc.micro@^1.0.1:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.5.tgz#0c65f15f815aa08b560a61ce8b4db7ffc3f45376"
 
 uglify-es@^3.3.4:
   version "3.3.9"
