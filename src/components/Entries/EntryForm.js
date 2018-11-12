@@ -28,8 +28,22 @@ export const EntryForm = props => {
   };
   const onFieldChange = e => {
     const fieldName = e.target.name;
+    const fieldType = e.target.dataset ? e.target.dataset.type : undefined;
     const fieldValue = e.target.value;
     let newEntry = entry;
+
+    if (fieldType === "Title") {
+      {
+        contentType.fields.map(fieldType => {
+          if (getFieldValue(fieldType, "display") === "Slug") {
+            const slug = useSlugify(fieldValue);
+            const slugField = getFieldValue(fieldType, "apiKey");
+            newEntry[slugField] = slug;
+          }
+        });
+      }
+    }
+
     newEntry[fieldName] = fieldValue;
     setEntry(newEntry);
   };
@@ -67,6 +81,22 @@ export const EntryForm = props => {
               )}
             {getFieldValue(fieldType, "type") === "Short Text" &&
               getFieldValue(fieldType, "display") === "Single line" && (
+                <input
+                  type="text"
+                  className="text-input"
+                  data-type={
+                    contentType.titleField ===
+                    getFieldValue(fieldType, "apiKey")
+                      ? "Title"
+                      : "Single Line"
+                  }
+                  name={getFieldValue(fieldType, "apiKey")}
+                  value={entry[getFieldValue(fieldType, "apiKey")]}
+                  onChange={onFieldChange}
+                />
+              )}
+            {getFieldValue(fieldType, "type") === "Short Text" &&
+              getFieldValue(fieldType, "display") === "Slug" && (
                 <input
                   type="text"
                   className="text-input"
