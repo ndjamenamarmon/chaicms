@@ -146,8 +146,8 @@ export default class FieldForm extends React.Component {
             <option value="">Select...</option>
             <option value="Short Text">Short Text</option>
             <option value="Long Text">Long Text</option>
+            <option value="Date and Time">Date and Time</option>
             {/* <option value="Number">Number</option>
-          <option value="Date and Time">Date and Time</option>
           <option value="Location">Location</option>
           <option value="Media">Media</option>
           <option value="Boolean">Boolean</option>
@@ -180,6 +180,23 @@ export default class FieldForm extends React.Component {
               <option value="">Choose how to display this field...</option>
               <option value="Multiple line">Multiple line</option>
               <option value="Markdown">Markdown</option>
+            </select>
+          </label>
+        )}
+        {this.state.type === "Date and Time" && (
+          <label className="label">
+            Field Display <span className="fieldRequired">Required</span>
+            <select
+              className="select select--fullWidth"
+              value={this.state.display}
+              onChange={this.onDisplayChange}
+            >
+              <option value="">Choose how to display this field...</option>
+              <option value="Date only">Date only</option>
+              <option value="Date and Time AM/PM">Date and Time AM/PM</option>
+              <option value="Date and Time 24 Hour">
+                Date and Time 24 Hour
+              </option>
             </select>
           </label>
         )}

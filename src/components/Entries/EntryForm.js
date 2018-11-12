@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import moment from "moment";
 import useSlugify from "../../hooks/useSlugify";
 import MarkdownEditor from "./FormFields/MarkdownEditor";
+import SingleDatePickerField from "./FormFields/SingleDatePickerField";
 
 export const EntryForm = props => {
   const [contentType, setContentType] = useState(props.contentType);
   const [fields, setFields] = useState(props.fields);
   const [entry, setEntry] = useState(props.entry);
+  const [calendarFocused, setCalendarFocused] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const slugify = useSlugify(null);
@@ -50,6 +53,13 @@ export const EntryForm = props => {
   const onMarkdownChange = (content, name) => {
     const fieldName = name;
     const fieldValue = content;
+    let newEntry = entry;
+    newEntry[fieldName] = fieldValue;
+    setEntry(newEntry);
+  };
+  const onDateChange = (content, name) => {
+    const fieldName = name;
+    const fieldValue = content.valueOf();
     let newEntry = entry;
     newEntry[fieldName] = fieldValue;
     setEntry(newEntry);
@@ -107,6 +117,18 @@ export const EntryForm = props => {
                     name={getFieldValue(fieldType, "apiKey")}
                     value={entry[getFieldValue(fieldType, "apiKey")]}
                     onChange={onFieldChange}
+                  />
+                )}
+              {getFieldValue(fieldType, "type") === "Date and Time" &&
+                getFieldValue(fieldType, "display") === "Date only" && (
+                  <SingleDatePickerField
+                    date={
+                      entry[getFieldValue(fieldType, "apiKey")]
+                        ? moment(entry[getFieldValue(fieldType, "apiKey")])
+                        : moment()
+                    }
+                    name={getFieldValue(fieldType, "apiKey")}
+                    onDateChange={onDateChange}
                   />
                 )}
             </label>

@@ -168,18 +168,26 @@ export const ContentTypeForm = props => {
             Choose a required field to be the entry title...
           </option>
           {fields.map(field => {
-            return (
-              <option key={field} value={field}>
-                {
-                  props.fields.find(propField => {
-                    return (
-                      propField.apiKey === field &&
-                      propField.isRequired === true
-                    );
-                  }).name
-                }
-              </option>
-            );
+            if (
+              props.fields.find(propField => {
+                return (
+                  propField.apiKey === field && propField.isRequired === true
+                );
+              })
+            ) {
+              return (
+                <option key={field} value={field}>
+                  {
+                    props.fields.find(propField => {
+                      return (
+                        propField.apiKey === field &&
+                        propField.isRequired === true
+                      );
+                    }).name
+                  }
+                </option>
+              );
+            }
           })}
         </select>
       </label>

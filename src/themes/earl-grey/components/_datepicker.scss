@@ -1,0 +1,16 @@
+.SingleDatePicker,
+.SingleDatePickerInput,
+.DateInput {
+  width: 100%;
+}
+
+.DateInput_input {
+  color: black;
+  font-size: $font-size-large;
+  font-weight: 300;
+  padding: 1rem;
+}
+
+.SingleDatePickerInput__withBorder {
+  border: 1px solid #cacccd;
+}
