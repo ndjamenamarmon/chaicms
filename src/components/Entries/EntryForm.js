@@ -61,50 +61,58 @@ export const EntryForm = props => {
       {contentType.fields.map(fieldType => {
         return (
           <div key={fieldType}>
-            <label className="label">{getFieldValue(fieldType, "name")}</label>
-            {getFieldValue(fieldType, "type") === "Long Text" &&
-              getFieldValue(fieldType, "display") === "Multiple line" && (
-                <textarea
-                  className="textarea textarea--markdown"
-                  name={getFieldValue(fieldType, "apiKey")}
-                  value={entry[getFieldValue(fieldType, "apiKey")]}
-                  onChange={onFieldChange}
-                />
+            <label className="label">
+              {getFieldValue(fieldType, "name")}
+              {getFieldValue(fieldType, "isRequired") && (
+                <span className="fieldRequired">Required</span>
               )}
-            {getFieldValue(fieldType, "type") === "Long Text" &&
-              getFieldValue(fieldType, "display") === "Markdown" && (
-                <MarkdownEditor
-                  initialValue={entry[getFieldValue(fieldType, "apiKey")]}
-                  name={getFieldValue(fieldType, "apiKey")}
-                  onChange={onMarkdownChange}
-                />
-              )}
-            {getFieldValue(fieldType, "type") === "Short Text" &&
-              getFieldValue(fieldType, "display") === "Single line" && (
-                <input
-                  type="text"
-                  className="text-input"
-                  data-type={
-                    contentType.titleField ===
-                    getFieldValue(fieldType, "apiKey")
-                      ? "Title"
-                      : "Single Line"
-                  }
-                  name={getFieldValue(fieldType, "apiKey")}
-                  value={entry[getFieldValue(fieldType, "apiKey")]}
-                  onChange={onFieldChange}
-                />
-              )}
-            {getFieldValue(fieldType, "type") === "Short Text" &&
-              getFieldValue(fieldType, "display") === "Slug" && (
-                <input
-                  type="text"
-                  className="text-input"
-                  name={getFieldValue(fieldType, "apiKey")}
-                  value={entry[getFieldValue(fieldType, "apiKey")]}
-                  onChange={onFieldChange}
-                />
-              )}
+              {getFieldValue(fieldType, "type") === "Long Text" &&
+                getFieldValue(fieldType, "display") === "Multiple line" && (
+                  <textarea
+                    className="textarea textarea--markdown"
+                    name={getFieldValue(fieldType, "apiKey")}
+                    value={entry[getFieldValue(fieldType, "apiKey")]}
+                    onChange={onFieldChange}
+                  />
+                )}
+              {getFieldValue(fieldType, "type") === "Long Text" &&
+                getFieldValue(fieldType, "display") === "Markdown" && (
+                  <MarkdownEditor
+                    initialValue={entry[getFieldValue(fieldType, "apiKey")]}
+                    name={getFieldValue(fieldType, "apiKey")}
+                    onChange={onMarkdownChange}
+                  />
+                )}
+              {getFieldValue(fieldType, "type") === "Short Text" &&
+                getFieldValue(fieldType, "display") === "Single line" && (
+                  <input
+                    type="text"
+                    className="text-input"
+                    data-type={
+                      contentType.titleField ===
+                      getFieldValue(fieldType, "apiKey")
+                        ? "Title"
+                        : "Single Line"
+                    }
+                    name={getFieldValue(fieldType, "apiKey")}
+                    value={entry[getFieldValue(fieldType, "apiKey")]}
+                    onChange={onFieldChange}
+                  />
+                )}
+              {getFieldValue(fieldType, "type") === "Short Text" &&
+                getFieldValue(fieldType, "display") === "Slug" && (
+                  <input
+                    type="text"
+                    className="text-input"
+                    name={getFieldValue(fieldType, "apiKey")}
+                    value={entry[getFieldValue(fieldType, "apiKey")]}
+                    onChange={onFieldChange}
+                  />
+                )}
+            </label>
+            <span className="fieldHelpText">
+              {getFieldValue(fieldType, "helpText")}
+            </span>
           </div>
         );
       })}
