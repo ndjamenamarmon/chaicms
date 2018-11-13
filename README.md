@@ -8,7 +8,7 @@ A React CMS for the JAMstack.
 - [x] Create site fields functionality and attach to content types
 - [ ] Improve site field attachment to content type functionality and UX
 - [ ] Create default content types (pages, posts) on init
-- [ ] Enforce uniqueness of slugs
+- [ ] Enforce uniqueness of slugs and API keys
 - [ ] Create content functionality
 - [ ] Add meta data to content types: date created, date modified, author
 - [ ] Add media functionality - upload, simple image editing

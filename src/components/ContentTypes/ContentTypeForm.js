@@ -12,9 +12,11 @@ export const ContentTypeForm = props => {
   const [apiKey, setApiKey] = useState(
     props.contentType ? props.contentType.apiKey : ""
   );
+  const [apiKeyError, setApiKeyError] = useState(null);
   const [fields, setFields] = useState(
     props.contentType ? props.contentType.fields : []
   );
+  const [contentTypes] = useState(props.contentTypes);
   const [titleField, setTitleField] = useState(
     props.contentType ? props.contentType.titleField : ""
   );
@@ -23,8 +25,36 @@ export const ContentTypeForm = props => {
   const camelify = useCamelify(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const checkApiKey = apiKeyValue => {
+    return contentTypes.find(contentType => {
+      return contentType.apiKey === apiKeyValue;
+    });
+  };
   const onTitleChange = e => {
     setTitle(e.target.value);
+
+    let newApiKey = useCamelify(e.target.value);
+    // let n = 1;
+    // enforce uniqueness
+    while (checkApiKey(newApiKey)) {
+      newApiKey =
+        newApiKey +
+        Math.round(Math.random() * (999999999 - 100000000) + 100000000);
+      newApiKey = newApiKey + n;
+      // n++;
+    }
+
+    setApiKey(newApiKey);
+  };
+  const onApiKeyChange = e => {
+    // enforce uniqueness
+    const apiKeyExists = checkApiKey(e.target.value);
+    if (apiKeyExists) {
+      setApiKeyError("This API Key already exists.");
+    } else {
+      setApiKeyError("");
+    }
+    // enforce no whitespace
     setApiKey(useCamelify(e.target.value));
   };
   const onTitleFieldChange = e => {
@@ -87,8 +117,9 @@ export const ContentTypeForm = props => {
         type="text"
         placeholder="API Key"
         value={apiKey}
-        onChange={e => setApiKey(e.target.value)}
+        onChange={onApiKeyChange}
       />
+      {apiKeyError && <p className="form__error">{apiKeyError}</p>}
       {fields.length > 0 && (
         <p>
           <strong>Selected Fields</strong>

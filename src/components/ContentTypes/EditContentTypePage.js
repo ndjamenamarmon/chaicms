@@ -27,6 +27,7 @@ export class EditContentTypePage extends React.Component {
         <div className="content-container content-container--centered">
           <ContentTypeForm
             contentType={this.props.contentType}
+            contentTypes={this.props.contentTypes}
             fields={this.props.fields}
             onSubmit={this.onSubmit}
           />
@@ -44,6 +45,7 @@ const mapStateToProps = (state, props) => {
     contentType: state.contentTypes.find(
       contentType => contentType.id === props.match.params.id
     ),
+    contentTypes: state.contentTypes,
     fields: selectFields(state.fields)
   };
 };
