@@ -17,18 +17,24 @@ export class AddFieldPage extends React.Component {
           </div>
         </div>
         <div className="content-container content-container--centered">
-          <FieldForm onSubmit={this.onSubmit} />
+          <FieldForm fields={this.props.fields} onSubmit={this.onSubmit} />
         </div>
       </div>
     );
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    fields: state.fields
+  };
+};
+
 const mapDispatchToProps = dispatch => ({
   startAddField: field => dispatch(startAddField(field))
 });
 
 export default connect(
-  undefined,
+  mapStateToProps,
   mapDispatchToProps
 )(AddFieldPage);

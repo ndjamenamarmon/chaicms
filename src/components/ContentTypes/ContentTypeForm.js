@@ -40,22 +40,25 @@ export const ContentTypeForm = props => {
       newApiKey =
         newApiKey +
         Math.round(Math.random() * (999999999 - 100000000) + 100000000);
-      newApiKey = newApiKey + n;
+      // newApiKey = newApiKey + n;
       // n++;
     }
 
     setApiKey(newApiKey);
   };
   const onApiKeyChange = e => {
+    // enforce no whitespace
+    const newApiKey = useCamelify(e.target.value);
+
     // enforce uniqueness
-    const apiKeyExists = checkApiKey(e.target.value);
+    const apiKeyExists = checkApiKey(newApiKey);
     if (apiKeyExists) {
       setApiKeyError("This API Key already exists.");
     } else {
       setApiKeyError("");
     }
     // enforce no whitespace
-    setApiKey(useCamelify(e.target.value));
+    setApiKey(newApiKey);
   };
   const onTitleFieldChange = e => {
     setTitleField(e.target.value);
@@ -77,7 +80,7 @@ export const ContentTypeForm = props => {
   const onSubmit = e => {
     e.preventDefault();
     // TO DO: Check that apiKey is unique in db
-    if (!title || !apiKey || !titleField) {
+    if (!title || !apiKey || !titleField || apiKeyError) {
       const error = "Please provide title, API Key, and title field";
       const success = "";
       setError(error);
@@ -118,6 +121,7 @@ export const ContentTypeForm = props => {
         placeholder="API Key"
         value={apiKey}
         onChange={onApiKeyChange}
+        readOnly={props.contentType}
       />
       {apiKeyError && <p className="form__error">{apiKeyError}</p>}
       {fields.length > 0 && (

@@ -21,7 +21,11 @@ export class EditFieldPage extends React.Component {
           </div>
         </div>
         <div className="content-container content-container--centered">
-          <FieldForm field={this.props.field} onSubmit={this.onSubmit} />
+          <FieldForm
+            field={this.props.field}
+            fields={this.props.fields}
+            onSubmit={this.onSubmit}
+          />
           <button className="button button--secondary" onClick={this.onRemove}>
             Delete Field
           </button>
@@ -33,7 +37,8 @@ export class EditFieldPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    field: state.fields.find(field => field.id === props.match.params.id)
+    field: state.fields.find(field => field.id === props.match.params.id),
+    fields: state.fields
   };
 };
 

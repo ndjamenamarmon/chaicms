@@ -5,6 +5,10 @@
   font-weight: 300;
   padding: 1rem;
   width: 100%;
+
+  &[readonly] {
+    background: $off-white;
+  }
 }
 
 .select {

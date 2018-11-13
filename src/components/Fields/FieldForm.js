@@ -8,6 +8,7 @@ export default class FieldForm extends React.Component {
     this.state = {
       name: props.field ? props.field.name : "",
       apiKey: props.field ? props.field.apiKey : "",
+      apiKeyError: "",
       helpText: props.field ? props.field.helpText : "",
       type: props.field ? props.field.type : "",
       display: props.field ? props.field.display : "",
@@ -23,16 +24,43 @@ export default class FieldForm extends React.Component {
       return index == 0 ? match.toLowerCase() : match.toUpperCase();
     });
   };
+  checkApiKey = apiKeyValue => {
+    return this.props.fields.find(field => {
+      return field.apiKey === apiKeyValue;
+    });
+  };
   onNameChange = e => {
     const name = e.target.value;
-    const apiKey = this.useCamelify(name);
+    let apiKey = this.useCamelify(name);
+
+    // enforce uniqueness
+    while (this.checkApiKey(apiKey)) {
+      apiKey =
+        apiKey +
+        Math.round(Math.random() * (999999999 - 100000000) + 100000000);
+    }
+
     this.setState(() => ({
       name,
       apiKey
     }));
   };
   onApiKeyChange = e => {
-    const apiKey = e.target.value;
+    // enforce no whitespace
+    const apiKey = this.useCamelify(e.target.value);
+
+    // enforce uniqueness
+    const apiKeyExists = this.checkApiKey(apiKey);
+    if (apiKeyExists) {
+      this.setState(() => ({
+        apiKeyError: "This API Key already exists."
+      }));
+    } else {
+      this.setState(() => ({
+        apiKeyError: ""
+      }));
+    }
+
     this.setState(() => ({
       apiKey
     }));
@@ -74,7 +102,8 @@ export default class FieldForm extends React.Component {
       !this.state.name ||
       !this.state.apiKey ||
       !this.state.type ||
-      !this.state.display
+      !this.state.display ||
+      this.state.apiKeyError
     ) {
       const error = "Please complete all required fields.";
       const success = "";
@@ -122,8 +151,12 @@ export default class FieldForm extends React.Component {
             type="text"
             value={this.state.apiKey}
             onChange={this.onApiKeyChange}
+            readOnly={this.props.field}
           />
         </label>
+        {this.state.apiKeyError && (
+          <p className="form__error">{this.state.apiKeyError}</p>
+        )}
         <label className="label">
           Help Text
           <input
