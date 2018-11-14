@@ -32,6 +32,7 @@ export class AddEntryPage extends React.Component {
             onSubmit={this.onSubmit}
             contentType={this.props.contentType}
             fields={this.props.fields}
+            entries={this.props.entries}
             entry={this.emptyEntry}
           />
         </div>
@@ -46,7 +47,8 @@ const mapStateToProps = (state, props) => {
     contentType: state.contentTypes.find(
       contentType => contentType.apiKey === props.match.params.slug
     ),
-    fields: state.fields
+    fields: state.fields,
+    entries: state.entries
   };
 };
 

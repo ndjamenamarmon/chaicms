@@ -29,6 +29,7 @@ export class EditEntryPage extends React.Component {
             onSubmit={this.onSubmit}
             contentType={this.props.contentType}
             fields={this.props.fields}
+            entries={this.props.entries}
           />
           <button className="button button--secondary" onClick={this.onRemove}>
             Delete Entry
@@ -45,7 +46,8 @@ const mapStateToProps = (state, props) => {
     contentType: state.contentTypes.find(
       contentType => contentType.apiKey === props.match.params.slug
     ),
-    fields: state.fields
+    fields: state.fields,
+    entries: state.entries
   };
 };
 

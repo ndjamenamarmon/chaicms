@@ -7,17 +7,43 @@ import SingleDatePickerField from "./FormFields/SingleDatePickerField";
 export const EntryForm = props => {
   const [contentType, setContentType] = useState(props.contentType);
   const [fields, setFields] = useState(props.fields);
+  const [entries, setEntries] = useState(props.entries);
   const [entry, setEntry] = useState(props.entry);
   const [calendarFocused, setCalendarFocused] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [fieldError, setFieldError] = useState({ message: "", field: "" });
   const slugify = useSlugify(null);
 
   const onSubmit = e => {
     e.preventDefault();
+    let error = "";
     // need to add validation
-    const error = "";
-    const success = "Content type saved successfully.";
+
+    contentType.fields.map(fieldType => {
+      const entryValue = entry[fieldType];
+
+      // enforce uniqueness if isUnique
+      // TO DO: Check unique fields against database
+      if (getFieldValue(fieldType, "isUnique")) {
+        const valueExists = checkUniqueness(entryValue, fieldType);
+        if (valueExists) {
+          error = `${getFieldValue(fieldType, "name")} must be unique.`;
+        }
+      }
+
+      // enforce required field
+      if (getFieldValue(fieldType, "isRequired") && !entryValue) {
+        error = "Please complete all required fields.";
+      }
+    });
+
+    // TO DO: Require that required fields be filled out
+    // const error = "";
+    let success = "";
+    if (!error) {
+      success = "Content type saved successfully.";
+    }
     setError(error);
     setSuccess(success);
     // console.log(entry);
@@ -29,9 +55,15 @@ export const EntryForm = props => {
   const getFieldValue = (fieldType, fieldValue) => {
     return fields.find(field => field.apiKey === fieldType)[fieldValue];
   };
+  const checkUniqueness = (value, uniqueField) => {
+    return entries.find(singleEntry => {
+      return singleEntry[uniqueField] === value;
+    });
+  };
   const onFieldChange = e => {
     const fieldName = e.target.name;
     const fieldType = e.target.dataset ? e.target.dataset.type : undefined;
+    const fieldIsUnique = e.target.dataset ? e.target.dataset.isunique : false;
     const fieldValue = e.target.value;
     let newEntry = entry;
 
@@ -39,11 +71,37 @@ export const EntryForm = props => {
       {
         contentType.fields.map(fieldType => {
           if (getFieldValue(fieldType, "display") === "Slug") {
-            const slug = useSlugify(fieldValue);
+            let slug = useSlugify(fieldValue);
             const slugField = getFieldValue(fieldType, "apiKey");
+
+            // if the slug is a unique field, make the generated slug unique
+            if ((getFieldValue(fieldType), "isUnique")) {
+              // enforce uniqueness
+              while (checkUniqueness(slug, slugField)) {
+                slug =
+                  slug +
+                  Math.round(
+                    Math.random() * (999999999 - 100000000) + 100000000
+                  );
+              }
+            }
+
             newEntry[slugField] = slug;
           }
         });
+      }
+    }
+
+    // enforce uniqueness if isUnique
+    if (fieldIsUnique) {
+      const valueExists = checkUniqueness(fieldValue, fieldName);
+      if (valueExists) {
+        setFieldError({
+          message: "This value must be unique",
+          field: fieldName
+        });
+      } else {
+        setFieldError({ message: "", field: "" });
       }
     }
 
@@ -80,6 +138,7 @@ export const EntryForm = props => {
                 getFieldValue(fieldType, "display") === "Multiple line" && (
                   <textarea
                     className="textarea textarea--markdown"
+                    data-isunique={getFieldValue(fieldType, "isRequired")}
                     name={getFieldValue(fieldType, "apiKey")}
                     value={entry[getFieldValue(fieldType, "apiKey")]}
                     onChange={onFieldChange}
@@ -104,6 +163,7 @@ export const EntryForm = props => {
                         ? "Title"
                         : "Single Line"
                     }
+                    data-isunique={getFieldValue(fieldType, "isRequired")}
                     name={getFieldValue(fieldType, "apiKey")}
                     value={entry[getFieldValue(fieldType, "apiKey")]}
                     onChange={onFieldChange}
@@ -114,6 +174,7 @@ export const EntryForm = props => {
                   <input
                     type="text"
                     className="text-input"
+                    data-isunique={getFieldValue(fieldType, "isRequired")}
                     name={getFieldValue(fieldType, "apiKey")}
                     value={entry[getFieldValue(fieldType, "apiKey")]}
                     onChange={onFieldChange}
@@ -135,6 +196,9 @@ export const EntryForm = props => {
             <span className="fieldHelpText">
               {getFieldValue(fieldType, "helpText")}
             </span>
+            {fieldError.field === getFieldValue(fieldType, "apiKey") && (
+              <p className="form__error">{fieldError.message}</p>
+            )}
           </div>
         );
       })}
