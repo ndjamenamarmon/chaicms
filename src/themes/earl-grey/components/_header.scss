@@ -4,9 +4,13 @@
 
 .header__content {
   align-items: center;
-  display: flex;
   justify-content: space-between;
   padding: $s-size 0;
+  padding-left: 5rem;
+
+  @media (min-width: $desktop-breakpoint) {
+    display: flex;
+  }
 }
 
 .header__title {
@@ -14,5 +18,12 @@
   text-decoration: none;
   h1 {
     margin: 0;
+  }
+}
+
+.header button {
+  display: none;
+  @media (min-width: $desktop-breakpoint) {
+    display: inline;
   }
 }

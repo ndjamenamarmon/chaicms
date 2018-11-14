@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
+import { slide as Menu } from "react-burger-menu";
 import selectContentTypes from "../selectors/contentTypes";
+import { startLogout } from "../actions/auth";
 
 export const Sidebar = props => (
-  <div className="sidebar">
+  <Menu>
     <ul className="sidebar-list">
       <li>
         <NavLink className="sidebar-list__link" to="/dashboard">
@@ -46,9 +48,12 @@ export const Sidebar = props => (
         <Link className="sidebar-list__link" to="/settings">
           Settings
         </Link>
+        <a href="#" className="sidebar-list__link" onClick={props.startLogout}>
+          Logout
+        </a>
       </li>
     </ul>
-  </div>
+  </Menu>
 );
 
 const mapStateToProps = state => {
@@ -57,4 +62,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Sidebar);
+const mapDispatchToProps = dispatch => ({
+  startLogout: () => dispatch(startLogout())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Sidebar);
