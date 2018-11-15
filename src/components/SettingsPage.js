@@ -2,10 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import SettingsForm from "./SettingsForm";
 import { startEditSettings } from "../actions/settings";
+import { startAddInviteCode } from "../actions/inviteCodes";
 
 export class SettingsPage extends React.Component {
   onSubmit = settings => {
     this.props.startEditSettings(settings);
+  };
+  onGenerateInviteCode = () => {
+    this.props.startAddInviteCode();
   };
   render() {
     return (
@@ -19,6 +23,7 @@ export class SettingsPage extends React.Component {
           <SettingsForm
             settings={this.props.settings}
             onSubmit={this.onSubmit}
+            onGenerateInviteCode={this.onGenerateInviteCode}
           />
         </div>
       </div>
@@ -33,7 +38,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  startEditSettings: settings => dispatch(startEditSettings(settings))
+  startEditSettings: settings => dispatch(startEditSettings(settings)),
+  startAddInviteCode: () => dispatch(startAddInviteCode())
 });
 
 export default connect(

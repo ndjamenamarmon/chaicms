@@ -2,12 +2,12 @@
 
 A React CMS for the JAMstack.
 
-##
+## Roadmap
 
 - **Phase I: Initial Release - User authentication, content types, fields, entries**
-- **Phase II: Media - Upload, edit, storage, use in entries**
-- **Phase III: Workflows and Versioning**
-- **Phase IV: Build a back-end API to handle CRUD actions and hook into different types of databases**
+- Phase II: Media - Upload, edit, storage, use in entries
+- Phase III: Workflows and Versioning
+- Phase IV: Build a back-end API to handle CRUD actions and hook into different types of databases
 
 ## TO DO
 

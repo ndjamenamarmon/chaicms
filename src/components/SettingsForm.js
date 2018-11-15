@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import uniqid from "uniqid";
 
 export const SettingsForm = props => {
   const [siteTitle, setSiteTitle] = useState(
@@ -10,6 +11,9 @@ export const SettingsForm = props => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
+  const generateInviteCode = () => {
+    props.onGenerateInviteCode();
+  };
   const onSubmit = e => {
     e.preventDefault();
 
@@ -50,6 +54,14 @@ export const SettingsForm = props => {
       />
       <div>
         <button className="button">Save Settings</button>
+      </div>
+      <div>
+        <button
+          className="button button--secondary"
+          onClick={generateInviteCode}
+        >
+          Generate Invite Code
+        </button>
       </div>
     </form>
   );

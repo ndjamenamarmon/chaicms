@@ -45,9 +45,9 @@ export const Sidebar = props => (
 
     <ul className="sidebar-list">
       <li>
-        <Link className="sidebar-list__link" to="/settings">
+        <NavLink className="sidebar-list__link" to="/settings">
           Settings
-        </Link>
+        </NavLink>
         <a href="#" className="sidebar-list__link" onClick={props.startLogout}>
           Logout
         </a>
