@@ -5,6 +5,7 @@ import settingsReducer from "../reducers/settings";
 import contentTypesReducer from "../reducers/contentTypes";
 import fieldsReducer from "../reducers/fields";
 import entriesReducer from "../reducers/entries";
+import inviteCodesReducer from "../reducers/inviteCodes";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -15,7 +16,8 @@ export default () => {
       settings: settingsReducer,
       contentTypes: contentTypesReducer,
       fields: fieldsReducer,
-      entries: entriesReducer
+      entries: entriesReducer,
+      inviteCodes: inviteCodesReducer
     }),
     composeEnhancers(applyMiddleware(thunk))
   );

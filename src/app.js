@@ -8,6 +8,7 @@ import { startSetSettings } from "./actions/settings";
 import { startSetContentTypes } from "./actions/contentTypes";
 import { startSetFields } from "./actions/fields";
 import { startSetEntries } from "./actions/entries";
+import { startSetInviteCodes } from "./actions/inviteCodes";
 import "normalize.css/normalize.css";
 import "react-dates/lib/css/_datepicker.css";
 import { firebase } from "./firebase/firebase";
@@ -45,10 +46,12 @@ firebase.auth().onAuthStateChanged(user => {
       store.dispatch(startSetContentTypes()).then(() => {
         store.dispatch(startSetFields()).then(() => {
           store.dispatch(startSetEntries()).then(() => {
-            renderApp();
-            if (history.location.pathname === "/") {
-              history.push("/dashboard");
-            }
+            store.dispatch(startSetInviteCodes()).then(() => {
+              renderApp();
+              if (history.location.pathname === "/") {
+                history.push("/dashboard");
+              }
+            });
           });
         });
       });

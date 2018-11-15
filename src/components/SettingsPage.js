@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 import SettingsForm from "./SettingsForm";
+import InviteCodesForm from "./InviteCodesForm";
 import { startEditSettings } from "../actions/settings";
 import { startAddInviteCode } from "../actions/inviteCodes";
 
@@ -20,11 +23,25 @@ export class SettingsPage extends React.Component {
           </div>
         </div>
         <div className="content-container content-container--centered">
-          <SettingsForm
-            settings={this.props.settings}
-            onSubmit={this.onSubmit}
-            onGenerateInviteCode={this.onGenerateInviteCode}
-          />
+          <Tabs>
+            <TabList>
+              <Tab>General Settings</Tab>
+              <Tab>Invite Codes</Tab>
+            </TabList>
+
+            <TabPanel>
+              <SettingsForm
+                settings={this.props.settings}
+                onSubmit={this.onSubmit}
+              />
+            </TabPanel>
+            <TabPanel>
+              <InviteCodesForm
+                inviteCodes={this.props.inviteCodes}
+                onGenerateInviteCode={this.onGenerateInviteCode}
+              />
+            </TabPanel>
+          </Tabs>
         </div>
       </div>
     );
@@ -33,7 +50,8 @@ export class SettingsPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    settings: state.settings
+    settings: state.settings,
+    inviteCodes: state.inviteCodes
   };
 };
 
