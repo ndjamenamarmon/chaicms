@@ -32,7 +32,9 @@ export class SettingsPage extends React.Component {
           <Tabs>
             <TabList>
               <Tab>General Settings</Tab>
-              <Tab>Invite Codes</Tab>
+              {this.props.settings.requireInviteCodes && (
+                <Tab>Invite Codes</Tab>
+              )}
             </TabList>
 
             <TabPanel>
@@ -41,13 +43,15 @@ export class SettingsPage extends React.Component {
                 onSubmit={this.onSubmit}
               />
             </TabPanel>
-            <TabPanel>
-              <InviteCodesForm
-                inviteCodes={this.props.inviteCodes}
-                onGenerateInviteCode={this.onGenerateInviteCode}
-                onEditInviteCode={this.onEditInviteCode}
-              />
-            </TabPanel>
+            {this.props.settings.requireInviteCodes && (
+              <TabPanel>
+                <InviteCodesForm
+                  inviteCodes={this.props.inviteCodes}
+                  onGenerateInviteCode={this.onGenerateInviteCode}
+                  onEditInviteCode={this.onEditInviteCode}
+                />
+              </TabPanel>
+            )}
           </Tabs>
         </div>
       </div>

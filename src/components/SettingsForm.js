@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Toggle from "react-toggle";
 
 export const SettingsForm = props => {
   const [siteTitle, setSiteTitle] = useState(
@@ -6,6 +7,9 @@ export const SettingsForm = props => {
   );
   const [siteDescription, setSiteDescription] = useState(
     props.settings ? props.settings.siteDescription : ""
+  );
+  const [requireInviteCodes, setRequireInviteCodes] = useState(
+    props.settings ? props.settings.requireInviteCodes : false
   );
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -25,7 +29,8 @@ export const SettingsForm = props => {
       setSuccess(success);
       props.onSubmit({
         siteTitle,
-        siteDescription
+        siteDescription,
+        requireInviteCodes
       });
     }
   };
@@ -48,6 +53,15 @@ export const SettingsForm = props => {
         value={siteDescription}
         onChange={e => setSiteDescription(e.target.value)}
       />
+      <label>
+        <Toggle
+          aria-label="Require invite codes"
+          defaultChecked={requireInviteCodes}
+          icons={false}
+          onChange={e => setRequireInviteCodes(e.target.checked)}
+        />
+        <span className="toggle-label">Require invite codes</span>
+      </label>
       <div>
         <button className="button">Save Settings</button>
       </div>
