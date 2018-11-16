@@ -5,7 +5,10 @@ import "react-tabs/style/react-tabs.css";
 import SettingsForm from "./SettingsForm";
 import InviteCodesForm from "./InviteCodesForm";
 import { startEditSettings } from "../actions/settings";
-import { startAddInviteCode } from "../actions/inviteCodes";
+import {
+  startAddInviteCode,
+  startEditInviteCode
+} from "../actions/inviteCodes";
 
 export class SettingsPage extends React.Component {
   onSubmit = settings => {
@@ -13,6 +16,9 @@ export class SettingsPage extends React.Component {
   };
   onGenerateInviteCode = () => {
     this.props.startAddInviteCode();
+  };
+  onEditInviteCode = code => {
+    this.props.startEditInviteCode(code.id, code);
   };
   render() {
     return (
@@ -39,6 +45,7 @@ export class SettingsPage extends React.Component {
               <InviteCodesForm
                 inviteCodes={this.props.inviteCodes}
                 onGenerateInviteCode={this.onGenerateInviteCode}
+                onEditInviteCode={this.onEditInviteCode}
               />
             </TabPanel>
           </Tabs>
@@ -57,7 +64,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   startEditSettings: settings => dispatch(startEditSettings(settings)),
-  startAddInviteCode: () => dispatch(startAddInviteCode())
+  startAddInviteCode: () => dispatch(startAddInviteCode()),
+  startEditInviteCode: (id, code) => dispatch(startEditInviteCode(id, code))
 });
 
 export default connect(

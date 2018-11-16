@@ -9,9 +9,10 @@ export const addInviteCode = inviteCode => ({
 
 export const startAddInviteCode = (inviteCodeData = {}) => {
   return (dispatch, getState) => {
-    const { status = "enabled" } = inviteCodeData;
+    const { status = "enabled", code = uuid() } = inviteCodeData;
     const inviteCode = {
-      status
+      status,
+      code
     };
 
     return database
@@ -24,6 +25,24 @@ export const startAddInviteCode = (inviteCodeData = {}) => {
             ...inviteCode
           })
         );
+      });
+  };
+};
+
+// EDIT_INVITE_CODE
+export const editInviteCode = (id, updates) => ({
+  type: "EDIT_INVITE_CODE",
+  id,
+  updates
+});
+
+export const startEditInviteCode = (id, updates) => {
+  return (dispatch, getState) => {
+    return database
+      .ref(`invite_codes/${id}`)
+      .update(updates)
+      .then(() => {
+        dispatch(editInviteCode(id, updates));
       });
   };
 };
