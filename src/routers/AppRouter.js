@@ -3,6 +3,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
 import DashboardPage from "../components/DashboardPage";
 import LoginPage from "../components/LoginPage";
+import RegistrationPage from "../components/RegistrationPage";
 import NotFoundPage from "../components/NotFoundPage";
 import SettingsPage from "../components/SettingsPage";
 
@@ -31,6 +32,7 @@ const AppRouter = () => (
     <div>
       <Switch>
         <PublicRoute path="/" component={LoginPage} exact={true} />
+        <PrivateRoute path="/registration" component={RegistrationPage} />
         <PrivateRoute path="/dashboard" component={DashboardPage} />
         <PrivateRoute
           path="/content-types"

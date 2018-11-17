@@ -9,6 +9,7 @@ import { startSetContentTypes } from "./actions/contentTypes";
 import { startSetFields } from "./actions/fields";
 import { startSetEntries } from "./actions/entries";
 import { startSetInviteCodes } from "./actions/inviteCodes";
+import { startSetUsers } from "./actions/users";
 import "normalize.css/normalize.css";
 import "react-dates/lib/css/_datepicker.css";
 import { firebase } from "./firebase/firebase";
@@ -42,15 +43,18 @@ firebase.auth().onAuthStateChanged(user => {
     store.dispatch(login(user.uid));
     console.log(user);
 
-    store.dispatch(startSetSettings()).then(() => {
-      store.dispatch(startSetContentTypes()).then(() => {
-        store.dispatch(startSetFields()).then(() => {
-          store.dispatch(startSetEntries()).then(() => {
-            store.dispatch(startSetInviteCodes()).then(() => {
-              renderApp();
-              if (history.location.pathname === "/") {
-                history.push("/dashboard");
-              }
+    store.dispatch(startSetUsers()).then(() => {
+      store.dispatch(startSetSettings()).then(() => {
+        store.dispatch(startSetContentTypes()).then(() => {
+          store.dispatch(startSetFields()).then(() => {
+            store.dispatch(startSetEntries()).then(() => {
+              store.dispatch(startSetInviteCodes()).then(() => {
+                renderApp();
+                // here check if user is registered and handle if not? maybe redirect to a middle page to handle it?
+                if (history.location.pathname === "/") {
+                  history.push("/registration");
+                }
+              });
             });
           });
         });

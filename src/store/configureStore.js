@@ -6,6 +6,7 @@ import contentTypesReducer from "../reducers/contentTypes";
 import fieldsReducer from "../reducers/fields";
 import entriesReducer from "../reducers/entries";
 import inviteCodesReducer from "../reducers/inviteCodes";
+import usersReducer from "../reducers/users";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -17,7 +18,8 @@ export default () => {
       contentTypes: contentTypesReducer,
       fields: fieldsReducer,
       entries: entriesReducer,
-      inviteCodes: inviteCodesReducer
+      inviteCodes: inviteCodesReducer,
+      users: usersReducer
     }),
     composeEnhancers(applyMiddleware(thunk))
   );
