@@ -32,7 +32,7 @@ const AppRouter = () => (
     <div>
       <Switch>
         <PublicRoute path="/" component={LoginPage} exact={true} />
-        <PrivateRoute path="/registration" component={RegistrationPage} />
+        <Route path="/registration" component={RegistrationPage} />
         <PrivateRoute path="/dashboard" component={DashboardPage} />
         <PrivateRoute
           path="/content-types"

@@ -15,6 +15,7 @@ export const RegistrationPage = ({
   history
 }) => {
   const [registrationCheck, setRegistrationCheck] = useState(false);
+  const [needInviteCodeEntry, setNeedInviteCodeEntry] = useState(false);
   const [inviteCode, setInviteCode] = useState("");
   const [error, setError] = useState(null);
 
@@ -39,9 +40,11 @@ export const RegistrationPage = ({
           startAddUser(newUser).then(() => {
             history.push("/dashboard");
           });
+        } else {
+          setNeedInviteCodeEntry(true);
+          // If invite codes are required, check if the user has one (should come in through url, saved in sessionStorage, or can be entered by user on this screen)
+          // If the user has an invite code and it is valid, register the user and log them in
         }
-        // If invite codes are required, check if the user has one (should come in through url, saved in sessionStorage, or can be entered by user on this screen)
-        // If the user has an invite code and it is valid, register the user and log them in
       }
     }
   });
@@ -62,39 +65,42 @@ export const RegistrationPage = ({
       // register user
       // expire invite code
       const updateInviteCode = {
-        ...inviteCodeExists,
         status: "expired"
       };
       const newUser = {
         uid: auth.uid
       };
       startAddUser(newUser).then(() => {
-        startEditInviteCode(updateInviteCode.id, updateInviteCode).then(() => {
+        startEditInviteCode(inviteCodeExists.id, updateInviteCode).then(() => {
           history.push("/dashboard");
         });
       });
     }
   };
   return (
-    <div className="box-layout">
-      <div className="box-layout__box">
-        <h1 className="box-layout__title">Registration</h1>
-        <p>An invite code is required to register.</p>
-        <form className="form" onSubmit={onSubmit}>
-          {error && <p className="form__error">{error}</p>}
-          <input
-            className="text-input"
-            type="text"
-            placeholder="Enter invite code"
-            autoFocus
-            value={inviteCode}
-            onChange={e => setInviteCode(e.target.value)}
-          />
-          <div>
-            <button className="button">Continue</button>
+    <div>
+      {needInviteCodeEntry && (
+        <div className="box-layout">
+          <div className="box-layout__box">
+            <h1 className="box-layout__title">Registration</h1>
+            <p>An invite code is required to register.</p>
+            <form className="form" onSubmit={onSubmit}>
+              {error && <p className="form__error">{error}</p>}
+              <input
+                className="text-input"
+                type="text"
+                placeholder="Enter invite code"
+                autoFocus
+                value={inviteCode}
+                onChange={e => setInviteCode(e.target.value)}
+              />
+              <div>
+                <button className="button">Continue</button>
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
+        </div>
+      )}
     </div>
   );
 };
