@@ -33,7 +33,10 @@ export const InviteCodesForm = props => {
       {props.inviteCodes.map(inviteCode => {
         return (
           <div key={inviteCode.id} className="invite-code">
-            {inviteCode.code}
+            <span>
+              {inviteCode.code}
+              {inviteCode.status === "expired" && <span> (expired)</span>}
+            </span>
             <label>
               <Toggle
                 aria-label="Enable or disable this invite code"
