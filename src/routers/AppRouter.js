@@ -22,6 +22,9 @@ import EntriesPage from "../components/Entries/EntriesPage";
 import AddEntryPage from "../components/Entries/AddEntryPage";
 import EditEntryPage from "../components/Entries/EditEntryPage";
 
+// Users
+import UsersPage from "../components/Users/UsersPage";
+
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 
@@ -57,6 +60,7 @@ const AppRouter = () => (
         />
         <PrivateRoute path="/entry/:slug/add" component={AddEntryPage} />
         <PrivateRoute path="/entry/:slug/edit/:id" component={EditEntryPage} />
+        <PrivateRoute path="/users" component={UsersPage} />
         <PrivateRoute path="/settings" component={SettingsPage} />
         <Route component={NotFoundPage} />
       </Switch>

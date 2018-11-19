@@ -40,9 +40,12 @@ ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
-    store.dispatch(login(user.uid));
     console.log(user);
+    store.dispatch(
+      login(user.uid, user.displayName, user.email, user.photoURL)
+    );
 
+    // TO DO: Do not dispatch all this until the user is past the registration screen; ping the db api directly for checking the invite code
     store.dispatch(startSetUsers()).then(() => {
       store.dispatch(startSetSettings()).then(() => {
         store.dispatch(startSetContentTypes()).then(() => {
@@ -50,7 +53,6 @@ firebase.auth().onAuthStateChanged(user => {
             store.dispatch(startSetEntries()).then(() => {
               store.dispatch(startSetInviteCodes()).then(() => {
                 renderApp();
-                // here check if user is registered and handle if not? maybe redirect to a middle page to handle it?
                 if (history.location.pathname === "/") {
                   history.push("/registration");
                 }

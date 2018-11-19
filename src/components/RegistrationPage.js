@@ -35,7 +35,10 @@ export const RegistrationPage = ({
         // If invite codes are not required, register the user and log them in
         if (!requireInviteCodes) {
           const newUser = {
-            uid: auth.uid
+            uid: auth.uid,
+            displayName: auth.displayName,
+            email: auth.email,
+            photoURL: auth.photoURL
           };
           startAddUser(newUser).then(() => {
             history.push("/dashboard");
@@ -68,7 +71,10 @@ export const RegistrationPage = ({
         status: "expired"
       };
       const newUser = {
-        uid: auth.uid
+        uid: auth.uid,
+        displayName: auth.displayName,
+        email: auth.email,
+        photoURL: auth.photoURL
       };
       startAddUser(newUser).then(() => {
         startEditInviteCode(inviteCodeExists.id, updateInviteCode).then(() => {

@@ -4,8 +4,8 @@ A React CMS for the JAMstack.
 
 ## Roadmap
 
-- **Phase I: Initial Release - User authentication, content types, fields, entries**
-- Phase II: Media - Upload, edit, storage, use in entries
+- **Phase I: User authentication, content types, fields, entries**
+- Phase II: Initial Release - Media - Upload, edit, storage, use in entries
 - Phase III: Workflows and Versioning
 - Phase IV: Build a back-end API to handle CRUD actions and hook into different types of databases
 
@@ -33,3 +33,5 @@ A React CMS for the JAMstack.
 - [ ] Fix Markdown editor (need images to work)
 - [ ] Add Rich HTML field and editor
 - [ ] When checking uniqueness of fields and api keys, check the database before submit
+- [ ] Only set state with information the user has permission to see; for example, members should not have invite codes in their React state
+- [ ] Implement server side security: rules in firebase (back-end API would handle it in the future)
