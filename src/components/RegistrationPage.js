@@ -38,7 +38,9 @@ export const RegistrationPage = ({
             uid: auth.uid,
             displayName: auth.displayName,
             email: auth.email,
-            photoURL: auth.photoURL
+            photoURL: auth.photoURL,
+            role: "member",
+            isApproved: false
           };
           startAddUser(newUser).then(() => {
             history.push("/dashboard");
@@ -74,7 +76,9 @@ export const RegistrationPage = ({
         uid: auth.uid,
         displayName: auth.displayName,
         email: auth.email,
-        photoURL: auth.photoURL
+        photoURL: auth.photoURL,
+        role: "member",
+        isApproved: true
       };
       startAddUser(newUser).then(() => {
         startEditInviteCode(inviteCodeExists.id, updateInviteCode).then(() => {
@@ -85,6 +89,7 @@ export const RegistrationPage = ({
   };
   return (
     <div>
+      {/* <Redirect to="/dashboard" /> */}
       {needInviteCodeEntry && (
         <div className="box-layout">
           <div className="box-layout__box">

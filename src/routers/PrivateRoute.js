@@ -6,30 +6,45 @@ import Sidebar from "../components/Sidebar";
 
 export const PrivateRoute = ({
   isAuthenticated,
+  userRole,
+  accessRole,
   component: Component,
   ...rest
-}) => (
-  <Route
-    {...rest}
-    component={props =>
-      isAuthenticated ? (
-        <div>
-          <Sidebar />
-          <Header />
-          <div className="main-container">
-            <div className="main-container__right">
-              <Component {...props} />
-            </div>
+}) => {
+  return (
+    <Route
+      {...rest}
+      component={props =>
+        isAuthenticated ? (
+          <div>
+            {accessRole.find(item => item === userRole) ? (
+              <div>
+                <Sidebar />
+                <Header />
+                <div className="main-container">
+                  <div className="main-container__right">
+                    <Component {...props} />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <Redirect to="/dashboard" />
+            )}
           </div>
-        </div>
-      ) : (
-        <Redirect to="/" />
-      )
-    }
-  />
-);
+        ) : (
+          <Redirect to="/" />
+        )
+      }
+    />
+  );
+};
 
 const mapStateToProps = state => ({
+  userRole:
+    state.auth.uid &&
+    state.users.find(user => {
+      return user.uid === state.auth.uid;
+    }).role,
   isAuthenticated:
     state.auth.uid &&
     state.users.find(user => {

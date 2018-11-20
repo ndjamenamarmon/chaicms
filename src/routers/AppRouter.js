@@ -36,32 +36,76 @@ const AppRouter = () => (
       <Switch>
         <PublicRoute path="/" component={LoginPage} exact={true} />
         <Route path="/registration" component={RegistrationPage} />
-        <PrivateRoute path="/dashboard" component={DashboardPage} />
+        <PrivateRoute
+          path="/dashboard"
+          component={DashboardPage}
+          accessRole={[
+            "member",
+            "author",
+            "editor",
+            "developer",
+            "admin",
+            "owner"
+          ]}
+        />
         <PrivateRoute
           path="/content-types"
           component={ContentTypesPage}
           exact={true}
+          accessRole={["developer", "admin", "owner"]}
         />
         <PrivateRoute
           path="/content-types/add"
           component={AddContentTypePage}
+          accessRole={["developer", "admin", "owner"]}
         />
         <PrivateRoute
           path="/content-types/edit/:id"
           component={EditContentTypePage}
+          accessRole={["developer", "admin", "owner"]}
         />
-        <PrivateRoute path="/fields" component={FieldsPage} exact={true} />
-        <PrivateRoute path="/fields/add" component={AddFieldPage} />
-        <PrivateRoute path="/fields/edit/:id" component={EditFieldPage} />
+        <PrivateRoute
+          path="/fields"
+          component={FieldsPage}
+          exact={true}
+          accessRole={["developer", "admin", "owner"]}
+        />
+        <PrivateRoute
+          path="/fields/add"
+          component={AddFieldPage}
+          accessRole={["developer", "admin", "owner"]}
+        />
+        <PrivateRoute
+          path="/fields/edit/:id"
+          component={EditFieldPage}
+          accessRole={["developer", "admin", "owner"]}
+        />
         <PrivateRoute
           path="/entry/:slug"
           component={EntriesPage}
           exact={true}
+          accessRole={["author", "editor", "developer", "admin", "owner"]}
         />
-        <PrivateRoute path="/entry/:slug/add" component={AddEntryPage} />
-        <PrivateRoute path="/entry/:slug/edit/:id" component={EditEntryPage} />
-        <PrivateRoute path="/users" component={UsersPage} />
-        <PrivateRoute path="/settings" component={SettingsPage} />
+        <PrivateRoute
+          path="/entry/:slug/add"
+          component={AddEntryPage}
+          accessRole={["author", "editor", "developer", "admin", "owner"]}
+        />
+        <PrivateRoute
+          path="/entry/:slug/edit/:id"
+          component={EditEntryPage}
+          accessRole={["author", "editor", "developer", "admin", "owner"]}
+        />
+        <PrivateRoute
+          path="/users"
+          component={UsersPage}
+          accessRole={["admin", "owner"]}
+        />
+        <PrivateRoute
+          path="/settings"
+          component={SettingsPage}
+          accessRole={["admin", "owner"]}
+        />
         <Route component={NotFoundPage} />
       </Switch>
     </div>
