@@ -9,7 +9,7 @@ import { startSetContentTypes } from "./actions/contentTypes";
 import { startSetFields } from "./actions/fields";
 import { startSetEntries } from "./actions/entries";
 import { startSetInviteCodes } from "./actions/inviteCodes";
-import { startSetUsers } from "./actions/users";
+import { startSetUsers, startAddUserRoles } from "./actions/users";
 import "normalize.css/normalize.css";
 import "react-dates/lib/css/_datepicker.css";
 import { firebase } from "./firebase/firebase";
@@ -41,9 +41,11 @@ ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 firebase.auth().onAuthStateChanged(user => {
   if (user) {
     console.log(user);
-    store.dispatch(
-      login(user.uid, user.displayName, user.email, user.photoURL)
-    );
+    store.dispatch(startAddUserRoles()).then(() => {
+      store.dispatch(
+        login(user.uid, user.displayName, user.email, user.photoURL)
+      );
+    });
 
     // TO DO: Do not dispatch all this until the user is past the registration screen; ping the db api directly for checking the invite code
     store.dispatch(startSetUsers()).then(() => {
@@ -63,6 +65,7 @@ firebase.auth().onAuthStateChanged(user => {
       });
     });
   } else {
+    store.dispatch(startAddUserRoles());
     store.dispatch(logout());
     store.dispatch(startSetSettings()).then(() => {
       renderApp();

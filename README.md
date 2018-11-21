@@ -33,5 +33,6 @@ A React CMS for the JAMstack.
 - [ ] Fix Markdown editor (need images to work)
 - [ ] Add Rich HTML field and editor
 - [ ] When checking uniqueness of fields and api keys, check the database before submit
-- [ ] Only set state with information the user has permission to see; for example, members should not have invite codes in their React state
-- [ ] Implement server side security: rules in firebase (back-end API would handle it in the future)
+- **[ ] Only set state with information the user has permission to see; for example, members should not have invite codes in their React state**
+- **[ ] Implement server side security: rules in firebase (back-end API would handle it in the future)**
+- **[ ] Store user roles in db and reference them by id rather than hard-coding**
