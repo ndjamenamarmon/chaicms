@@ -7,6 +7,7 @@ import fieldsReducer from "../reducers/fields";
 import entriesReducer from "../reducers/entries";
 import inviteCodesReducer from "../reducers/inviteCodes";
 import usersReducer from "../reducers/users";
+import userRolesReducer from "../reducers/userRoles";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -19,7 +20,8 @@ export default () => {
       fields: fieldsReducer,
       entries: entriesReducer,
       inviteCodes: inviteCodesReducer,
-      users: usersReducer
+      users: usersReducer,
+      userRoles: userRolesReducer
     }),
     composeEnhancers(applyMiddleware(thunk))
   );
