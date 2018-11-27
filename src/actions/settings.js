@@ -30,7 +30,10 @@ export const startSetSettings = () => {
       .ref("settings")
       .once("value")
       .then(snapshot => {
-        const settings = snapshot.val();
+        const settings = {
+          siteDescription: snapshot.val().siteDescription,
+          siteTitle: snapshot.val().siteTitle
+        };
         dispatch(setSettings(settings));
       });
   };
