@@ -51,27 +51,27 @@ export const startAddUserRoles = () => {
 };
 
 // SET_USER_ROLE_ID
-export const setUserRoleId = userRole => ({
-  type: "SET_USER_ROLE_ID",
-  userRole
-});
+// export const setUserRoleId = userRole => ({
+//   type: "SET_USER_ROLE_ID",
+//   userRole
+// });
 
-export const startSetUserRoleId = role => {
-  return (dispatch, getState) => {
-    return database
-      .ref(`user_roles`)
-      .once("value")
-      .then(snapshot => {
-        const userRole = [];
-        snapshot.forEach(childSnapshot => {
-          if (childSnapshot.val().name === role) {
-            userRole.push({
-              id: childSnapshot.key,
-              ...childSnapshot.val()
-            });
-            dispatch(setUserRoleId(userRole));
-          }
-        });
-      });
-  };
-};
+// export const startSetUserRoleId = role => {
+//   return (dispatch, getState) => {
+//     return database
+//       .ref(`user_roles`)
+//       .once("value")
+//       .then(snapshot => {
+//         const userRole = [];
+//         snapshot.forEach(childSnapshot => {
+//           if (childSnapshot.val().name === role) {
+//             userRole.push({
+//               id: childSnapshot.key,
+//               ...childSnapshot.val()
+//             });
+//             dispatch(setUserRoleId(userRole));
+//           }
+//         });
+//       });
+//   };
+// };

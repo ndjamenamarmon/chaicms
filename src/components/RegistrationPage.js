@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { startLogin } from "../actions/auth";
 import { startAddUser } from "../actions/users";
-import { startSetUserRoleId } from "../actions/userRoles";
 import { startEditInviteCode } from "../actions/inviteCodes";
 
 export const RegistrationPage = ({
@@ -12,7 +11,6 @@ export const RegistrationPage = ({
   startSetUserRoleId,
   settings,
   users,
-  userRoles,
   auth,
   inviteCodes,
   history
@@ -37,23 +35,17 @@ export const RegistrationPage = ({
         const requireInviteCodes = settings.requireInviteCodes;
         // If invite codes are not required, register the user and log them in
         if (!requireInviteCodes) {
-          // startSetUserRoleId("member").then(() => {
-          console.log(userRoles);
           const newUser = {
             uid: auth.uid,
             displayName: auth.displayName,
             email: auth.email,
             photoURL: auth.photoURL,
             role: "member",
-            // roleId: userRoles.id ? userRoles.id : "?",
             isApproved: false
           };
-          // console.log(newUser);
-          startAddUser(newUser).then(() => {
-            // console.log(userRoles); //need to unset
+          startAddUser(newUser, "member").then(() => {
             history.push("/dashboard");
           });
-          // });
         } else {
           setNeedInviteCodeEntry(true);
           // If invite codes are required, check if the user has one (should come in through url, saved in sessionStorage, or can be entered by user on this screen)
@@ -129,7 +121,6 @@ const mapStateToProps = (state, props) => {
   return {
     settings: state.settings,
     users: state.users,
-    userRoles: state.userRoles,
     auth: state.auth,
     inviteCodes: state.inviteCodes
   };
@@ -139,8 +130,7 @@ const mapDispatchToProps = dispatch => ({
   startLogin: () => dispatch(startLogin()),
   startAddUser: user => dispatch(startAddUser(user)),
   startEditInviteCode: (id, updates) =>
-    dispatch(startEditInviteCode(id, updates)),
-  startSetUserRoleId: role => dispatch(startSetUserRoleId(role))
+    dispatch(startEditInviteCode(id, updates))
 });
 
 export default connect(

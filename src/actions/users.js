@@ -10,15 +10,22 @@ export const addUser = user => ({
 export const startAddUser = user => {
   return (dispatch, getState) => {
     return database
-      .ref(`users`)
-      .push(user)
-      .then(ref => {
-        dispatch(
-          addUser({
-            id: ref.key,
-            ...user
-          })
-        );
+      .ref(`user_roles`)
+      .once("value")
+      .then(snapshot => {
+        let userRoleId;
+        snapshot.forEach(childSnapshot => {
+          if (childSnapshot.val().name === user.role) {
+            userRoleId = childSnapshot.key;
+          }
+        });
+
+        return database
+          .ref(`users`)
+          .push(user)
+          .then(ref => {
+            dispatch(addUser({ id: ref.key, roleId: userRoleId, ...user }));
+          });
       });
   };
 };
