@@ -19,12 +19,18 @@ export const startAddUser = user => {
             userRoleId = childSnapshot.key;
           }
         });
+        const newUser = { roleId: userRoleId, ...user };
 
         return database
           .ref(`users`)
-          .push(user)
+          .push(newUser)
           .then(ref => {
-            dispatch(addUser({ id: ref.key, roleId: userRoleId, ...user }));
+            dispatch(
+              addUser({
+                id: ref.key,
+                ...newUser
+              })
+            );
           });
       });
   };
@@ -56,6 +62,7 @@ export const setUsers = users => ({
 
 export const startSetUsers = () => {
   return (dispatch, getState) => {
+    // need to only populate this with users if the role of the current user is admin or owner
     return database
       .ref(`users`)
       .once("value")

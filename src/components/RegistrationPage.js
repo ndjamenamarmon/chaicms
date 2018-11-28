@@ -50,7 +50,7 @@ export const RegistrationPage = ({
                 role: "member",
                 isApproved: false
               };
-              startAddUser(newUser, "member").then(() => {
+              startAddUser(newUser).then(() => {
                 history.push("/dashboard");
               });
             } else {
