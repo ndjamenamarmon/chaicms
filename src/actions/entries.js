@@ -71,19 +71,49 @@ export const setEntries = entries => ({
 
 export const startSetEntries = () => {
   return (dispatch, getState) => {
+    // only populate if current user is author, editor, developer, admin, or owner
+    // get the role id of the current user (where auth.uid === user.uid)
+    // fetch the role based on that id from the db
+    // if that role is an author, editor, developer, admin, or owner, go ahead and populate the content types (otherwise, don't)
     return database
-      .ref(`entries`)
+      .ref(`users`)
       .once("value")
       .then(snapshot => {
-        const entries = [];
         snapshot.forEach(childSnapshot => {
-          entries.push({
-            id: childSnapshot.key,
-            ...childSnapshot.val()
-          });
-        });
+          if (childSnapshot.val().uid === getState().auth.uid) {
+            const roleId = childSnapshot.val().roleId;
 
-        dispatch(setEntries(entries));
+            return database
+              .ref(`user_roles/${roleId}`)
+              .once("value")
+              .then(snapshot => {
+                const role = snapshot.val().name;
+
+                if (
+                  role === "author" ||
+                  role === "editor" ||
+                  role === "developer" ||
+                  role === "admin" ||
+                  role === "owner"
+                ) {
+                  return database
+                    .ref(`entries`)
+                    .once("value")
+                    .then(snapshot => {
+                      const entries = [];
+                      snapshot.forEach(childSnapshot => {
+                        entries.push({
+                          id: childSnapshot.key,
+                          ...childSnapshot.val()
+                        });
+                      });
+
+                      dispatch(setEntries(entries));
+                    });
+                }
+              });
+          }
+        });
       });
   };
 };

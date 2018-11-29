@@ -84,19 +84,47 @@ export const setContentTypes = contentTypes => ({
 
 export const startSetContentTypes = () => {
   return (dispatch, getState) => {
+    // only populate if current user is developer, admin, or owner
+    // get the role id of the current user (where auth.uid === user.uid)
+    // fetch the role based on that id from the db
+    // if that role is a developer, admin, or owner, go ahead and populate the content types (otherwise, don't)
     return database
-      .ref(`content_types`)
+      .ref(`users`)
       .once("value")
       .then(snapshot => {
-        const contentTypes = [];
         snapshot.forEach(childSnapshot => {
-          contentTypes.push({
-            id: childSnapshot.key,
-            ...childSnapshot.val()
-          });
-        });
+          if (childSnapshot.val().uid === getState().auth.uid) {
+            const roleId = childSnapshot.val().roleId;
 
-        dispatch(setContentTypes(contentTypes));
+            return database
+              .ref(`user_roles/${roleId}`)
+              .once("value")
+              .then(snapshot => {
+                const role = snapshot.val().name;
+
+                if (
+                  role === "developer" ||
+                  role === "admin" ||
+                  role === "owner"
+                ) {
+                  return database
+                    .ref(`content_types`)
+                    .once("value")
+                    .then(snapshot => {
+                      const contentTypes = [];
+                      snapshot.forEach(childSnapshot => {
+                        contentTypes.push({
+                          id: childSnapshot.key,
+                          ...childSnapshot.val()
+                        });
+                      });
+
+                      dispatch(setContentTypes(contentTypes));
+                    });
+                }
+              });
+          }
+        });
       });
   };
 };
