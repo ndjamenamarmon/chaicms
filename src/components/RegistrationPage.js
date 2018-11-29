@@ -67,35 +67,49 @@ export const RegistrationPage = ({
     e.preventDefault();
 
     // check if invite code is valid
-    const inviteCodeExists = inviteCodes.find(code => {
-      return code.code === inviteCode && code.status === "enabled";
-    });
-
-    if (!inviteCode || !inviteCodeExists) {
-      const error = "Please provide a valid invite code";
-      setError(error);
-    } else {
-      const error = "";
-      setError(error);
-      // register user
-      // expire invite code
-      const updateInviteCode = {
-        status: "expired"
-      };
-      const newUser = {
-        uid: auth.uid,
-        displayName: auth.displayName,
-        email: auth.email,
-        photoURL: auth.photoURL,
-        role: "member",
-        isApproved: true
-      };
-      startAddUser(newUser).then(() => {
-        startEditInviteCode(inviteCodeExists.id, updateInviteCode).then(() => {
-          history.push("/dashboard");
+    let inviteCodeExists = undefined;
+    database
+      .ref("invite_codes")
+      .once("value")
+      .then(snapshot => {
+        snapshot.forEach(childSnapshot => {
+          if (
+            childSnapshot.val().code === inviteCode &&
+            childSnapshot.val().status === "enabled"
+          ) {
+            inviteCodeExists = {
+              id: childSnapshot.key,
+              ...childSnapshot.val()
+            };
+          }
         });
+
+        if (!inviteCode || !inviteCodeExists) {
+          const error = "Please provide a valid invite code";
+          setError(error);
+        } else {
+          const error = "";
+          setError(error);
+          // register user
+          // expire invite code
+          const updateInviteCode = { status: "expired" };
+          const newUser = {
+            uid: auth.uid,
+            displayName: auth.displayName,
+            email: auth.email,
+            photoURL: auth.photoURL,
+            role: "member",
+            isApproved: true
+          };
+          startAddUser(newUser).then(() => {
+            startEditInviteCode(inviteCodeExists.id, updateInviteCode).then(
+              () => {
+                history.push("/dashboard");
+              }
+            );
+          });
+        }
       });
-    }
   };
   return (
     <div>
