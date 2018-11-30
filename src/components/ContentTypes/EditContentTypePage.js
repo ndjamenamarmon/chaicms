@@ -29,6 +29,7 @@ export class EditContentTypePage extends React.Component {
             contentType={this.props.contentType}
             contentTypes={this.props.contentTypes}
             fields={this.props.fields}
+            currentUser={this.props.currentUser}
             onSubmit={this.onSubmit}
           />
           <button className="button button--secondary" onClick={this.onRemove}>
@@ -46,7 +47,8 @@ const mapStateToProps = (state, props) => {
       contentType => contentType.id === props.match.params.id
     ),
     contentTypes: state.contentTypes,
-    fields: selectFields(state.fields)
+    fields: selectFields(state.fields),
+    currentUser: state.auth
   };
 };
 

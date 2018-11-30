@@ -16,7 +16,8 @@ export const startAddContentType = (contentTypeData = {}) => {
       fields = [],
       createdAt = 0,
       lastUpdated = 0,
-      titleField = ""
+      titleField = "",
+      createdBy = ""
     } = contentTypeData;
     const contentType = {
       title,
@@ -24,7 +25,8 @@ export const startAddContentType = (contentTypeData = {}) => {
       fields,
       createdAt,
       lastUpdated,
-      titleField
+      titleField,
+      createdBy
     };
 
     return database

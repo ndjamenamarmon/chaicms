@@ -25,6 +25,7 @@ export class AddContentTypePage extends React.Component {
           <ContentTypeForm
             fields={this.props.fields}
             contentTypes={this.props.contentTypes}
+            currentUser={this.props.currentUser}
             onSubmit={this.onSubmit}
           />
         </div>
@@ -39,7 +40,8 @@ const mapStateToProps = state => {
       sortBy: "createdAt"
     })[0],
     contentTypes: state.contentTypes,
-    fields: selectFields(state.fields)
+    fields: selectFields(state.fields),
+    currentUser: state.auth
   };
 };
 

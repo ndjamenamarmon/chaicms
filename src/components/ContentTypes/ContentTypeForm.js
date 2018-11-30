@@ -99,6 +99,7 @@ export const ContentTypeForm = props => {
           ? moment(props.contentType.createdAt).valueOf()
           : moment().valueOf(),
         lastUpdated: moment().valueOf(),
+        createdBy: props.currentUser.uid,
         titleField
       });
     }
