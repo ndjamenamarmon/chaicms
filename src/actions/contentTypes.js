@@ -103,6 +103,8 @@ export const startSetContentTypes = () => {
                 const role = snapshot.val().name;
 
                 if (
+                  role === "author" ||
+                  role === "editor" ||
                   role === "developer" ||
                   role === "admin" ||
                   role === "owner"
