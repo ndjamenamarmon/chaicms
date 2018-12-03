@@ -46,6 +46,16 @@ export const EntryForm = props => {
     }
     setError(error);
     setSuccess(success);
+
+    let newEntry = entry;
+
+    entry.createdBy = props.entry.createdBy
+      ? props.entry.createdBy
+      : props.currentUser.uid;
+    entry.lastUpdatedBy = props.currentUser.uid;
+
+    setEntry(newEntry);
+
     // console.log(entry);
     props.onSubmit({
       contentTypeId: contentType.id,

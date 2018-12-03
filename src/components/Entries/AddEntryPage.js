@@ -34,6 +34,7 @@ export class AddEntryPage extends React.Component {
             fields={this.props.fields}
             entries={this.props.entries}
             entry={this.emptyEntry}
+            currentUser={this.props.currentUser}
           />
         </div>
       </div>
@@ -48,7 +49,8 @@ const mapStateToProps = (state, props) => {
       contentType => contentType.apiKey === props.match.params.slug
     ),
     fields: state.fields,
-    entries: state.entries
+    entries: state.entries,
+    currentUser: state.auth
   };
 };
 
