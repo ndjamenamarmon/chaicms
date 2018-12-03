@@ -25,9 +25,9 @@ export const EntriesList = props => (
   </div>
 );
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
-    entries: selectEntries(state.entries)
+    entries: selectEntries(state.entries, props.contentType)
   };
 };
 

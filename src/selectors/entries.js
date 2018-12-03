@@ -1,7 +1,14 @@
 // Get visible entries
-export default entries => {
+export default (entries, contentType) => {
+  if (contentType) {
+    return entries.filter(entry => {
+      return entry.contentTypeId === contentType.id;
+    });
+  }
   // return entries.sort((a, b) => {
   //   return a.title < b.title ? 1 : -1;
   // });
-  return entries;
+  else {
+    return entries;
+  }
 };
