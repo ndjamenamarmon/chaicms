@@ -24,6 +24,7 @@ export class EditFieldPage extends React.Component {
           <FieldForm
             field={this.props.field}
             fields={this.props.fields}
+            currentUser={this.props.currentUser}
             onSubmit={this.onSubmit}
           />
           <button className="button button--secondary" onClick={this.onRemove}>
@@ -38,7 +39,8 @@ export class EditFieldPage extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     field: state.fields.find(field => field.id === props.match.params.id),
-    fields: state.fields
+    fields: state.fields,
+    currentUser: state.auth
   };
 };
 

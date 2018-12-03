@@ -17,7 +17,11 @@ export class AddFieldPage extends React.Component {
           </div>
         </div>
         <div className="content-container content-container--centered">
-          <FieldForm fields={this.props.fields} onSubmit={this.onSubmit} />
+          <FieldForm
+            fields={this.props.fields}
+            currentUser={this.props.currentUser}
+            onSubmit={this.onSubmit}
+          />
         </div>
       </div>
     );
@@ -26,7 +30,8 @@ export class AddFieldPage extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    fields: state.fields
+    fields: state.fields,
+    currentUser: state.auth
   };
 };
 

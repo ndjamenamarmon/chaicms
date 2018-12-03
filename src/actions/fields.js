@@ -16,7 +16,10 @@ export const startAddField = (fieldData = {}) => {
       display = "",
       helpText = "",
       isRequired = false,
-      isUnique = false
+      isUnique = false,
+      createdAt = 0,
+      lastUpdated = 0,
+      createdBy = ""
     } = fieldData;
     const field = {
       name,
@@ -25,7 +28,10 @@ export const startAddField = (fieldData = {}) => {
       display,
       helpText,
       isRequired,
-      isUnique
+      isUnique,
+      createdAt,
+      lastUpdated,
+      createdBy
     };
 
     return database
