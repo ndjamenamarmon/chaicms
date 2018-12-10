@@ -4,10 +4,10 @@ A React CMS for the JAMstack.
 
 ## Roadmap
 
-- **Phase I: User authentication, content types, fields, entries**
-- Phase II: Initial Release - Media - Upload, edit, storage, use in entries
-- Phase III: Workflows and Versioning
-- Phase IV: Build a back-end API to handle CRUD actions and hook into different types of databases
+- **[ ] Phase I: User authentication, content types, fields, entries**
+- [ ] Phase II: Initial Release - Media - Upload, edit, storage, use in entries
+- [ ] Phase III: Workflows and Versioning
+- [ ] Phase IV: Build a back-end API to handle CRUD actions and hook into different types of databases
 
 ## TO DO
 
@@ -19,7 +19,7 @@ A React CMS for the JAMstack.
 - [x] Enforce uniqueness of unique fields in entries
 - [x] Enforce requirement of required fields in entries
 - [x] Create content functionality
-- [ ] Add meta data to content types: date created, date modified, author
+- [x] Add meta data to content types: date created, date modified, author
 - [ ] Add media functionality - upload, simple image editing
 - [ ] Allow upload of image for splash screen or solid color
 - **[ ] More robust user authentication with invite links, etc**

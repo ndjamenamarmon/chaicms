@@ -53,6 +53,10 @@ export const EntryForm = props => {
       ? props.entry.createdBy
       : props.currentUser.uid;
     entry.lastUpdatedBy = props.currentUser.uid;
+    entry.createdAt = props.entry.createdAt
+      ? moment(props.entry.createdAt).valueOf()
+      : moment().valueOf();
+    entry.lastUpdated = moment().valueOf();
 
     setEntry(newEntry);
 
