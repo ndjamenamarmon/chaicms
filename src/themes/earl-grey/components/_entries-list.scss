@@ -1,0 +1,23 @@
+.entries-list {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.entries-list thead {
+  border: 1px solid darken($off-white, 7%);
+}
+
+.entries-list th {
+  background: $off-white;
+  color: $gray;
+  text-align: left;
+  padding: $s-size;
+}
+
+.entries-list td {
+  padding: $s-size;
+}
+
+.entries-list tbody tr {
+  border: 1px solid darken($off-white, 7%);
+}

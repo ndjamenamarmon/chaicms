@@ -4,30 +4,40 @@ import EntryListItem from "./EntryListItem";
 import selectEntries from "../../selectors/entries";
 
 export const EntriesList = props => (
-  <div>
-    <div className="list-header">
-      <div className="show-for-mobile">Entries</div>
-      <div className="show-for-desktop">Title</div>
-      {/* <div className="show-for-desktop">Type</div> */}
-    </div>
-    <div className="list-body">
+  <table className="entries-list">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Updated</th>
+        <th>Author</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
       {props.entries.length === 0 ? (
-        <div className="list-item list-item--message">
-          <span>No entries</span>
-        </div>
+        <tr>
+          <td colSpan="4">
+            <span>No entries</span>
+          </td>
+        </tr>
       ) : (
         props.entries.map(entry => {
-          const newProps = { entry, contentType: props.contentType };
+          const newProps = {
+            entry,
+            contentType: props.contentType,
+            users: props.users
+          };
           return <EntryListItem {...newProps} key={entry.id} />;
         })
       )}
-    </div>
-  </div>
+    </tbody>
+  </table>
 );
 
 const mapStateToProps = (state, props) => {
   return {
-    entries: selectEntries(state.entries, props.contentType)
+    entries: selectEntries(state.entries, props.contentType),
+    users: state.users
   };
 };
 
