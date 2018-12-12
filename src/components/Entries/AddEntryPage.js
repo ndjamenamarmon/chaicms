@@ -14,6 +14,7 @@ export class AddEntryPage extends React.Component {
     this.props.contentType.fields.forEach(fieldType => {
       newEntry[fieldType] = "";
     });
+    // TODO: Add today's date as the default value for publishDate
     return newEntry;
   };
   render() {

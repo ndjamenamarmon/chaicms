@@ -38,11 +38,9 @@ export const EntryForm = props => {
       }
     });
 
-    // TO DO: Require that required fields be filled out
-    // const error = "";
     let success = "";
     if (!error) {
-      success = "Content type saved successfully.";
+      success = "Entry saved successfully.";
     }
     setError(error);
     setSuccess(success);
@@ -70,8 +68,9 @@ export const EntryForm = props => {
     return fields.find(field => field.apiKey === fieldType)[fieldValue];
   };
   const checkUniqueness = (value, uniqueField) => {
+    // look through entries that is not this entry
     return entries.find(singleEntry => {
-      return singleEntry[uniqueField] === value;
+      return singleEntry[uniqueField] === value && singleEntry.id !== entry.id;
     });
   };
   const onFieldChange = e => {
