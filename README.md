@@ -28,7 +28,7 @@ A React CMS for the JAMstack.
 - [x] Change sidebar to slide in menu
 - [ ] Add draft/publish functionality to entries (implement workflows)
 - [ ] Add version history to entries
-- **[ ] Add ordering of fields for content types**
+- [x] Add ordering of fields for content types
 - [ ] Push form errors in array of objects so multiple errors can be displayed at once (entry form)
 - [ ] Fix Markdown editor (need images to work)
 - [ ] Add Rich HTML field and editor

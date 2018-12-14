@@ -1,9 +1,36 @@
 import React, { useState } from "react";
 import moment from "moment";
 import Modal from "react-modal";
+import {
+  SortableContainer,
+  SortableElement,
+  arrayMove
+} from "react-sortable-hoc";
 import useCamelify from "../../hooks/useCamelify";
 
 Modal.setAppElement("#app");
+
+const SortableItem = SortableElement(({ value }) => (
+  <li className="sortable-list__item">{value}</li>
+));
+
+const SortableList = SortableContainer(({ items, itemsRef }) => {
+  return (
+    <ul className="sortable-list">
+      {items.map((value, index) => (
+        <SortableItem
+          key={`item-${index}`}
+          index={index}
+          value={
+            itemsRef.find(ref => {
+              return ref.apiKey === value;
+            }).name
+          }
+        />
+      ))}
+    </ul>
+  );
+});
 
 export const ContentTypeForm = props => {
   const [title, setTitle] = useState(
@@ -77,6 +104,9 @@ export const ContentTypeForm = props => {
     }
     setFields(newFields);
   };
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setFields(arrayMove(fields, oldIndex, newIndex));
+  };
   const onSubmit = e => {
     e.preventDefault();
     // TO DO: Check that apiKey is unique in db
@@ -133,18 +163,23 @@ export const ContentTypeForm = props => {
           <strong>Selected Fields</strong>
         </p>
       )}
-      {fields.map(field => {
-        return (
-          <div key={field}>
-            {
-              props.fields.find(propField => {
-                return propField.apiKey === field;
-              }).name
-            }
-          </div>
-        );
-      })}
-
+      {/* {fields.map(field => {
+          return (
+              <div>
+                {
+                  props.fields.find(propField => {
+                    return propField.apiKey === field;
+                  }).name
+                }
+              </div>
+          );
+        })} */}
+      <SortableList
+        items={fields}
+        itemsRef={props.fields}
+        onSortEnd={onSortEnd}
+        helperClass="sortable-list__item--helper"
+      />
       <button
         className="button button--secondary"
         onClick={e => {
@@ -155,11 +190,7 @@ export const ContentTypeForm = props => {
         Add Field
       </button>
       <Modal
-        style={{
-          overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.75)"
-          }
-        }}
+        style={{ overlay: { backgroundColor: "rgba(0, 0, 0, 0.75)" } }}
         isOpen={modalIsOpen}
         onRequestClose={() => {
           setModalIsOpen(false);
@@ -195,7 +226,6 @@ export const ContentTypeForm = props => {
           </button>
         </p>
       </Modal>
-
       <label className="label">
         Title Field <span className="fieldRequired">Required</span>
         <select
