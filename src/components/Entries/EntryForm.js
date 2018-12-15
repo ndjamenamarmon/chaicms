@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import moment from "moment";
 import useSlugify from "../../hooks/useSlugify";
 import MarkdownEditor from "./FormFields/MarkdownEditor";
+import HtmlEditor from "./FormFields/HtmlEditor";
 import SingleDatePickerField from "./FormFields/SingleDatePickerField";
 
 export const EntryForm = props => {
@@ -148,24 +149,7 @@ export const EntryForm = props => {
               {getFieldValue(fieldType, "isRequired") && (
                 <span className="fieldRequired">Required</span>
               )}
-              {getFieldValue(fieldType, "type") === "Long Text" &&
-                getFieldValue(fieldType, "display") === "Multiple line" && (
-                  <textarea
-                    className="textarea textarea--markdown"
-                    data-isunique={getFieldValue(fieldType, "isRequired")}
-                    name={getFieldValue(fieldType, "apiKey")}
-                    value={entry[getFieldValue(fieldType, "apiKey")]}
-                    onChange={onFieldChange}
-                  />
-                )}
-              {getFieldValue(fieldType, "type") === "Long Text" &&
-                getFieldValue(fieldType, "display") === "Markdown" && (
-                  <MarkdownEditor
-                    initialValue={entry[getFieldValue(fieldType, "apiKey")]}
-                    name={getFieldValue(fieldType, "apiKey")}
-                    onChange={onMarkdownChange}
-                  />
-                )}
+
               {getFieldValue(fieldType, "type") === "Short Text" &&
                 getFieldValue(fieldType, "display") === "Single line" && (
                   <input
@@ -207,6 +191,34 @@ export const EntryForm = props => {
                   />
                 )}
             </label>
+
+            {getFieldValue(fieldType, "type") === "Long Text" &&
+              getFieldValue(fieldType, "display") === "Multiple line" && (
+                <textarea
+                  className="textarea textarea--markdown"
+                  data-isunique={getFieldValue(fieldType, "isRequired")}
+                  name={getFieldValue(fieldType, "apiKey")}
+                  value={entry[getFieldValue(fieldType, "apiKey")]}
+                  onChange={onFieldChange}
+                />
+              )}
+            {getFieldValue(fieldType, "type") === "Long Text" &&
+              getFieldValue(fieldType, "display") === "Markdown" && (
+                <MarkdownEditor
+                  initialValue={entry[getFieldValue(fieldType, "apiKey")]}
+                  name={getFieldValue(fieldType, "apiKey")}
+                  onChange={onMarkdownChange}
+                />
+              )}
+            {getFieldValue(fieldType, "type") === "Long Text" &&
+              getFieldValue(fieldType, "display") === "Rich HTML" && (
+                <HtmlEditor
+                  initialValue={entry[getFieldValue(fieldType, "apiKey")]}
+                  name={getFieldValue(fieldType, "apiKey")}
+                  onChange={onMarkdownChange}
+                />
+              )}
+
             <span className="fieldHelpText">
               {getFieldValue(fieldType, "helpText")}
             </span>

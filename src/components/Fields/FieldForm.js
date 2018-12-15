@@ -217,6 +217,7 @@ export default class FieldForm extends React.Component {
               <option value="">Choose how to display this field...</option>
               <option value="Multiple line">Multiple line</option>
               <option value="Markdown">Markdown</option>
+              <option value="Rich HTML">Rich HTML</option>
             </select>
           </label>
         )}
