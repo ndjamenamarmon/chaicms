@@ -134,10 +134,6 @@ export default class FieldForm extends React.Component {
   render() {
     return (
       <form className="form" onSubmit={this.onSubmit}>
-        {this.state.error && <p className="form__error">{this.state.error}</p>}
-        {this.state.success && (
-          <p className="form__success">{this.state.success}</p>
-        )}
         <label className="label">
           Field Name <span className="fieldRequired">Required</span>
           <input
@@ -260,6 +256,12 @@ export default class FieldForm extends React.Component {
         </label>
         <div>
           <button className="button">Save Field</button>
+          {this.state.error && (
+            <span className="form__error">{this.state.error}</span>
+          )}
+          {this.state.success && (
+            <span className="form__success">{this.state.success}</span>
+          )}
         </div>
       </form>
     );

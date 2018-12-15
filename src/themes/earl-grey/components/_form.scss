@@ -7,6 +7,11 @@
 }
 
 .form__error {
-  margin: 0 0 $m-size 0;
+  margin: 0 0 $m-size $s-size;
   font-style: italic;
+}
+
+.form__success {
+  margin: 0 0 $m-size $s-size;
+  // font-style: italic;
 }

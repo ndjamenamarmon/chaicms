@@ -139,8 +139,6 @@ export const EntryForm = props => {
   };
   return (
     <form className="form" onSubmit={onSubmit}>
-      {error && <p className="form__error">{error}</p>}
-      {success && <p className="form__success">{success}</p>}
       {contentType.fields.map(fieldType => {
         return (
           <div key={fieldType}>
@@ -230,6 +228,8 @@ export const EntryForm = props => {
       })}
       <div>
         <button className="button">Save {contentType.title}</button>
+        {error && <span className="form__error">{error}</span>}
+        {success && <span className="form__success">{success}</span>}
       </div>
     </form>
   );
