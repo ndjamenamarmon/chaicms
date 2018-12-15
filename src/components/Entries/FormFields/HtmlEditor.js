@@ -4,10 +4,12 @@ import React, { Component } from "react";
 // import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 // import draftToMarkdown from "draftjs-to-markdown";
 // import { stateFromMarkdown } from "draft-js-import-markdown";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import pretty from "pretty";
 
 import ReactQuill from "react-quill"; // ES6
 import "react-quill/dist/quill.snow.css"; // ES6
-import showdown from "showdown";
+// import showdown from "showdown";
 
 class MarkdownEditor extends Component {
   constructor(props) {
@@ -27,7 +29,7 @@ class MarkdownEditor extends Component {
       // firstLoad: false
     };
     this.handleChange = this.handleChange.bind(this);
-    // this.handleRawChange = this.handleRawChange.bind(this);
+    this.handleRawChange = this.handleRawChange.bind(this);
   }
 
   modules = {
@@ -77,31 +79,42 @@ class MarkdownEditor extends Component {
     // this.props.onChange(this.state.markdown, this.props.name);
     // }
   }
-  // handleRawChange(e) {
-  //   let converter = new showdown.Converter();
-  //   const value = e.target.value;
-  //   const htmlValue = converter.makeHtml(value);
+  handleRawChange(e) {
+    // let converter = new showdown.Converter();
+    const value = e.target.value;
+    // const htmlValue = converter.makeHtml(value);
 
-  //   this.setState({ html: htmlValue, markdown: value });
-  //   this.props.onChange(value, this.props.name);
-  //   // this.props.onChange(this.state.markdown, this.props.name);
-  // }
+    this.setState({ html: value });
+    this.props.onChange(value, this.props.name);
+    // this.props.onChange(this.state.markdown, this.props.name);
+  }
 
   render() {
     return (
       <div>
-        <ReactQuill
-          value={this.state.html}
-          onChange={this.handleChange}
-          modules={this.modules}
-          formats={this.formats}
-        />
+        <Tabs className="editor-tabs">
+          <TabList>
+            <Tab>Editor</Tab>
+            <Tab>Source</Tab>
+          </TabList>
 
-        {/* <textarea
-          className="textarea"
-          onChange={this.handleRawChange}
-          value={this.state.markdown}
-        /> */}
+          <TabPanel>
+            <ReactQuill
+              value={this.state.html}
+              onChange={this.handleChange}
+              modules={this.modules}
+              formats={this.formats}
+            />
+          </TabPanel>
+
+          <TabPanel>
+            <textarea
+              className="textarea"
+              onChange={this.handleRawChange}
+              value={pretty(this.state.html)}
+            />
+          </TabPanel>
+        </Tabs>
       </div>
     );
   }
