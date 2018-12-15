@@ -1,32 +1,19 @@
 import React, { Component } from "react";
-// import { EditorState, convertToRaw, ContentState } from "draft-js";
-// import { Editor } from "react-draft-wysiwyg";
-// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-// import draftToMarkdown from "draftjs-to-markdown";
-// import { stateFromMarkdown } from "draft-js-import-markdown";
 
-// import ReactQuill from "react-quill"; // ES6
-// import "react-quill/dist/quill.snow.css"; // ES6
-// import showdown from "showdown";
+import SimpleMDE from "react-simplemde-editor";
+import "simplemde/dist/simplemde.min.css";
 
 class MarkdownEditor extends Component {
   constructor(props) {
     super(props);
-    // let converter = new showdown.Converter();
-    // showdown.setFlavor("github");
-    // let initialValue = this.props.initialValue.replace("\n", "");
-    // console.log("initial value", initialValue);
-    // initialValue = converter.makeHtml(initialValue);
-    // console.log("initial value - html", initialValue);
     this.state = {
+      delay: 1000,
       markdown: this.props.initialValue
     };
     this.handleChange = this.handleChange.bind(this);
-    // this.handleRawChange = this.handleRawChange.bind(this);
   }
 
-  handleChange(e) {
-    const value = e.target.value;
+  handleChange(value) {
     this.setState({
       markdown: value
     });
@@ -36,11 +23,7 @@ class MarkdownEditor extends Component {
   render() {
     return (
       <div>
-        <textarea
-          className="textarea"
-          onChange={this.handleChange}
-          value={this.state.markdown}
-        />
+        <SimpleMDE value={this.state.markdown} onChange={this.handleChange} />
       </div>
     );
   }
