@@ -6,3 +6,29 @@
     min-height: 300px;
   }
 }
+
+.default-tabs {
+  .react-tabs__tab {
+    border: 0;
+    margin-left: 20px;
+    padding: 6px 20px;
+
+    &:hover {
+      border-bottom: 3px solid rgba($theme-color-secondary, 0.3);
+    }
+  }
+  .react-tabs__tab--selected {
+    border: 0;
+    border-bottom: 3px solid $theme-color-secondary;
+
+    &:hover {
+      border-bottom: 3px solid $theme-color-secondary;
+    }
+  }
+  .react-tabs__tab-list {
+    border-bottom: 1px solid lighten($gray, 50%);
+  }
+  .react-tabs__tab-panel {
+    padding-top: 30px;
+  }
+}

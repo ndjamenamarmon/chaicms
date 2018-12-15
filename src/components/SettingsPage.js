@@ -28,32 +28,33 @@ export class SettingsPage extends React.Component {
             <h1 className="page-header__title">Settings</h1>
           </div>
         </div>
-        <div className="content-container content-container--centered">
-          <Tabs>
-            <TabList>
-              <Tab>General Settings</Tab>
-              {this.props.settings.requireInviteCodes && (
-                <Tab>Invite Codes</Tab>
-              )}
-            </TabList>
 
-            <TabPanel>
+        <Tabs className="default-tabs">
+          <TabList>
+            <Tab>General Settings</Tab>
+            {this.props.settings.requireInviteCodes && <Tab>Invite Codes</Tab>}
+          </TabList>
+
+          <TabPanel>
+            <div className="content-container content-container--centered">
               <SettingsForm
                 settings={this.props.settings}
                 onSubmit={this.onSubmit}
               />
-            </TabPanel>
-            {this.props.settings.requireInviteCodes && (
-              <TabPanel>
+            </div>
+          </TabPanel>
+          {this.props.settings.requireInviteCodes && (
+            <TabPanel>
+              <div className="content-container content-container--centered">
                 <InviteCodesForm
                   inviteCodes={this.props.inviteCodes}
                   onGenerateInviteCode={this.onGenerateInviteCode}
                   onEditInviteCode={this.onEditInviteCode}
                 />
-              </TabPanel>
-            )}
-          </Tabs>
-        </div>
+              </div>
+            </TabPanel>
+          )}
+        </Tabs>
       </div>
     );
   }
