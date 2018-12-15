@@ -175,6 +175,7 @@ export default class FieldForm extends React.Component {
             className="select select--fullWidth"
             value={this.state.type}
             onChange={this.onTypeChange}
+            readOnly={this.props.field}
           >
             <option value="">Select...</option>
             <option value="Short Text">Short Text</option>
