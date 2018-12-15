@@ -6,15 +6,26 @@
 }
 
 .sortable-list__item {
+  align-items: center;
   background: $off-white;
+  display: flex;
+  justify-content: space-between;
   list-style-type: none;
   padding: 10px;
+  padding-left: 25px;
   margin: 5px 0;
 
   &:hover {
     box-shadow: 0px 0px 2px 0px #0000005c;
     cursor: move;
   }
+}
+
+.sortable-list__item-type {
+  align-items: center;
+  color: lighten($gray, 10%);
+  display: flex;
+  margin-left: $m-size;
 }
 
 .sortable-list__item--helper {

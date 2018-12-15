@@ -20,9 +20,11 @@
 .modal {
   background: white;
   color: $dark-gray;
+  max-height: 80vh;
   max-width: 80rem;
   min-width: 40rem;
   outline: none;
+  overflow: auto;
   padding: $l-size;
   // text-align: center;
 }

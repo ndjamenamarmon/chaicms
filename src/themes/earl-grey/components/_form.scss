@@ -15,3 +15,9 @@
   margin: 0 0 $m-size $s-size;
   // font-style: italic;
 }
+
+.fields-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

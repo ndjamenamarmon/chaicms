@@ -14,6 +14,11 @@
   background: none;
 }
 
+.button--link-dark {
+  @extend .button--link;
+  color: $theme-color-secondary;
+}
+
 .button--secondary {
   background-color: #888;
 }

@@ -1,0 +1,36 @@
+.manage-fields {
+  display: flex;
+  justify-content: space-between;
+
+  strong {
+    font-weight: bold;
+  }
+}
+
+.manage-fields__unselected {
+  margin-right: 20px;
+
+  strong {
+    color: $gray;
+  }
+  .label {
+    cursor: pointer;
+    align-items: center;
+
+    &:hover {
+      color: $theme-color-secondary;
+    }
+  }
+  .checkbox {
+    display: none;
+  }
+  .icon-add {
+    margin-right: 10px;
+  }
+}
+
+.manage-fields__selected {
+  strong {
+    color: $gray;
+  }
+}
