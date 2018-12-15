@@ -122,6 +122,7 @@ export const EntryForm = props => {
     setEntry(newEntry);
   };
   const onMarkdownChange = (content, name) => {
+    console.log("entry form markdown value received", content);
     const fieldName = name;
     const fieldValue = content;
     let newEntry = entry;
