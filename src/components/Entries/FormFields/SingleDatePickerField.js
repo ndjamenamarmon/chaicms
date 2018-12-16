@@ -14,7 +14,7 @@ class SingleDatePickerField extends Component {
       this.setState(() => ({ date }));
     }
 
-    this.props.onDateChange(date, this.props.name);
+    this.props.onChange(date.valueOf(), this.props.name);
   };
   onFocusChange = ({ focused }) => {
     this.setState(() => ({

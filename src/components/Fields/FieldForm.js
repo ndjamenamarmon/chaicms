@@ -184,8 +184,8 @@ export default class FieldForm extends React.Component {
             {/* <option value="Number">Number</option>
           <option value="Location">Location</option>
           <option value="Media">Media</option>
-          <option value="Boolean">Boolean</option>
-          <option value="Reference">Reference</option> */}
+          <option value="Boolean">Boolean</option> */}
+            <option value="Reference">Reference</option>
           </select>
         </label>
         {this.state.type === "Short Text" && (
@@ -232,6 +232,20 @@ export default class FieldForm extends React.Component {
               <option value="Date and Time 24 Hour">
                 Date and Time 24 Hour
               </option>
+            </select>
+          </label>
+        )}
+        {this.state.type === "Reference" && (
+          <label className="label">
+            Field Display <span className="fieldRequired">Required</span>
+            <select
+              className="select select--fullWidth"
+              value={this.state.display}
+              onChange={this.onDisplayChange}
+            >
+              <option value="">Choose how to display this field...</option>
+              <option value="One Reference">One Reference</option>
+              <option value="Many References">Many References</option>
             </select>
           </label>
         )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
@@ -9,18 +9,50 @@ const EntryListItem = props => {
   const createdUser = props.users.find(user => {
     return props.entry.createdBy === user.uid;
   });
+  const [references, setReferences] = useState(
+    props.references ? props.references : []
+  );
+  const onFieldChange = e => {
+    const item = e.target.value;
+    const value = e.target.checked ? e.target.value : null;
+    const updatedReferences = props.handleChange(item, value);
+    // console.log(value);
+    // console.log("entry list item onFieldChange", props.references);
+    // setReferences(props.references);
+    setReferences(updatedReferences);
+  };
   return (
     <tr>
       <td className="entries-list__first-column">
-        <Link to={`/entry/${props.contentType.apiKey}/edit/${props.entry.id}`}>
-          <p className="list-item__title">{props.entry.title}</p>
-        </Link>
+        {props.contentType && (
+          <Link
+            to={`/entry/${props.contentType.apiKey}/edit/${props.entry.id}`}
+          >
+            <p className="list-item__title">{props.entry.title}</p>
+          </Link>
+        )}
+        {props.display === "referenceManager" && (
+          <label className="label">
+            <input
+              type="checkbox"
+              className="checkbox"
+              value={props.entry.id}
+              onChange={onFieldChange}
+              checked={references ? references.includes(props.entry.id) : false}
+            />{" "}
+            <span>{props.entry.title}</span>
+          </label>
+        )}
       </td>
-      <td>
-        {moment(props.entry.lastUpdated).calendar()}
-        {lastUpdatedUser && <span> by {lastUpdatedUser.displayName}</span>}
-      </td>
-      <td>{createdUser && createdUser.displayName}</td>
+      {props.display !== "referenceManager" && (
+        <td>
+          {moment(props.entry.lastUpdated).calendar()}
+          {lastUpdatedUser && <span> by {lastUpdatedUser.displayName}</span>}
+        </td>
+      )}
+      {props.display !== "referenceManager" && (
+        <td>{createdUser && createdUser.displayName}</td>
+      )}
       <td>Published</td>
     </tr>
   );

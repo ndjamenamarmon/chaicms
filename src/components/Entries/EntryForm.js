@@ -4,6 +4,39 @@ import useSlugify from "../../hooks/useSlugify";
 import MarkdownEditor from "./FormFields/MarkdownEditor";
 import HtmlEditor from "./FormFields/HtmlEditor";
 import SingleDatePickerField from "./FormFields/SingleDatePickerField";
+import ReferenceManager from "./FormFields/ReferenceManager";
+import {
+  SortableContainer,
+  SortableElement,
+  arrayMove
+} from "react-sortable-hoc";
+
+const SortableItem = SortableElement(({ value, entryId }) => (
+  <li className="sortable-list__item">{value}</li>
+));
+
+const SortableList = SortableContainer(({ items, itemsRef }) => {
+  return (
+    <ul className="sortable-list">
+      {items.map((value, index) => (
+        <SortableItem
+          key={`item-${index}`}
+          index={index}
+          value={
+            itemsRef.find(ref => {
+              return ref.id === value;
+            }).title
+          }
+          entryId={
+            itemsRef.find(ref => {
+              return ref.id === value;
+            }).id
+          }
+        />
+      ))}
+    </ul>
+  );
+});
 
 export const EntryForm = props => {
   const [contentType, setContentType] = useState(props.contentType);
@@ -122,19 +155,19 @@ export const EntryForm = props => {
     newEntry[fieldName] = fieldValue;
     setEntry(newEntry);
   };
-  const onMarkdownChange = (content, name) => {
-    console.log("entry form markdown value received", content);
+  const onComponentFieldChange = (content, name) => {
     const fieldName = name;
     const fieldValue = content;
     let newEntry = entry;
     newEntry[fieldName] = fieldValue;
     setEntry(newEntry);
   };
-  const onDateChange = (content, name) => {
-    const fieldName = name;
-    const fieldValue = content.valueOf();
+  const onSortEnd = ({ oldIndex, newIndex, collection }, e) => {
+    const fieldName = e.path[1].dataset.name;
+    const oldFieldValue = entry[fieldName];
+    const newFieldValue = arrayMove(oldFieldValue, oldIndex, newIndex);
     let newEntry = entry;
-    newEntry[fieldName] = fieldValue;
+    newEntry[fieldName] = newFieldValue;
     setEntry(newEntry);
   };
   return (
@@ -185,7 +218,7 @@ export const EntryForm = props => {
                         : moment()
                     }
                     name={getFieldValue(fieldType, "apiKey")}
-                    onDateChange={onDateChange}
+                    onChange={onComponentFieldChange}
                   />
                 )}
             </label>
@@ -205,7 +238,7 @@ export const EntryForm = props => {
                 <MarkdownEditor
                   initialValue={entry[getFieldValue(fieldType, "apiKey")]}
                   name={getFieldValue(fieldType, "apiKey")}
-                  onChange={onMarkdownChange}
+                  onChange={onComponentFieldChange}
                 />
               )}
             {getFieldValue(fieldType, "type") === "Long Text" &&
@@ -213,8 +246,29 @@ export const EntryForm = props => {
                 <HtmlEditor
                   initialValue={entry[getFieldValue(fieldType, "apiKey")]}
                   name={getFieldValue(fieldType, "apiKey")}
-                  onChange={onMarkdownChange}
+                  onChange={onComponentFieldChange}
                 />
+              )}
+            {getFieldValue(fieldType, "type") === "Reference" &&
+              getFieldValue(fieldType, "display") === "Many References" && (
+                <div data-name={getFieldValue(fieldType, "apiKey")}>
+                  {entry[getFieldValue(fieldType, "apiKey")] &&
+                    entry[getFieldValue(fieldType, "apiKey")].length > 0 && (
+                      <SortableList
+                        items={entry[getFieldValue(fieldType, "apiKey")]}
+                        itemsRef={entries}
+                        onSortEnd={onSortEnd}
+                        // onRemoveField={onRemoveField}
+                        helperClass="sortable-list__item--helper"
+                      />
+                    )}
+
+                  <ReferenceManager
+                    references={entry[getFieldValue(fieldType, "apiKey")]}
+                    name={getFieldValue(fieldType, "apiKey")}
+                    onChange={onComponentFieldChange}
+                  />
+                </div>
               )}
 
             <span className="fieldHelpText">
