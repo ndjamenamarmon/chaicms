@@ -11,32 +11,48 @@ import {
   arrayMove
 } from "react-sortable-hoc";
 
-const SortableItem = SortableElement(({ value, entryId }) => (
-  <li className="sortable-list__item">{value}</li>
-));
+const SortableItem = SortableElement(
+  ({ value, entryId, onRemoveReference, fieldName }) => (
+    <li className="sortable-list__item">
+      <span>{value}</span>
+      <button
+        className="button button--link-dark"
+        data-id={entryId}
+        data-name={fieldName}
+        onClick={onRemoveReference}
+      >
+        Remove
+      </button>
+    </li>
+  )
+);
 
-const SortableList = SortableContainer(({ items, itemsRef }) => {
-  return (
-    <ul className="sortable-list">
-      {items.map((value, index) => (
-        <SortableItem
-          key={`item-${index}`}
-          index={index}
-          value={
-            itemsRef.find(ref => {
-              return ref.id === value;
-            }).title
-          }
-          entryId={
-            itemsRef.find(ref => {
-              return ref.id === value;
-            }).id
-          }
-        />
-      ))}
-    </ul>
-  );
-});
+const SortableList = SortableContainer(
+  ({ items, itemsRef, onRemoveReference, fieldName }) => {
+    return (
+      <ul className="sortable-list">
+        {items.map((value, index) => (
+          <SortableItem
+            key={`item-${index}`}
+            index={index}
+            value={
+              itemsRef.find(ref => {
+                return ref.id === value;
+              }).title
+            }
+            entryId={
+              itemsRef.find(ref => {
+                return ref.id === value;
+              }).id
+            }
+            fieldName={fieldName}
+            onRemoveReference={onRemoveReference}
+          />
+        ))}
+      </ul>
+    );
+  }
+);
 
 export const EntryForm = props => {
   const [contentType, setContentType] = useState(props.contentType);
@@ -170,6 +186,17 @@ export const EntryForm = props => {
     newEntry[fieldName] = newFieldValue;
     setEntry(newEntry);
   };
+  const onRemoveReference = e => {
+    const itemId = e.target.dataset.id;
+    const fieldName = e.target.dataset.name;
+    let newEntry = entry;
+    let newTags = newEntry[fieldName];
+    newTags = newTags.filter(tag => {
+      return tag !== itemId;
+    });
+    newEntry[fieldName] = newTags;
+    setEntry(newEntry);
+  };
   return (
     <form className="form" onSubmit={onSubmit}>
       {contentType.fields.map(fieldType => {
@@ -257,8 +284,9 @@ export const EntryForm = props => {
                       <SortableList
                         items={entry[getFieldValue(fieldType, "apiKey")]}
                         itemsRef={entries}
+                        fieldName={getFieldValue(fieldType, "apiKey")}
                         onSortEnd={onSortEnd}
-                        // onRemoveField={onRemoveField}
+                        onRemoveReference={onRemoveReference}
                         helperClass="sortable-list__item--helper"
                       />
                     )}
