@@ -198,118 +198,130 @@ export const EntryForm = props => {
     setEntry(newEntry);
   };
   return (
-    <form className="form" onSubmit={onSubmit}>
-      {contentType.fields.map(fieldType => {
-        return (
-          <div key={fieldType}>
-            <label className="label">
-              {getFieldValue(fieldType, "name")}
-              {getFieldValue(fieldType, "isRequired") && (
-                <span className="fieldRequired">Required</span>
-              )}
+    <form className="form content-container--two-panel" onSubmit={onSubmit}>
+      <div class="content-container__main-panel">
+        {contentType.fields.map(fieldType => {
+          return (
+            <div key={fieldType}>
+              <label className="label">
+                {getFieldValue(fieldType, "name")}
+                {getFieldValue(fieldType, "isRequired") && (
+                  <span className="fieldRequired">Required</span>
+                )}
 
-              {getFieldValue(fieldType, "type") === "Short Text" &&
-                getFieldValue(fieldType, "display") === "Single line" && (
-                  <input
-                    type="text"
-                    className="text-input"
-                    data-type={
-                      contentType.titleField ===
-                      getFieldValue(fieldType, "apiKey")
-                        ? "Title"
-                        : "Single Line"
-                    }
+                {getFieldValue(fieldType, "type") === "Short Text" &&
+                  getFieldValue(fieldType, "display") === "Single line" && (
+                    <input
+                      type="text"
+                      className="text-input"
+                      data-type={
+                        contentType.titleField ===
+                        getFieldValue(fieldType, "apiKey")
+                          ? "Title"
+                          : "Single Line"
+                      }
+                      data-isunique={getFieldValue(fieldType, "isRequired")}
+                      name={getFieldValue(fieldType, "apiKey")}
+                      value={entry[getFieldValue(fieldType, "apiKey")]}
+                      onChange={onFieldChange}
+                    />
+                  )}
+                {getFieldValue(fieldType, "type") === "Short Text" &&
+                  getFieldValue(fieldType, "display") === "Slug" && (
+                    <input
+                      type="text"
+                      className="text-input"
+                      data-isunique={getFieldValue(fieldType, "isRequired")}
+                      name={getFieldValue(fieldType, "apiKey")}
+                      value={entry[getFieldValue(fieldType, "apiKey")]}
+                      onChange={onFieldChange}
+                    />
+                  )}
+                {getFieldValue(fieldType, "type") === "Date and Time" &&
+                  getFieldValue(fieldType, "display") === "Date only" && (
+                    <SingleDatePickerField
+                      date={
+                        entry[getFieldValue(fieldType, "apiKey")]
+                          ? moment(entry[getFieldValue(fieldType, "apiKey")])
+                          : moment()
+                      }
+                      name={getFieldValue(fieldType, "apiKey")}
+                      onChange={onComponentFieldChange}
+                    />
+                  )}
+              </label>
+
+              {getFieldValue(fieldType, "type") === "Long Text" &&
+                getFieldValue(fieldType, "display") === "Multiple line" && (
+                  <textarea
+                    className="textarea textarea--markdown"
                     data-isunique={getFieldValue(fieldType, "isRequired")}
                     name={getFieldValue(fieldType, "apiKey")}
                     value={entry[getFieldValue(fieldType, "apiKey")]}
                     onChange={onFieldChange}
                   />
                 )}
-              {getFieldValue(fieldType, "type") === "Short Text" &&
-                getFieldValue(fieldType, "display") === "Slug" && (
-                  <input
-                    type="text"
-                    className="text-input"
-                    data-isunique={getFieldValue(fieldType, "isRequired")}
-                    name={getFieldValue(fieldType, "apiKey")}
-                    value={entry[getFieldValue(fieldType, "apiKey")]}
-                    onChange={onFieldChange}
-                  />
-                )}
-              {getFieldValue(fieldType, "type") === "Date and Time" &&
-                getFieldValue(fieldType, "display") === "Date only" && (
-                  <SingleDatePickerField
-                    date={
-                      entry[getFieldValue(fieldType, "apiKey")]
-                        ? moment(entry[getFieldValue(fieldType, "apiKey")])
-                        : moment()
-                    }
+              {getFieldValue(fieldType, "type") === "Long Text" &&
+                getFieldValue(fieldType, "display") === "Markdown" && (
+                  <MarkdownEditor
+                    initialValue={entry[getFieldValue(fieldType, "apiKey")]}
                     name={getFieldValue(fieldType, "apiKey")}
                     onChange={onComponentFieldChange}
                   />
                 )}
-            </label>
-
-            {getFieldValue(fieldType, "type") === "Long Text" &&
-              getFieldValue(fieldType, "display") === "Multiple line" && (
-                <textarea
-                  className="textarea textarea--markdown"
-                  data-isunique={getFieldValue(fieldType, "isRequired")}
-                  name={getFieldValue(fieldType, "apiKey")}
-                  value={entry[getFieldValue(fieldType, "apiKey")]}
-                  onChange={onFieldChange}
-                />
-              )}
-            {getFieldValue(fieldType, "type") === "Long Text" &&
-              getFieldValue(fieldType, "display") === "Markdown" && (
-                <MarkdownEditor
-                  initialValue={entry[getFieldValue(fieldType, "apiKey")]}
-                  name={getFieldValue(fieldType, "apiKey")}
-                  onChange={onComponentFieldChange}
-                />
-              )}
-            {getFieldValue(fieldType, "type") === "Long Text" &&
-              getFieldValue(fieldType, "display") === "Rich HTML" && (
-                <HtmlEditor
-                  initialValue={entry[getFieldValue(fieldType, "apiKey")]}
-                  name={getFieldValue(fieldType, "apiKey")}
-                  onChange={onComponentFieldChange}
-                />
-              )}
-            {getFieldValue(fieldType, "type") === "Reference" &&
-              getFieldValue(fieldType, "display") === "Many References" && (
-                <div data-name={getFieldValue(fieldType, "apiKey")}>
-                  {entry[getFieldValue(fieldType, "apiKey")] &&
-                    entry[getFieldValue(fieldType, "apiKey")].length > 0 && (
-                      <SortableList
-                        items={entry[getFieldValue(fieldType, "apiKey")]}
-                        itemsRef={entries}
-                        fieldName={getFieldValue(fieldType, "apiKey")}
-                        onSortEnd={onSortEnd}
-                        onRemoveReference={onRemoveReference}
-                        helperClass="sortable-list__item--helper"
-                      />
-                    )}
-
-                  <ReferenceManager
-                    references={entry[getFieldValue(fieldType, "apiKey")]}
+              {getFieldValue(fieldType, "type") === "Long Text" &&
+                getFieldValue(fieldType, "display") === "Rich HTML" && (
+                  <HtmlEditor
+                    initialValue={entry[getFieldValue(fieldType, "apiKey")]}
                     name={getFieldValue(fieldType, "apiKey")}
                     onChange={onComponentFieldChange}
                   />
-                </div>
-              )}
+                )}
+              {getFieldValue(fieldType, "type") === "Reference" &&
+                getFieldValue(fieldType, "display") === "Many References" && (
+                  <div data-name={getFieldValue(fieldType, "apiKey")}>
+                    {entry[getFieldValue(fieldType, "apiKey")] &&
+                      entry[getFieldValue(fieldType, "apiKey")].length > 0 && (
+                        <SortableList
+                          items={entry[getFieldValue(fieldType, "apiKey")]}
+                          itemsRef={entries}
+                          fieldName={getFieldValue(fieldType, "apiKey")}
+                          onSortEnd={onSortEnd}
+                          onRemoveReference={onRemoveReference}
+                          helperClass="sortable-list__item--helper"
+                        />
+                      )}
 
-            <span className="fieldHelpText">
-              {getFieldValue(fieldType, "helpText")}
-            </span>
-            {fieldError.field === getFieldValue(fieldType, "apiKey") && (
-              <p className="form__error">{fieldError.message}</p>
-            )}
-          </div>
-        );
-      })}
-      <div>
-        <button className="button">Save {contentType.title}</button>
+                    <ReferenceManager
+                      references={entry[getFieldValue(fieldType, "apiKey")]}
+                      name={getFieldValue(fieldType, "apiKey")}
+                      onChange={onComponentFieldChange}
+                    />
+                  </div>
+                )}
+
+              <span className="fieldHelpText">
+                {getFieldValue(fieldType, "helpText")}
+              </span>
+              {fieldError.field === getFieldValue(fieldType, "apiKey") && (
+                <p className="form__error">{fieldError.message}</p>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div class="content-container__action-panel">
+        <button className="button action-panel__button">
+          Save {contentType.title}
+        </button>
+        {props.onRemove && (
+          <button
+            className="button button--secondary action-panel__button"
+            onClick={props.onRemove}
+          >
+            Delete Entry
+          </button>
+        )}
         {error && <span className="form__error">{error}</span>}
         {success && <span className="form__success">{success}</span>}
       </div>

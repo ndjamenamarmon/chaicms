@@ -23,18 +23,16 @@ export class EditEntryPage extends React.Component {
             </h1>
           </div>
         </div>
-        <div className="content-container content-container--centered">
+        <div className="content-container">
           <EntryForm
             entry={this.props.entry}
             onSubmit={this.onSubmit}
+            onRemove={this.onRemove}
             contentType={this.props.contentType}
             fields={this.props.fields}
             entries={this.props.entries}
             currentUser={this.props.currentUser}
           />
-          <button className="button button--secondary" onClick={this.onRemove}>
-            Delete Entry
-          </button>
         </div>
       </div>
     );

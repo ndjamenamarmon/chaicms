@@ -28,7 +28,7 @@ export class AddEntryPage extends React.Component {
             </h1>
           </div>
         </div>
-        <div className="content-container content-container--centered">
+        <div className="content-container">
           <EntryForm
             onSubmit={this.onSubmit}
             contentType={this.props.contentType}
