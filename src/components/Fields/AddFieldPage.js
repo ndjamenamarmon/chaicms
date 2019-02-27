@@ -16,7 +16,7 @@ export class AddFieldPage extends React.Component {
             <h1 className="page-header__title">Add Field</h1>
           </div>
         </div>
-        <div className="content-container content-container--centered">
+        <div className="content-container">
           <FieldForm
             fields={this.props.fields}
             currentUser={this.props.currentUser}
