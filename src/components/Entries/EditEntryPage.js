@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import EntryForm from "./EntryForm";
 import { startEditEntry, startRemoveEntry } from "../../actions/entries";
@@ -21,6 +22,12 @@ export class EditEntryPage extends React.Component {
             <h1 className="page-header__title">
               Edit {this.props.contentType.title}
             </h1>
+            <Link
+              className="page-header__actions"
+              to={`/entry/${this.props.contentType.apiKey}`}
+            >
+              &laquo; Back
+            </Link>
           </div>
         </div>
         <div className="content-container">

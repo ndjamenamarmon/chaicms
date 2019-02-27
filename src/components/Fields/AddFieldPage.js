@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import FieldForm from "./FieldForm.js";
 import { startAddField } from "../../actions/fields";
@@ -14,6 +15,9 @@ export class AddFieldPage extends React.Component {
         <div className="page-header">
           <div className="content-container">
             <h1 className="page-header__title">Add Field</h1>
+            <Link className="page-header__actions" to={`/fields`}>
+              &laquo; Back
+            </Link>
           </div>
         </div>
         <div className="content-container">

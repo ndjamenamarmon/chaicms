@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ContentTypeForm from "./ContentTypeForm";
 import {
@@ -22,6 +23,9 @@ export class EditContentTypePage extends React.Component {
         <div className="page-header">
           <div className="content-container">
             <h1 className="page-header__title">Edit Content Type</h1>
+            <Link className="page-header__actions" to={`/content-types`}>
+              &laquo; Back
+            </Link>
           </div>
         </div>
         <div className="content-container">
