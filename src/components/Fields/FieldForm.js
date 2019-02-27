@@ -137,7 +137,7 @@ export default class FieldForm extends React.Component {
         className="form content-container--two-panel"
         onSubmit={this.onSubmit}
       >
-        <div class="content-container__main-panel">
+        <div className="content-container__main-panel">
           <label className="label">
             Field Name <span className="fieldRequired">Required</span>
             <input
@@ -274,7 +274,7 @@ export default class FieldForm extends React.Component {
             Unique field
           </label>
         </div>
-        <div class="content-container__action-panel">
+        <div className="content-container__action-panel">
           <button className="button action-panel__button">Save Field</button>
           {this.props.onRemove && (
             <button

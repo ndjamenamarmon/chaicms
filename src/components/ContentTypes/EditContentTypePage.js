@@ -24,17 +24,15 @@ export class EditContentTypePage extends React.Component {
             <h1 className="page-header__title">Edit Content Type</h1>
           </div>
         </div>
-        <div className="content-container content-container--centered">
+        <div className="content-container">
           <ContentTypeForm
             contentType={this.props.contentType}
             contentTypes={this.props.contentTypes}
             fields={this.props.fields}
             currentUser={this.props.currentUser}
             onSubmit={this.onSubmit}
+            onRemove={this.onRemove}
           />
-          <button className="button button--secondary" onClick={this.onRemove}>
-            Delete Content Type
-          </button>
         </div>
       </div>
     );

@@ -21,7 +21,7 @@ export class AddContentTypePage extends React.Component {
             <h1 className="page-header__title">Add Content Type</h1>
           </div>
         </div>
-        <div className="content-container content-container--centered">
+        <div className="content-container">
           <ContentTypeForm
             fields={this.props.fields}
             contentTypes={this.props.contentTypes}

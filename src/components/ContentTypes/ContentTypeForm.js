@@ -185,39 +185,38 @@ export const ContentTypeForm = props => {
     }
   };
   return (
-    <form className="form" onSubmit={onSubmit}>
-      {error && <p className="form__error">{error}</p>}
-      {/* {success && <p className="form__success">{success}</p>} */}
-      <input
-        className="text-input"
-        type="text"
-        placeholder="Title"
-        autoFocus
-        value={title}
-        onChange={onTitleChange}
-      />
-      <input
-        className="text-input"
-        type="text"
-        placeholder="API Key"
-        value={apiKey}
-        onChange={onApiKeyChange}
-        readOnly={props.contentType}
-      />
-      {apiKeyError && <p className="form__error">{apiKeyError}</p>}
-      <div className="fields-header">
-        <strong>Fields ({fields.length})</strong>
-        <button
-          className="button button--secondary"
-          onClick={e => {
-            e.preventDefault();
-            setModalIsOpen(true);
-          }}
-        >
-          Manage Fields
-        </button>
-      </div>
-      {/* {fields.map(field => {
+    <form className="form content-container--two-panel" onSubmit={onSubmit}>
+      <div className="content-container__main-panel">
+        <input
+          className="text-input"
+          type="text"
+          placeholder="Title"
+          autoFocus
+          value={title}
+          onChange={onTitleChange}
+        />
+        <input
+          className="text-input"
+          type="text"
+          placeholder="API Key"
+          value={apiKey}
+          onChange={onApiKeyChange}
+          readOnly={props.contentType}
+        />
+        {apiKeyError && <p className="form__error">{apiKeyError}</p>}
+        <div className="fields-header">
+          <strong>Fields ({fields.length})</strong>
+          <button
+            className="button button--secondary"
+            onClick={e => {
+              e.preventDefault();
+              setModalIsOpen(true);
+            }}
+          >
+            Manage Fields
+          </button>
+        </div>
+        {/* {fields.map(field => {
           return (
               <div>
                 {
@@ -228,14 +227,14 @@ export const ContentTypeForm = props => {
               </div>
           );
         })} */}
-      <SortableList
-        items={fields}
-        itemsRef={props.fields}
-        onSortEnd={onSortEnd}
-        onRemoveField={onRemoveField}
-        helperClass="sortable-list__item--helper"
-      />
-      {/* <button
+        <SortableList
+          items={fields}
+          itemsRef={props.fields}
+          onSortEnd={onSortEnd}
+          onRemoveField={onRemoveField}
+          helperClass="sortable-list__item--helper"
+        />
+        {/* <button
         className="button button--secondary"
         onClick={e => {
           e.preventDefault();
@@ -244,106 +243,122 @@ export const ContentTypeForm = props => {
       >
         Manage Fields
       </button> */}
-      <Modal
-        style={{ overlay: { backgroundColor: "rgba(0, 0, 0, 0.75)" } }}
-        isOpen={modalIsOpen}
-        onRequestClose={() => {
-          setModalIsOpen(false);
-        }}
-        contentLabel="Manage Fields"
-        closeTimeoutMS={200}
-        className="modal"
-      >
-        <h3 className="modal__title">Manage Fields</h3>
-        <div className="modal__body">
-          <div className="manage-fields">
-            <div className="manage-fields__unselected">
-              <strong>Available Fields</strong>
-              {props.fields &&
-                props.fields.map(field => {
-                  const showStyles = {
-                    display: fields.includes(field.apiKey) ? "none" : "flex"
-                  };
-                  return (
-                    <label className="label" key={field.id} style={showStyles}>
-                      <input
-                        type="checkbox"
-                        className="checkbox"
-                        value={field.apiKey}
-                        onChange={onFieldChange}
-                        checked={fields.includes(field.apiKey)}
-                      />{" "}
-                      <AddIcon width="20px" height="20px" />
-                      <span>{field.name}</span>
-                    </label>
-                  );
-                })}
-            </div>
-            <div className="manage-fields__selected">
-              <strong>Selected Fields</strong>
-              <SortableList
-                items={fields}
-                itemsRef={props.fields}
-                onSortEnd={onSortEnd}
-                onRemoveField={onRemoveField}
-                helperClass="sortable-list__item--helper"
-              />
-            </div>
-          </div>
-          <button
-            className="button"
-            onClick={() => {
-              setModalIsOpen(false);
-            }}
-          >
-            Done
-          </button>{" "}
-          <button
-            className="button button--secondary"
-            onClick={() => {
-              setModalIsOpen(false);
-            }}
-          >
-            Cancel
-          </button>
-        </div>
-      </Modal>
-      <label className="label">
-        Title Field <span className="fieldRequired">Required</span>
-        <select
-          className="select select--fullWidth"
-          value={titleField}
-          onChange={onTitleFieldChange}
+        <Modal
+          style={{ overlay: { backgroundColor: "rgba(0, 0, 0, 0.75)" } }}
+          isOpen={modalIsOpen}
+          onRequestClose={() => {
+            setModalIsOpen(false);
+          }}
+          contentLabel="Manage Fields"
+          closeTimeoutMS={200}
+          className="modal"
         >
-          <option value="">
-            Choose a required field to be the entry title...
-          </option>
-          {fields.map(field => {
-            if (
-              props.fields.find(propField => {
+          <h3 className="modal__title">Manage Fields</h3>
+          <div className="modal__body">
+            <div className="manage-fields">
+              <div className="manage-fields__unselected">
+                <strong>Available Fields</strong>
+                {props.fields &&
+                  props.fields.map(field => {
+                    const showStyles = {
+                      display: fields.includes(field.apiKey) ? "none" : "flex"
+                    };
+                    return (
+                      <label
+                        className="label"
+                        key={field.id}
+                        style={showStyles}
+                      >
+                        <input
+                          type="checkbox"
+                          className="checkbox"
+                          value={field.apiKey}
+                          onChange={onFieldChange}
+                          checked={fields.includes(field.apiKey)}
+                        />{" "}
+                        <AddIcon width="20px" height="20px" />
+                        <span>{field.name}</span>
+                      </label>
+                    );
+                  })}
+              </div>
+              <div className="manage-fields__selected">
+                <strong>Selected Fields</strong>
+                <SortableList
+                  items={fields}
+                  itemsRef={props.fields}
+                  onSortEnd={onSortEnd}
+                  onRemoveField={onRemoveField}
+                  helperClass="sortable-list__item--helper"
+                />
+              </div>
+            </div>
+            <button
+              className="button"
+              onClick={() => {
+                setModalIsOpen(false);
+              }}
+            >
+              Done
+            </button>{" "}
+            <button
+              className="button button--secondary"
+              onClick={() => {
+                setModalIsOpen(false);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </Modal>
+        <label className="label">
+          Title Field <span className="fieldRequired">Required</span>
+          <select
+            className="select select--fullWidth"
+            value={titleField}
+            onChange={onTitleFieldChange}
+          >
+            <option value="">
+              Choose a required field to be the entry title...
+            </option>
+            {fields.map(field => {
+              if (
+                props.fields.find(propField => {
+                  return (
+                    propField.apiKey === field && propField.isRequired === true
+                  );
+                })
+              ) {
                 return (
-                  propField.apiKey === field && propField.isRequired === true
+                  <option key={field} value={field}>
+                    {
+                      props.fields.find(propField => {
+                        return (
+                          propField.apiKey === field &&
+                          propField.isRequired === true
+                        );
+                      }).name
+                    }
+                  </option>
                 );
-              })
-            ) {
-              return (
-                <option key={field} value={field}>
-                  {
-                    props.fields.find(propField => {
-                      return (
-                        propField.apiKey === field &&
-                        propField.isRequired === true
-                      );
-                    }).name
-                  }
-                </option>
-              );
-            }
-          })}
-        </select>
-      </label>
-      <div>
-        <button className="button">Save Content Type</button>
+              }
+            })}
+          </select>
+        </label>
+      </div>
+      <div className="content-container__action-panel">
+        <button className="button action-panel__button">
+          Save Content Type
+        </button>
+        {props.onRemove && (
+          <button
+            className="button button--secondary action-panel__button"
+            onClick={props.onRemove}
+          >
+            Delete Content Type
+          </button>
+        )}
+        {error && <p className="form__error">{error}</p>}
       </div>
     </form>
   );

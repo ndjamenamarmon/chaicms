@@ -199,7 +199,7 @@ export const EntryForm = props => {
   };
   return (
     <form className="form content-container--two-panel" onSubmit={onSubmit}>
-      <div class="content-container__main-panel">
+      <div className="content-container__main-panel">
         {contentType.fields.map(fieldType => {
           return (
             <div key={fieldType}>
@@ -310,7 +310,7 @@ export const EntryForm = props => {
           );
         })}
       </div>
-      <div class="content-container__action-panel">
+      <div className="content-container__action-panel">
         <button className="button action-panel__button">
           Save {contentType.title}
         </button>
