@@ -7,11 +7,15 @@
   }
   &--two-panel,
   &--two-panel.form {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
+    @media (min-width: $desktop-breakpoint) {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+    }
   }
 
   &__action-panel {
-    padding-left: $m-size;
+    @media (min-width: $desktop-breakpoint) {
+      padding-left: $m-size;
+    }
   }
 }
