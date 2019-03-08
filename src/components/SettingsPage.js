@@ -2,8 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-import SettingsForm from "./SettingsForm";
-import InviteCodesForm from "./InviteCodesForm";
+import SettingsForm from "./Settings/SettingsForm";
+import InviteCodesForm from "./Settings/InviteCodesForm";
+import UserSettingsForm from "./Settings/UserSettingsForm";
 import { startEditSettings } from "../actions/settings";
 import {
   startAddInviteCode,
@@ -25,7 +26,7 @@ export class SettingsPage extends React.Component {
       <div>
         <div className="page-header">
           <div className="content-container">
-            <h1 className="page-header__title">Settings</h1>
+            <h2 className="page-header__title">Settings</h2>
           </div>
         </div>
 
@@ -33,6 +34,7 @@ export class SettingsPage extends React.Component {
           <TabList>
             <Tab>General Settings</Tab>
             {this.props.settings.requireInviteCodes && <Tab>Invite Codes</Tab>}
+            <Tab>User Settings</Tab>
           </TabList>
 
           <TabPanel>
@@ -54,6 +56,20 @@ export class SettingsPage extends React.Component {
               </div>
             </TabPanel>
           )}
+          <TabPanel>
+            <div className="content-container content-container--centered">
+              <h3>Authentication Methods</h3>
+              <ul>
+                <li>Email/Password</li>
+                <li>Phone</li>
+                <li>Google</li>
+                <li>Facebook</li>
+                <li>Twitter</li>
+                <li>Github</li>
+              </ul>
+              <UserSettingsForm />
+            </div>
+          </TabPanel>
         </Tabs>
       </div>
     );
