@@ -12,14 +12,19 @@ const EntryListItem = props => {
   const [references, setReferences] = useState(
     props.references ? props.references : []
   );
+  const [reference, setReference] = useState(
+    props.references ? props.references : ""
+  );
   const onFieldChange = e => {
     const item = e.target.value;
     const value = e.target.checked ? e.target.value : null;
     const updatedReferences = props.handleChange(item, value);
-    // console.log(value);
-    // console.log("entry list item onFieldChange", props.references);
-    // setReferences(props.references);
-    setReferences(updatedReferences);
+
+    if (props.type === "many") {
+      setReferences(updatedReferences);
+    } else if (props.type === "one") {
+      setReference(updatedReferences);
+    }
   };
   return (
     <tr>
@@ -31,7 +36,7 @@ const EntryListItem = props => {
             <p className="list-item__title">{props.entry.title}</p>
           </Link>
         )}
-        {props.display === "referenceManager" && (
+        {props.display === "referenceManager" && props.type === "many" && (
           <label className="label">
             <input
               type="checkbox"
@@ -39,6 +44,18 @@ const EntryListItem = props => {
               value={props.entry.id}
               onChange={onFieldChange}
               checked={references ? references.includes(props.entry.id) : false}
+            />{" "}
+            <span>{props.entry.title}</span>
+          </label>
+        )}
+        {props.display === "referenceManager" && props.type === "one" && (
+          <label className="label">
+            <input
+              type="radio"
+              className="checkbox"
+              value={props.entry.id}
+              onChange={onFieldChange}
+              checked={props.references === props.entry.id ? true : false}
             />{" "}
             <span>{props.entry.title}</span>
           </label>

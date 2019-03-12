@@ -93,7 +93,7 @@ export const EntryForm = props => {
     });
 
     let success = "";
-    if (!errors.length === 0) {
+    if (errors.length === 0) {
       success = "Entry saved successfully.";
     }
     setSuccess(success);
@@ -208,6 +208,12 @@ export const EntryForm = props => {
     newEntry[fieldName] = newTags;
     setEntry(newEntry);
   };
+  const onRemoveOneReference = e => {
+    const fieldName = e.target.dataset.name;
+    let newEntry = entry;
+    newEntry[fieldName] = "";
+    setEntry(newEntry);
+  };
   return (
     <form className="form content-container--two-panel" onSubmit={onSubmit}>
       <div className="content-container__main-panel">
@@ -317,6 +323,42 @@ export const EntryForm = props => {
                         )}
 
                       <ReferenceManager
+                        type="many"
+                        references={entry[getFieldValue(fieldType, "apiKey")]}
+                        name={getFieldValue(fieldType, "apiKey")}
+                        onChange={onComponentFieldChange}
+                      />
+                    </div>
+                  </div>
+                )}
+
+              {getFieldValue(fieldType, "type") === "Reference" &&
+                getFieldValue(fieldType, "display") === "One Reference" && (
+                  <div>
+                    <div data-name={getFieldValue(fieldType, "apiKey")}>
+                      {entry[getFieldValue(fieldType, "apiKey")] && (
+                        <div>
+                          <span>
+                            {entries.map(singleEntry => {
+                              if (
+                                singleEntry.id ===
+                                entry[getFieldValue(fieldType, "apiKey")]
+                              ) {
+                                return singleEntry.title;
+                              }
+                            })}
+                          </span>
+                          <button
+                            className="button button--link-dark"
+                            data-name={getFieldValue(fieldType, "apiKey")}
+                            onClick={onRemoveOneReference}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      )}
+                      <ReferenceManager
+                        type="one"
                         references={entry[getFieldValue(fieldType, "apiKey")]}
                         name={getFieldValue(fieldType, "apiKey")}
                         onChange={onComponentFieldChange}

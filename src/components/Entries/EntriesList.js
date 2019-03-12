@@ -28,6 +28,7 @@ export const EntriesList = props => {
               contentType: props.contentType,
               users: props.users,
               display: props.display ? props.display : "",
+              type: props.type ? props.type : "",
               handleChange: props.handleChange,
               references: props.references
             };

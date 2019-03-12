@@ -14,16 +14,23 @@ class ReferenceManager extends Component {
   }
 
   handleChange(item, value) {
-    let oldReferences = this.props.references ? this.props.references : [];
-    let newReferences = oldReferences;
+    let newReferences;
 
-    if (value) {
-      newReferences.push(item);
-    } else {
-      newReferences = oldReferences.filter(function(value, index, arr) {
-        return value !== item;
-      });
+    if (this.props.type === "many") {
+      let oldReferences = this.props.references ? this.props.references : [];
+      newReferences = oldReferences;
+
+      if (value) {
+        newReferences.push(item);
+      } else {
+        newReferences = oldReferences.filter(function(value, index, arr) {
+          return value !== item;
+        });
+      }
+    } else if (this.props.type === "one") {
+      newReferences = item;
     }
+
     this.props.onChange(newReferences, this.props.name);
     return newReferences;
   }
@@ -38,7 +45,8 @@ class ReferenceManager extends Component {
             this.setState({ modalIsOpen: true });
           }}
         >
-          Link to entries
+          {this.props.type === "many" && <span>Link to entries</span>}
+          {this.props.type === "one" && <span>Link to entry</span>}
         </button>
 
         <Modal
@@ -53,10 +61,16 @@ class ReferenceManager extends Component {
           closeTimeoutMS={200}
           className="modal"
         >
-          <h3 className="modal__title">Manage References</h3>
+          {this.props.type === "many" && (
+            <h3 className="modal__title">Manage References</h3>
+          )}
+          {this.props.type === "one" && (
+            <h3 className="modal__title">Manage Reference</h3>
+          )}
           <div className="modal__body">
             <EntriesList
               display="referenceManager"
+              type={this.props.type}
               references={this.props.references}
               handleChange={this.handleChange}
             />
