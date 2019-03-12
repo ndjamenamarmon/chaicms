@@ -9,6 +9,11 @@
 .form__error {
   margin: 0 0 $m-size $s-size;
   font-style: italic;
+
+  &--inline {
+    margin: 0;
+    font-size: $font-size-small;
+  }
 }
 
 .form__success {
