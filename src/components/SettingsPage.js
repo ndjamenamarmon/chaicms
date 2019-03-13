@@ -59,14 +59,6 @@ export class SettingsPage extends React.Component {
           <TabPanel>
             <div className="content-container content-container--centered">
               <h3>Authentication Methods</h3>
-              <ul>
-                <li>Email/Password</li>
-                <li>Phone</li>
-                <li>Google</li>
-                <li>Facebook</li>
-                <li>Twitter</li>
-                <li>Github</li>
-              </ul>
               <UserSettingsForm />
             </div>
           </TabPanel>
