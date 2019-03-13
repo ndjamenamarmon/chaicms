@@ -59,7 +59,10 @@ export class SettingsPage extends React.Component {
           <TabPanel>
             <div className="content-container content-container--centered">
               <h3>Authentication Methods</h3>
-              <UserSettingsForm />
+              <UserSettingsForm
+                settings={this.props.settings}
+                onSubmit={this.onSubmit}
+              />
             </div>
           </TabPanel>
         </Tabs>
