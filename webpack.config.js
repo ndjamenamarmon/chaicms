@@ -98,7 +98,35 @@ module.exports = env => {
     devServer: {
       contentBase: path.join(__dirname, "public"),
       historyApiFallback: true,
-      publicPath: "/dist/"
+      publicPath: "/dist/",
+      proxy: {
+        "/api": {
+          changeOrigin: true,
+          cookieDomainRewrite: "localhost",
+          target: env.serverTarget,
+          onProxyReq: proxyReq => {
+            // Browers may send Origin headers even with same-origin
+            // requests. To prevent CORS issues, we have to change
+            // the Origin to match the target URL.
+            if (proxyReq.getHeader("origin")) {
+              proxyReq.setHeader("origin", env.serverTarget);
+            }
+          }
+        },
+        "/auth": {
+          changeOrigin: true,
+          cookieDomainRewrite: "localhost",
+          target: env.serverTarget,
+          onProxyReq: proxyReq => {
+            // Browers may send Origin headers even with same-origin
+            // requests. To prevent CORS issues, we have to change
+            // the Origin to match the target URL.
+            if (proxyReq.getHeader("origin")) {
+              proxyReq.setHeader("origin", env.serverTarget);
+            }
+          }
+        }
+      }
     }
   };
 };

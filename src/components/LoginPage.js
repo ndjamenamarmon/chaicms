@@ -12,6 +12,9 @@ export const LoginPage = ({ startLogin, settings }) => (
       <button className="button" onClick={startLogin}>
         Login with Google
       </button>
+      <a className="button" href="/auth/google">
+        Login with Google - New.
+      </a>
     </div>
   </div>
 );

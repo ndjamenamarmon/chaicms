@@ -8,11 +8,19 @@ module.exports = app => {
     })
   );
 
-  app.get("/auth/google/callback", passport.authenticate("google"));
+  app.get(
+    "/auth/google/callback",
+    passport.authenticate("google"),
+    (req, res) => {
+      // res.redirect("/dashboard");
+      res.redirect("/dashboard");
+    }
+  );
 
   app.get("/api/logout", (req, res) => {
     req.logout(); // takes the cookie with id and kills it
-    res.send(req.user); // give response back to the user, response is empty because req.user is empty
+    res.redirect("/");
+    // res.redirect("/");
   });
 
   app.get("/api/current_user", (req, res) => {

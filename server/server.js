@@ -12,7 +12,11 @@ mongoose.connect(keys.mongoURI);
 const app = express();
 
 const publicPath = path.join(__dirname, "..", "public");
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8081;
+
+app.get("/api/test", (req, res) => {
+  res.send("the api is up!");
+});
 
 app.use(express.static(publicPath));
 app.use(
