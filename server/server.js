@@ -29,6 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes/authRoutes")(app);
+require("./routes/apiRoutes")(app);
 app.get("*", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
 });

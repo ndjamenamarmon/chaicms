@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import { Router, Route, Switch } from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
 import DashboardPage from "../components/DashboardPage";
@@ -28,88 +29,105 @@ import UsersPage from "../components/Users/UsersPage";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 
+import { startLogin } from "../actions/auth";
+
 export const history = createHistory();
 
-const AppRouter = () => (
-  <Router history={history}>
-    <div>
-      <Switch>
-        <PublicRoute path="/" component={LoginPage} exact={true} />
-        <Route path="/registration" component={RegistrationPage} />
-        <PrivateRoute
-          path="/dashboard"
-          component={DashboardPage}
-          accessRole={[
-            "member",
-            "author",
-            "editor",
-            "developer",
-            "admin",
-            "owner"
-          ]}
-        />
-        <PrivateRoute
-          path="/content-types"
-          component={ContentTypesPage}
-          exact={true}
-          accessRole={["developer", "admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/content-types/add"
-          component={AddContentTypePage}
-          accessRole={["developer", "admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/content-types/edit/:id"
-          component={EditContentTypePage}
-          accessRole={["developer", "admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/fields"
-          component={FieldsPage}
-          exact={true}
-          accessRole={["developer", "admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/fields/add"
-          component={AddFieldPage}
-          accessRole={["developer", "admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/fields/edit/:id"
-          component={EditFieldPage}
-          accessRole={["developer", "admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/entry/:slug"
-          component={EntriesPage}
-          exact={true}
-          accessRole={["author", "editor", "developer", "admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/entry/:slug/add"
-          component={AddEntryPage}
-          accessRole={["author", "editor", "developer", "admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/entry/:slug/edit/:id"
-          component={EditEntryPage}
-          accessRole={["author", "editor", "developer", "admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/users"
-          component={UsersPage}
-          accessRole={["admin", "owner"]}
-        />
-        <PrivateRoute
-          path="/settings"
-          component={SettingsPage}
-          accessRole={["admin", "owner"]}
-        />
-        <Route component={NotFoundPage} />
-      </Switch>
-    </div>
-  </Router>
-);
+const AppRouter = props => {
+  useEffect(() => {
+    console.log("useEffect");
+    props.startLogin();
+  });
+  return (
+    <Router history={history}>
+      <div>
+        <Switch>
+          <PublicRoute path="/" component={LoginPage} exact={true} />
+          <Route path="/registration" component={RegistrationPage} />
+          <PrivateRoute
+            path="/dashboard"
+            component={DashboardPage}
+            accessRole={[
+              "member",
+              "author",
+              "editor",
+              "developer",
+              "admin",
+              "owner"
+            ]}
+          />
+          <PrivateRoute
+            path="/content-types"
+            component={ContentTypesPage}
+            exact={true}
+            accessRole={["developer", "admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/content-types/add"
+            component={AddContentTypePage}
+            accessRole={["developer", "admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/content-types/edit/:id"
+            component={EditContentTypePage}
+            accessRole={["developer", "admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/fields"
+            component={FieldsPage}
+            exact={true}
+            accessRole={["developer", "admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/fields/add"
+            component={AddFieldPage}
+            accessRole={["developer", "admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/fields/edit/:id"
+            component={EditFieldPage}
+            accessRole={["developer", "admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/entry/:slug"
+            component={EntriesPage}
+            exact={true}
+            accessRole={["author", "editor", "developer", "admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/entry/:slug/add"
+            component={AddEntryPage}
+            accessRole={["author", "editor", "developer", "admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/entry/:slug/edit/:id"
+            component={EditEntryPage}
+            accessRole={["author", "editor", "developer", "admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/users"
+            component={UsersPage}
+            accessRole={["admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/settings"
+            component={SettingsPage}
+            accessRole={["admin", "owner"]}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
 
-export default AppRouter;
+const mapDispatchToProps = dispatch => {
+  return {
+    startLogin: () => dispatch(startLogin())
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(AppRouter);

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import AppRouter, { history } from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
-import { login, logout } from "./actions/auth";
+import { startLogin, login, logout } from "./actions/auth";
 import { startSetSettings } from "./actions/settings";
 import { startSetContentTypes } from "./actions/contentTypes";
 import { startSetFields } from "./actions/fields";
@@ -39,14 +39,10 @@ const renderApp = () => {
 
 ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
-firebase.auth().onAuthStateChanged(user => {
-  if (user) {
-    console.log(user);
-    store.dispatch(startAddUserRoles()).then(() => {
-      store.dispatch(
-        login(user.uid, user.displayName, user.email, user.photoURL)
-      );
-    });
+store.dispatch(startLogin()).then(() => {
+  console.log(store.getState().auth);
+  if (store.getState().auth) {
+    store.dispatch(startAddUserRoles());
 
     // TO DO: Do not dispatch all this until the user is past the registration screen; ping the db api directly for checking the invite code
     store.dispatch(startSetUsers()).then(() => {
@@ -65,12 +61,41 @@ firebase.auth().onAuthStateChanged(user => {
         });
       });
     });
-  } else {
-    store.dispatch(startAddUserRoles());
-    store.dispatch(logout());
-    store.dispatch(startSetSettings()).then(() => {
-      renderApp();
-      history.push("/");
-    });
   }
 });
+
+// firebase.auth().onAuthStateChanged(user => {
+//   if (user) {
+//     console.log(user);
+//     store.dispatch(startAddUserRoles()).then(() => {
+//       store.dispatch(
+//         login(user.uid, user.displayName, user.email, user.photoURL)
+//       );
+//     });
+
+//     // TO DO: Do not dispatch all this until the user is past the registration screen; ping the db api directly for checking the invite code
+//     store.dispatch(startSetUsers()).then(() => {
+//       store.dispatch(startSetSettings()).then(() => {
+//         store.dispatch(startSetContentTypes()).then(() => {
+//           store.dispatch(startSetFields()).then(() => {
+//             store.dispatch(startSetEntries()).then(() => {
+//               store.dispatch(startSetInviteCodes()).then(() => {
+//                 renderApp();
+//                 if (history.location.pathname === "/") {
+//                   history.push("/registration");
+//                 }
+//               });
+//             });
+//           });
+//         });
+//       });
+//     });
+//   } else {
+//     store.dispatch(startAddUserRoles());
+//     store.dispatch(logout());
+//     store.dispatch(startSetSettings()).then(() => {
+//       renderApp();
+//       history.push("/");
+//     });
+//   }
+// });
