@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
+const bodyParser = require("body-parser");
 const keys = require("./config/keys");
 require("./models/User");
 require("./services/passport");
@@ -10,6 +11,8 @@ require("./services/passport");
 mongoose.connect(keys.mongoURI);
 
 const app = express();
+
+app.use(bodyParser.json());
 
 const publicPath = path.join(__dirname, "..", "public");
 const port = process.env.PORT || 8081;
@@ -29,7 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes/authRoutes")(app);
-require("./routes/apiRoutes")(app);
+require("./routes/apiRoutes/users")(app);
 app.get("*", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
 });
