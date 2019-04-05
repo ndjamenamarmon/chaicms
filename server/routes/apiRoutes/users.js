@@ -46,7 +46,7 @@ module.exports = app => {
     //   }
     // });
 
-    var update = new User({ _id: req.params.id, ...req.body });
+    let update = new User({ _id: req.params.id, ...req.body });
     update.isNew = false;
     update.save(err => {
       if (err) res.send(err);

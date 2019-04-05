@@ -26,13 +26,32 @@ module.exports = app => {
   });
 
   app.put("/api/content_types/:id", (req, res) => {
-    // var update = new User({ _id: req.params.id, ...req.body });
-    // update.isNew = false;
-    // update.save(err => {
-    //   if (err) res.send(err);
-    //   else {
-    //     res.send({ message: "ok" });
-    //   }
-    // });
+    // Would also add lastUpdatedBy here once user auth is hooked up
+    let update = new ContentType({
+      _id: req.params.id,
+      lastUpdated: Date.now(),
+      ...req.body
+    });
+    update.isNew = false;
+    update.save(err => {
+      if (err) res.send(err);
+      else {
+        res.send({ message: "ok" });
+      }
+    });
+  });
+
+  app.delete("/api/content_types/:id", (req, res) => {
+    ContentType.findOneAndDelete(
+      { _id: req.params.id },
+      req.body,
+      (err, data) => {
+        if (!err) {
+          res.send({ message: "deleted" });
+        } else {
+          res.send(err);
+        }
+      }
+    );
   });
 };
