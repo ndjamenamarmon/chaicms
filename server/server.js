@@ -6,6 +6,7 @@ const passport = require("passport");
 const bodyParser = require("body-parser");
 const keys = require("./config/keys");
 require("./models/User");
+require("./models/ContentType");
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);
@@ -33,6 +34,7 @@ app.use(passport.session());
 
 require("./routes/authRoutes")(app);
 require("./routes/apiRoutes/users")(app);
+require("./routes/apiRoutes/content_types")(app);
 app.get("*", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
 });

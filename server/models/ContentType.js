@@ -4,10 +4,10 @@ const { Schema } = mongoose;
 const contentTypeSchema = new Schema({
   apiKey: String,
   createdAt: Number,
-  createdBy: String,
+  createdBy: String, // should be a ref
   fields: Array,
   lastUpdated: Number,
-  lastUpdatedBy: String,
+  lastUpdatedBy: String, // should be a ref
   title: String,
   titleField: String
 });
