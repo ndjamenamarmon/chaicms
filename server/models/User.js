@@ -8,7 +8,7 @@ const userSchema = new Schema({
   isApproved: Boolean,
   photoURL: String,
   role: String,
-  roleId: String
+  _roleId: { type: Schema.Types.ObjectId, ref: "UserRole" }
 });
 
 mongoose.model("users", userSchema);
