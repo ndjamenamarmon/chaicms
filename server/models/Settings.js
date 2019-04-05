@@ -7,7 +7,9 @@ const settingsSchema = new Schema({
   signInMethods: [SignInMethodsSchema],
   siteDescription: String,
   siteTitle: String,
-  theme: String
+  theme: String,
+  createdAt: Number,
+  lastUpdated: Number
 });
 
 mongoose.model("settings", settingsSchema);

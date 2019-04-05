@@ -3,7 +3,9 @@ const { Schema } = mongoose;
 
 const inviteCodeSchema = new Schema({
   code: String,
-  status: String
+  status: String,
+  createdAt: Number,
+  lastUpdated: Number
 });
 
 mongoose.model("invite_codes", inviteCodeSchema);
