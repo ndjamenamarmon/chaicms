@@ -5,8 +5,14 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const keys = require("./config/keys");
-require("./models/User");
 require("./models/ContentType");
+require("./models/Entry");
+require("./models/Field");
+require("./models/InviteCode");
+require("./models/Settings");
+require("./models/SignInMethods");
+require("./models/User");
+require("./models/UserRole");
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);
@@ -35,6 +41,11 @@ app.use(passport.session());
 require("./routes/authRoutes")(app);
 require("./routes/apiRoutes/users")(app);
 require("./routes/apiRoutes/content_types")(app);
+require("./routes/apiRoutes/entries")(app);
+require("./routes/apiRoutes/fields")(app);
+require("./routes/apiRoutes/invite_codes")(app);
+require("./routes/apiRoutes/settings")(app);
+require("./routes/apiRoutes/user_roles")(app);
 app.get("*", (req, res) => {
   res.sendFile(path.join(publicPath, "index.html"));
 });
