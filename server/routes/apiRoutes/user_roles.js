@@ -12,6 +12,7 @@ module.exports = app => {
 
   app.post("/api/user_roles", async (req, res) => {
     // Would also add createdBy and lastUpdatedBy here once user auth is hooked up
+    // Need to not add a user role if one with the same name already exists
     let update = new UserRole({
       createdAt: Date.now(),
       lastUpdated: Date.now(),
