@@ -27,7 +27,7 @@ export const RegistrationPage = ({
       // this is to keep this code from running every time useEffect runs
       // Check if user is registered (exists in users object in db)
       const userExists = users.find(user => {
-        return user.uid === auth.uid;
+        return user._id === auth.uid;
       });
       if (userExists) {
         history.push("/dashboard");

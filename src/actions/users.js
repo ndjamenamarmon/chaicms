@@ -1,5 +1,6 @@
 import uuid from "uuid";
 import database from "../firebase/firebase";
+import axios from "axios";
 
 // ADD_USERS
 export const addUser = user => ({
@@ -61,20 +62,9 @@ export const setUsers = users => ({
 });
 
 export const startSetUsers = () => {
-  return (dispatch, getState) => {
-    // need to only populate this with users if the role of the current user is admin or owner
-    return database
-      .ref(`users`)
-      .once("value")
-      .then(snapshot => {
-        const users = [];
-        snapshot.forEach(childSnapshot => {
-          users.push({
-            id: childSnapshot.key,
-            ...childSnapshot.val()
-          });
-        });
-        dispatch(setUsers(users));
-      });
+  return async (dispatch, getState) => {
+    // need to only populate this with users if the role of the current user is admin or owner -> would break registration
+    const res = await axios.get("/api/users");
+    dispatch(setUsers(res.data));
   };
 };
