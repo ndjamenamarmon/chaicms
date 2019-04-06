@@ -6,11 +6,11 @@ import { startEditEntry, startRemoveEntry } from "../../actions/entries";
 
 export class EditEntryPage extends React.Component {
   onSubmit = entry => {
-    this.props.startEditEntry(this.props.entry.id, entry.entry);
+    this.props.startEditEntry(this.props.entry._id, entry.entry);
     // this.props.history.push(`/entry/edit/${this.props.entry.id}`);
   };
   onRemove = () => {
-    this.props.startRemoveEntry({ id: this.props.entry.id });
+    this.props.startRemoveEntry({ id: this.props.entry._id });
 
     this.props.history.push(`/entry/${this.props.contentType.apiKey}`);
   };
@@ -48,7 +48,7 @@ export class EditEntryPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    entry: state.entries.find(entry => entry.id === props.match.params.id),
+    entry: state.entries.find(entry => entry._id === props.match.params.id),
     contentType: state.contentTypes.find(
       contentType => contentType.apiKey === props.match.params.slug
     ),

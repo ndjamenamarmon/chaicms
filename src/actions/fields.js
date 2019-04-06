@@ -125,7 +125,7 @@ export const setFields = fields => ({
 export const startSetFields = () => {
   return async dispatch => {
     const res = await axios.get("/api/fields");
-    dispatch(setFields(fields));
+    dispatch(setFields(res.data));
   };
   // return (dispatch, getState) => {
   //   // only populate if current user is developer, admin, or owner

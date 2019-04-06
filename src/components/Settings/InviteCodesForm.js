@@ -15,7 +15,7 @@ export const InviteCodesForm = props => {
       codeStatus = "disabled";
     }
     let inviteCode = inviteCodes.find(inviteCode => {
-      return inviteCode.id === codeId;
+      return inviteCode._id === codeId;
     });
     inviteCode.status = codeStatus;
     props.onEditInviteCode(inviteCode);
@@ -32,7 +32,7 @@ export const InviteCodesForm = props => {
       {success && <p className="form__success">{success}</p>}
       {props.inviteCodes.map(inviteCode => {
         return (
-          <div key={inviteCode.id} className="invite-code">
+          <div key={inviteCode._id} className="invite-code">
             <span>
               {inviteCode.code}
               {inviteCode.status === "expired" && <span> (expired)</span>}
@@ -42,7 +42,7 @@ export const InviteCodesForm = props => {
                 aria-label="Enable or disable this invite code"
                 defaultChecked={inviteCode.status === "enabled"}
                 icons={false}
-                name={inviteCode.id}
+                name={inviteCode._id}
                 disabled={inviteCode.status === "expired"}
                 onChange={toggleCode}
               />

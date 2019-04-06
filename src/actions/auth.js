@@ -1,4 +1,4 @@
-import { firebase, googleAuthProvider } from "../firebase/firebase";
+// import { firebase, googleAuthProvider } from "../firebase/firebase";
 import axios from "axios";
 
 export const login = (uid, displayName, email, photoURL) => ({

@@ -61,7 +61,7 @@ const SortableList = SortableContainer(({ items, itemsRef, onRemoveField }) => {
           fieldId={
             itemsRef.find(ref => {
               return ref.apiKey === value;
-            }).id
+            })._id
           }
           onRemoveField={onRemoveField}
         />
@@ -266,7 +266,7 @@ export const ContentTypeForm = props => {
                     return (
                       <label
                         className="label"
-                        key={field.id}
+                        key={field._id}
                         style={showStyles}
                       >
                         <input

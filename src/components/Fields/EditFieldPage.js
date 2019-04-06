@@ -6,11 +6,11 @@ import { startEditField, startRemoveField } from "../../actions/fields";
 
 export class EditFieldPage extends React.Component {
   onSubmit = field => {
-    this.props.startEditField(this.props.field.id, field);
+    this.props.startEditField(this.props.field._id, field);
     this.props.history.push("/fields");
   };
   onRemove = () => {
-    this.props.startRemoveField({ id: this.props.field.id });
+    this.props.startRemoveField({ id: this.props.field._id });
     this.props.history.push("/fields");
   };
   render() {
@@ -40,7 +40,7 @@ export class EditFieldPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    field: state.fields.find(field => field.id === props.match.params.id),
+    field: state.fields.find(field => field._id === props.match.params.id),
     fields: state.fields,
     currentUser: state.auth
   };

@@ -17,7 +17,7 @@ export const FieldsList = props => (
         </div>
       ) : (
         props.fields.map(field => {
-          return <FieldListItem {...field} key={field.id} />;
+          return <FieldListItem {...field} key={field._id} />;
         })
       )}
     </div>

@@ -4,10 +4,10 @@ import moment from "moment";
 
 const EntryListItem = props => {
   const lastUpdatedUser = props.users.find(user => {
-    return props.entry.lastUpdatedBy === user.uid;
+    return props.entry.lastUpdatedBy === user._id;
   });
   const createdUser = props.users.find(user => {
-    return props.entry.createdBy === user.uid;
+    return props.entry.createdBy === user._id;
   });
   const [references, setReferences] = useState(
     props.references ? props.references : []
@@ -31,7 +31,7 @@ const EntryListItem = props => {
       <td className="entries-list__first-column">
         {props.contentType && (
           <Link
-            to={`/entry/${props.contentType.apiKey}/edit/${props.entry.id}`}
+            to={`/entry/${props.contentType.apiKey}/edit/${props.entry._id}`}
           >
             <p className="list-item__title">{props.entry.title}</p>
           </Link>
@@ -43,7 +43,9 @@ const EntryListItem = props => {
               className="checkbox"
               value={props.entry.id}
               onChange={onFieldChange}
-              checked={references ? references.includes(props.entry.id) : false}
+              checked={
+                references ? references.includes(props.entry._id) : false
+              }
             />{" "}
             <span>{props.entry.title}</span>
           </label>
@@ -53,9 +55,9 @@ const EntryListItem = props => {
             <input
               type="radio"
               className="checkbox"
-              value={props.entry.id}
+              value={props.entry._id}
               onChange={onFieldChange}
-              checked={props.references === props.entry.id ? true : false}
+              checked={props.references === props.entry._id ? true : false}
             />{" "}
             <span>{props.entry.title}</span>
           </label>

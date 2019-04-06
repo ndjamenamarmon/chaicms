@@ -8,7 +8,7 @@ export default (state = inviteCodesReducerDefaultState, action) => {
       return [...state, action.inviteCode];
     case "EDIT_INVITE_CODE":
       return state.map(inviteCode => {
-        if (inviteCode.id === action.id) {
+        if (inviteCode._id === action.id) {
           return {
             ...inviteCode,
             ...action.updates

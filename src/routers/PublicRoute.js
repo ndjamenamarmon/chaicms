@@ -23,7 +23,7 @@ const mapStateToProps = state => ({
   isAuthenticated:
     state.auth.uid &&
     state.users.find(user => {
-      return user.uid === state.auth.uid;
+      return user._id === state.auth.uid;
     })
       ? true
       : false

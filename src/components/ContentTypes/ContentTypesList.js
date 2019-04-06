@@ -17,7 +17,7 @@ export const ContentTypesList = props => (
         </div>
       ) : (
         props.contentTypes.map(contentType => {
-          return <ContentTypeListItem {...contentType} key={contentType.id} />;
+          return <ContentTypeListItem {...contentType} key={contentType._id} />;
         })
       )}
     </div>

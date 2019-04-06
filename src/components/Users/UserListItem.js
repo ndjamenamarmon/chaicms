@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const UserListItem = ({
-  id,
+  _id,
   displayName,
   email,
   photoURL,

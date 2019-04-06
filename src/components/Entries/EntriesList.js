@@ -32,7 +32,7 @@ export const EntriesList = props => {
               handleChange: props.handleChange,
               references: props.references
             };
-            return <EntryListItem {...newProps} key={entry.id} />;
+            return <EntryListItem {...newProps} key={entry._id} />;
           })
         )}
       </tbody>

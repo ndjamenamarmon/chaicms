@@ -10,7 +10,7 @@ export default (state = entriesReducerDefaultState, action) => {
       return state.filter(({ id }) => id !== action.id);
     case "EDIT_ENTRY":
       return state.map(entry => {
-        if (entry.id === action.id) {
+        if (entry._id === action.id) {
           return {
             ...entry,
             ...action.updates

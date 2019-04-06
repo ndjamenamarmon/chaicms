@@ -46,7 +46,7 @@ export const Sidebar = props => {
         <ul className="sidebar-list">
           {props.contentTypes.map(contentType => {
             return (
-              <li key={contentType.id}>
+              <li key={contentType._id}>
                 <NavLink
                   className="sidebar-list__link"
                   to={`/entry/${contentType.apiKey}`}

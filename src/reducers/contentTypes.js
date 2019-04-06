@@ -10,7 +10,7 @@ export default (state = contentTypesReducerDefaultState, action) => {
       return state.filter(({ id }) => id !== action.id);
     case "EDIT_CONTENT_TYPE":
       return state.map(contentType => {
-        if (contentType.id === action.id) {
+        if (contentType._id === action.id) {
           return {
             ...contentType,
             ...action.updates

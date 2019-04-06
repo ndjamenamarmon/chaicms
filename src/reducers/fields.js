@@ -10,7 +10,7 @@ export default (state = fieldsReducerDefaultState, action) => {
       return state.filter(({ id }) => id !== action.id);
     case "EDIT_FIELD":
       return state.map(field => {
-        if (field.id === action.id) {
+        if (field._id === action.id) {
           return {
             ...field,
             ...action.updates

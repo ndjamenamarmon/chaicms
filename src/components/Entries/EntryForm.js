@@ -37,13 +37,13 @@ const SortableList = SortableContainer(
             index={index}
             value={
               itemsRef.find(ref => {
-                return ref.id === value;
+                return ref._id === value;
               }).title
             }
             entryId={
               itemsRef.find(ref => {
-                return ref.id === value;
-              }).id
+                return ref._id === value;
+              })._id
             }
             fieldName={fieldName}
             onRemoveReference={onRemoveReference}
@@ -117,7 +117,7 @@ export const EntryForm = props => {
     setEntry(newEntry);
 
     props.onSubmit({
-      contentTypeId: contentType.id,
+      contentTypeId: contentType._id,
       entry
     });
   };
@@ -127,7 +127,9 @@ export const EntryForm = props => {
   const checkUniqueness = (value, uniqueField) => {
     // look through entries that is not this entry
     return entries.find(singleEntry => {
-      return singleEntry[uniqueField] === value && singleEntry.id !== entry.id;
+      return (
+        singleEntry[uniqueField] === value && singleEntry._id !== entry._id
+      );
     });
   };
   const onFieldChange = e => {
@@ -341,7 +343,7 @@ export const EntryForm = props => {
                           <span>
                             {entries.map(singleEntry => {
                               if (
-                                singleEntry.id ===
+                                singleEntry._id ===
                                 entry[getFieldValue(fieldType, "apiKey")]
                               ) {
                                 return singleEntry.title;

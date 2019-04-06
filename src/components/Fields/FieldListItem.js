@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const FieldListItem = ({ id, name, display, type }) => (
-  <Link className="list-item" to={`/fields/edit/${id}`}>
+const FieldListItem = ({ _id, name, display, type }) => (
+  <Link className="list-item" to={`/fields/edit/${_id}`}>
     <div>
       <h3 className="list-item__title">{name}</h3>
     </div>

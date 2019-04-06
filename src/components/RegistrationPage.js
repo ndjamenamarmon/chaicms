@@ -43,7 +43,7 @@ export const RegistrationPage = ({
             // If invite codes are not required, register the user and log them in
             if (!requireInviteCodes) {
               const newUser = {
-                uid: auth.uid,
+                googleId: auth.uid,
                 displayName: auth.displayName,
                 email: auth.email,
                 photoURL: auth.photoURL,
@@ -94,7 +94,7 @@ export const RegistrationPage = ({
           // expire invite code
           const updateInviteCode = { status: "expired" };
           const newUser = {
-            uid: auth.uid,
+            googleId: auth.uid,
             displayName: auth.displayName,
             email: auth.email,
             photoURL: auth.photoURL,

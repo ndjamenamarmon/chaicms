@@ -8,7 +8,7 @@ export default (state = usersReducerDefaultState, action) => {
       return [...state, action.user];
     case "EDIT_USER":
       return state.map(user => {
-        if (user.id === action.id) {
+        if (user._id === action.id) {
           return {
             ...user,
             ...action.updates

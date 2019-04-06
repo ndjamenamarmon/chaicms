@@ -10,7 +10,7 @@ export class AddContentTypePage extends React.Component {
   onSubmit = contentType => {
     this.props.startAddContentType(contentType).then(() => {
       this.props.history.push(
-        `/content-types/edit/${this.props.lastContentType.id}`
+        `/content-types/edit/${this.props.lastContentType._id}`
       );
     });
   };

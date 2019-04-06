@@ -2,7 +2,7 @@
 export default (entries, contentType) => {
   if (contentType) {
     return entries.filter(entry => {
-      return entry.contentTypeId === contentType.id;
+      return entry.contentTypeId === contentType._id;
     });
   }
   // return entries.sort((a, b) => {

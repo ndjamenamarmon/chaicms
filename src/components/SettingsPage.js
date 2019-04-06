@@ -19,7 +19,7 @@ export class SettingsPage extends React.Component {
     this.props.startAddInviteCode();
   };
   onEditInviteCode = code => {
-    this.props.startEditInviteCode(code.id, code);
+    this.props.startEditInviteCode(code._id, code);
   };
   render() {
     return (

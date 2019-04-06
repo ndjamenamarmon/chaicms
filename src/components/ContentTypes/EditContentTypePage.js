@@ -10,11 +10,11 @@ import selectFields from "../../selectors/fields";
 
 export class EditContentTypePage extends React.Component {
   onSubmit = contentType => {
-    this.props.startEditContentType(this.props.contentType.id, contentType);
+    this.props.startEditContentType(this.props.contentType._id, contentType);
     this.props.history.push("/content-types");
   };
   onRemove = () => {
-    this.props.startRemoveContentType({ id: this.props.contentType.id });
+    this.props.startRemoveContentType({ id: this.props.contentType._id });
     this.props.history.push("/content-types");
   };
   render() {
@@ -46,7 +46,7 @@ export class EditContentTypePage extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     contentType: state.contentTypes.find(
-      contentType => contentType.id === props.match.params.id
+      contentType => contentType._id === props.match.params.id
     ),
     contentTypes: state.contentTypes,
     fields: selectFields(state.fields),
