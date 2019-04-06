@@ -10,9 +10,9 @@ export const addUser = user => ({
 
 export const startAddUser = user => {
   return async dispatch => {
-    const res = await axios.post("/api/users", user)
-    dispatch(addUser(res.data))
-  }
+    const res = await axios.post("/api/users", user);
+    dispatch(addUser(res.data));
+  };
   // return (dispatch, getState) => {
   //   return database
   //     .ref(`user_roles`)
@@ -50,9 +50,9 @@ export const editUser = (id, updates) => ({
 
 export const startEditUser = (id, updates) => {
   return async dispatch => {
-    const res = async axios.put(`/api/users/${id}`)
-    dispatch(editUser(id, updates))
-  }
+    const res = await axios.put(`/api/users/${id}`);
+    dispatch(editUser(id, updates));
+  };
   // return (dispatch, getState) => {
   //   return database
   //     .ref(`users/${id}`)
