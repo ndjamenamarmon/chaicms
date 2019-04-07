@@ -17,6 +17,8 @@ module.exports = app => {
         let update = new UserRole({
           createdAt: Date.now(),
           lastUpdated: Date.now(),
+          createdBy: req.user._id,
+          lastUpdatedBy: req.user._id,
           ...req.body
         });
         try {
@@ -34,6 +36,7 @@ module.exports = app => {
     let update = new UserRole({
       _id: req.params.id,
       lastUpdated: Date.now(),
+      lastUpdatedBy: req.user._id,
       ...req.body
     });
     update.isNew = false;

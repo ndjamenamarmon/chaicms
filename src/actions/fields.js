@@ -17,8 +17,7 @@ export const startAddField = (fieldData = {}) => {
       display = "",
       helpText = "",
       isRequired = false,
-      isUnique = false,
-      createdBy = ""
+      isUnique = false
     } = fieldData;
     const field = {
       name,
@@ -27,11 +26,10 @@ export const startAddField = (fieldData = {}) => {
       display,
       helpText,
       isRequired,
-      isUnique,
-      createdBy
+      isUnique
     };
     const res = await axios.post("/api/fields", field);
-    dispatch(startAddFields(res.data));
+    dispatch(addField(res.data));
   };
   // return (dispatch, getState) => {
   //   const {

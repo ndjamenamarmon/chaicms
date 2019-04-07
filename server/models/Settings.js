@@ -9,7 +9,8 @@ const settingsSchema = new Schema({
   siteTitle: String,
   theme: String,
   createdAt: Number,
-  lastUpdated: Number
+  lastUpdated: Number,
+  lastUpdatedBy: String
 });
 
 mongoose.model("settings", settingsSchema);

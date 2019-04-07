@@ -15,15 +15,13 @@ export const startAddContentType = (contentTypeData = {}) => {
       title = "",
       apiKey = "",
       fields = [],
-      titleField = "",
-      createdBy = ""
+      titleField = ""
     } = contentTypeData;
     const contentType = {
       title,
       apiKey,
       fields,
-      titleField,
-      createdBy
+      titleField
     };
     const res = await axios.post("/api/content_types", contentType);
     dispatch(addContentType(res.data));

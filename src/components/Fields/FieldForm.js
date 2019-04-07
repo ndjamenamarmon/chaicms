@@ -117,17 +117,17 @@ export default class FieldForm extends React.Component {
         apiKey: this.state.apiKey,
         type: this.state.type,
         display: this.state.display,
-        createdAt: this.props.field
-          ? moment(this.props.field.createdAt).valueOf()
-          : moment().valueOf(),
-        lastUpdated: moment().valueOf(),
+        // createdAt: this.props.field
+        //   ? moment(this.props.field.createdAt).valueOf()
+        //   : moment().valueOf(),
+        // lastUpdated: moment().valueOf(),
         helpText: this.state.helpText,
         isRequired: this.state.isRequired,
-        isUnique: this.state.isUnique,
-        createdBy: this.props.field
-          ? this.props.field.createdBy
-          : this.props.currentUser.uid,
-        lastUpdatedBy: this.props.currentUser.uid
+        isUnique: this.state.isUnique
+        // createdBy: this.props.field
+        //   ? this.props.field.createdBy
+        //   : this.props.currentUser.uid,
+        // lastUpdatedBy: this.props.currentUser.uid
       });
     }
   };

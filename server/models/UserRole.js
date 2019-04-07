@@ -6,7 +6,9 @@ const userRoleSchema = new Schema({
   displayName: String,
   permissions: Array,
   createdAt: Number,
-  lastUpdated: Number
+  lastUpdated: Number,
+  createdBy: String,
+  lastUpdatedBy: String
 });
 
 mongoose.model("user_roles", userRoleSchema);

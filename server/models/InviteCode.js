@@ -5,7 +5,8 @@ const inviteCodeSchema = new Schema({
   code: String,
   status: String,
   createdAt: Number,
-  lastUpdated: Number
+  lastUpdated: Number,
+  lastUpdatedBy: String
 });
 
 mongoose.model("invite_codes", inviteCodeSchema);

@@ -17,6 +17,7 @@ module.exports = app => {
         let update = new Settings({
           createdAt: Date.now(),
           lastUpdated: Date.now(),
+          lastUpdatedBy: req.user._id,
           ...req.body
         });
         try {
@@ -35,6 +36,7 @@ module.exports = app => {
         let update = new Settings({
           _id: settings._id,
           lastUpdated: Date.now(),
+          lastUpdatedBy: req.user._id,
           ...req.body
         });
         update.isNew = false;

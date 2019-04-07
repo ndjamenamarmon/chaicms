@@ -105,14 +105,14 @@ export const EntryForm = props => {
 
     let newEntry = entry;
 
-    entry.createdBy = props.entry.createdBy
-      ? props.entry.createdBy
-      : props.currentUser.uid;
-    entry.lastUpdatedBy = props.currentUser.uid;
-    entry.createdAt = props.entry.createdAt
-      ? moment(props.entry.createdAt).valueOf()
-      : moment().valueOf();
-    entry.lastUpdated = moment().valueOf();
+    // entry.createdBy = props.entry.createdBy
+    //   ? props.entry.createdBy
+    //   : props.currentUser.uid;
+    // entry.lastUpdatedBy = props.currentUser.uid;
+    // entry.createdAt = props.entry.createdAt
+    //   ? moment(props.entry.createdAt).valueOf()
+    //   : moment().valueOf();
+    // entry.lastUpdated = moment().valueOf();
 
     setEntry(newEntry);
 

@@ -172,14 +172,14 @@ export const ContentTypeForm = props => {
         apiKey,
         fields,
         // createdAt: createdAt.valueOf(),
-        createdAt: props.contentType
-          ? moment(props.contentType.createdAt).valueOf()
-          : moment().valueOf(),
-        lastUpdated: moment().valueOf(),
-        createdBy: props.contentType
-          ? props.contentType.createdBy
-          : props.currentUser.uid,
-        lastUpdatedBy: props.currentUser.uid,
+        // createdAt: props.contentType
+        //   ? moment(props.contentType.createdAt).valueOf()
+        //   : moment().valueOf(),
+        // lastUpdated: moment().valueOf(),
+        // createdBy: props.contentType
+        //   ? props.contentType.createdBy
+        //   : props.currentUser.uid,
+        // lastUpdatedBy: props.currentUser.uid,
         titleField
       });
     }
