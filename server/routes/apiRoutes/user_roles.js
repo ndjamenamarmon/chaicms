@@ -10,20 +10,23 @@ module.exports = app => {
     });
   });
 
-  app.post("/api/user_roles", async (req, res) => {
+  app.post("/api/user_roles", (req, res) => {
     // Would also add createdBy and lastUpdatedBy here once user auth is hooked up
-    // Need to not add a user role if one with the same name already exists
-    let update = new UserRole({
-      createdAt: Date.now(),
-      lastUpdated: Date.now(),
-      ...req.body
+    UserRole.find({ name: req.body.name }, async (err, existingUserRole) => {
+      if (existingUserRole.length === 0) {
+        let update = new UserRole({
+          createdAt: Date.now(),
+          lastUpdated: Date.now(),
+          ...req.body
+        });
+        try {
+          const user_roles = await update.save();
+          res.send(user_roles);
+        } catch (err) {
+          res.status(422).send(err);
+        }
+      }
     });
-    try {
-      const user_roles = await update.save();
-      res.send(user_roles);
-    } catch (err) {
-      res.status(422).send(err);
-    }
   });
 
   app.put("/api/user_roles/:id", (req, res) => {
@@ -48,6 +51,16 @@ module.exports = app => {
         res.send({ message: "deleted" });
       } else {
         res.send(err);
+      }
+    });
+  });
+
+  app.delete("/api/user_roles", (req, res) => {
+    UserRole.deleteMany({}, (err, data) => {
+      if (!err) {
+        res.send({ message: "deleted all", count: data.deletedCount });
+      } else {
+        res.end(err);
       }
     });
   });

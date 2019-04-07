@@ -7,22 +7,95 @@ export const startAddUserRoles = () => {
   return async dispatch => {
     const userRoles = [
       {
-        name: "member"
+        name: "member",
+        displayName: "Member",
+        permissions: []
       },
       {
-        name: "author"
+        name: "author",
+        displayName: "Author",
+        permissions: [
+          "CREATE_ENTRIES",
+          "READ_OWN_ENTRIES",
+          "UPDATE_OWN_ENTRIES"
+        ]
       },
       {
-        name: "editor"
+        name: "editor",
+        displayName: "Editor",
+        permissions: [
+          "CREATE_ENTRIES",
+          "READ_ENTRIES",
+          "UPDATE_ENTRIES",
+          "DELETE_ENTRIES"
+        ]
       },
       {
-        name: "developer"
+        name: "developer",
+        displayName: "Developer",
+        permissions: [
+          "READ_CONTENT_TYPES",
+          "READ_ENTRIES",
+          "READ_FIELDS",
+          "READ_INVITE_CODES",
+          "READ_USER_ROLES",
+          "READ_USERS",
+          "CREATE_CONTENT_TYPES",
+          "DELETE_CONTENT_TYPES",
+          "UPDATE_CONTENT_TYPES",
+          "CREATE_FIELDS",
+          "DELETE_FIELDS",
+          "UPDATE_FIELDS",
+          "CREATE_ENTRIES",
+          "UPDATE_ENTRIES",
+          "DELETE_ENTRIES"
+        ]
       },
       {
-        name: "admin"
+        name: "admin",
+        displayName: "Admin",
+        permissions: [
+          "READ_CONTENT_TYPES",
+          "READ_ENTRIES",
+          "READ_FIELDS",
+          "READ_INVITE_CODES",
+          "READ_USER_ROLES",
+          "READ_USERS",
+          "CREATE_CONTENT_TYPES",
+          "DELETE_CONTENT_TYPES",
+          "UPDATE_CONTENT_TYPES",
+          "CREATE_FIELDS",
+          "DELETE_FIELDS",
+          "UPDATE_FIELDS",
+          "CREATE_ENTRIES",
+          "UPDATE_ENTRIES",
+          "DELETE_ENTRIES",
+          "UPDATE_SETTINGS",
+          "UPDATE_USER_ROLES"
+        ]
       },
       {
-        name: "owner"
+        name: "owner",
+        displayName: "Owner",
+        permissions: [
+          "READ_CONTENT_TYPES",
+          "READ_ENTRIES",
+          "READ_FIELDS",
+          "READ_INVITE_CODES",
+          "READ_USER_ROLES",
+          "READ_USERS",
+          "CREATE_CONTENT_TYPES",
+          "DELETE_CONTENT_TYPES",
+          "UPDATE_CONTENT_TYPES",
+          "CREATE_FIELDS",
+          "DELETE_FIELDS",
+          "UPDATE_FIELDS",
+          "CREATE_ENTRIES",
+          "UPDATE_ENTRIES",
+          "DELETE_ENTRIES",
+          "UPDATE_SETTINGS",
+          "UPDATE_USER_ROLES"
+        ]
       }
     ];
     const getUserRoles = await axios.get("/api/user_roles");
