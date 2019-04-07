@@ -69,7 +69,7 @@ export const removeContentType = ({ id } = {}) => ({
 export const startRemoveContentType = ({ id } = {}) => {
   return async dispatch => {
     const res = await axios.delete(`/api/content_types/${id}`);
-    dispatch(removeContentType({ id }));
+    dispatch(removeContentType(id));
   };
   // return (dispatch, getState) => {
   //   return database

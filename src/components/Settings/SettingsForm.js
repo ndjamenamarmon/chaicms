@@ -3,10 +3,12 @@ import Toggle from "react-toggle";
 
 export const SettingsForm = props => {
   const [siteTitle, setSiteTitle] = useState(
-    props.settings ? props.settings.siteTitle : ""
+    props.settings && props.settings.siteTitle ? props.settings.siteTitle : ""
   );
   const [siteDescription, setSiteDescription] = useState(
-    props.settings ? props.settings.siteDescription : ""
+    props.settings && props.settings.siteDescription
+      ? props.settings.siteDescription
+      : ""
   );
   const [requireInviteCodes, setRequireInviteCodes] = useState(
     props.settings ? props.settings.requireInviteCodes : false
@@ -30,7 +32,8 @@ export const SettingsForm = props => {
       props.onSubmit({
         siteTitle,
         siteDescription,
-        requireInviteCodes
+        requireInviteCodes,
+        ...props.settings
       });
     }
   };

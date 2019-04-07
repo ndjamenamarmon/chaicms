@@ -5,7 +5,7 @@ export const UserSettingsForm = props => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [signInMethods, setSignInMethods] = useState(
-    props.settings.signInMethods
+    props.settings.signInMethods.length > 0
       ? props.settings.signInMethods
       : [
           {
@@ -59,7 +59,8 @@ export const UserSettingsForm = props => {
     setSignInMethods(newSignInMethods);
 
     props.onSubmit({
-      signInMethods: newSignInMethods
+      signInMethods: newSignInMethods,
+      ...props.settings
     });
   };
   const onSubmit = e => {
