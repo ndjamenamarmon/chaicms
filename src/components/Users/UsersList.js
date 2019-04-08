@@ -15,7 +15,7 @@ export const UsersList = props => (
         </div>
       ) : (
         props.users.map(user => {
-          return <UserListItem {...user} key={user.id} />;
+          return <UserListItem {...user} key={user._id} />;
         })
       )}
     </div>
