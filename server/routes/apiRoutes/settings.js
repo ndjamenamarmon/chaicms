@@ -6,7 +6,7 @@ const Settings = mongoose.model("settings");
 module.exports = app => {
   app.get("/api/settings", (req, res) => {
     Settings.find({}, function(err, settings) {
-      res.send(settings);
+      res.send(settings[0]);
     });
   });
 

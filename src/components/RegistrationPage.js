@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { startLogin } from "../actions/auth";
 import { startAddUser } from "../actions/users";
 import { startEditInviteCode } from "../actions/inviteCodes";
-import database from "../firebase/firebase";
+// import database from "../firebase/firebase";
+import axios from "axios";
 
 export const RegistrationPage = ({
   startLogin,
@@ -21,7 +22,7 @@ export const RegistrationPage = ({
   const [inviteCode, setInviteCode] = useState("");
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  useEffect(async () => {
     setRegistrationCheck(true);
     if (!registrationCheck) {
       // this is to keep this code from running every time useEffect runs
@@ -33,83 +34,83 @@ export const RegistrationPage = ({
         history.push("/dashboard");
       } else {
         // Check if invite codes are required - this needs to be coming directly from db, not redux store
-        let requireInviteCodes;
-        database
-          .ref("settings")
-          .once("value")
-          .then(snapshot => {
-            requireInviteCodes = snapshot.val().requireInviteCodes;
-
-            // If invite codes are not required, register the user and log them in
-            if (!requireInviteCodes) {
-              const newUser = {
-                googleId: auth.uid,
-                displayName: auth.displayName,
-                email: auth.email,
-                photoURL: auth.photoURL,
-                role: "member",
-                isApproved: false
-              };
-              startAddUser(newUser).then(() => {
-                history.push("/dashboard");
-              });
-            } else {
-              setNeedInviteCodeEntry(true);
-              // If invite codes are required, check if the user has one (should come in through url, saved in sessionStorage, or can be entered by user on this screen)
-              // If the user has an invite code and it is valid, register the user and log them in
-            }
+        // let requireInviteCodes;
+        const res = await axios.get("/api/settings");
+        const requireInviteCodes = res.data.requireInviteCodes;
+        // If invite codes are not required, register the user and log them in
+        if (!requireInviteCodes) {
+          // const newUser = {
+          //   googleId: auth.uid,
+          //   displayName: auth.displayName,
+          //   email: auth.email,
+          //   photoURL: auth.photoURL,
+          //   role: "member",
+          //   isApproved: false
+          // };
+          // startAddUser(newUser).then(() => {
+          startAddUser().then(() => {
+            history.push("/dashboard");
           });
-        // const requireInviteCodes = settings.requireInviteCodes;
+        } else {
+          setNeedInviteCodeEntry(true);
+          // If invite codes are required, check if the user has one (should come in through url, saved in sessionStorage, or can be entered by user on this screen)
+          // If the user has an invite code and it is valid, register the user and log them in
+        }
       }
     }
   });
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
 
     // check if invite code is valid
     let inviteCodeExists = undefined;
-    database
-      .ref("invite_codes")
-      .once("value")
-      .then(snapshot => {
-        snapshot.forEach(childSnapshot => {
-          if (
-            childSnapshot.val().code === inviteCode &&
-            childSnapshot.val().status === "enabled"
-          ) {
-            inviteCodeExists = {
-              id: childSnapshot.key,
-              ...childSnapshot.val()
-            };
-          }
-        });
+    const res = await axios.get("/api/invite_codes");
+    inviteCodeExists = res.data.filter(item => {
+      if (item.code === inviteCode && item.status === "enabled") {
+        return item;
+      }
+    });
 
-        if (!inviteCode || !inviteCodeExists) {
-          const error = "Please provide a valid invite code";
-          setError(error);
-        } else {
-          const error = "";
-          setError(error);
-          // register user
-          // expire invite code
-          const updateInviteCode = { status: "expired" };
-          const newUser = {
-            googleId: auth.uid,
-            displayName: auth.displayName,
-            email: auth.email,
-            photoURL: auth.photoURL,
-            role: "member",
-            isApproved: true
-          };
-          startAddUser(newUser).then(() => {
-            startEditInviteCode(inviteCodeExists.id, updateInviteCode).then(
-              () => {
-                history.push("/dashboard");
-              }
-            );
-          });
-        }
+    if (!inviteCode || !inviteCodeExists) {
+      const error = "Please provide a valid invite code";
+      setError(error);
+    } else {
+      const error = "";
+      setError(error);
+      // register user
+      // expire invite code
+      const updateInviteCode = { status: "expired" };
+      const newUser = {
+        googleId: auth.uid,
+        displayName: auth.displayName,
+        email: auth.email,
+        photoURL: auth.photoURL,
+        role: "member",
+        isApproved: true
+      };
+      startAddUser(newUser).then(() => {
+        startEditInviteCode(inviteCodeExists.id, updateInviteCode).then(() => {
+          history.push("/dashboard");
+        });
       });
+    }
+
+    // database
+    //   .ref("invite_codes")
+    //   .once("value")
+    //   .then(snapshot => {
+    //     snapshot.forEach(childSnapshot => {
+    //       if (
+    //         childSnapshot.val().code === inviteCode &&
+    //         childSnapshot.val().status === "enabled"
+    //       ) {
+    //         inviteCodeExists = {
+    //           id: childSnapshot.key,
+    //           ...childSnapshot.val()
+    //         };
+    //       }
+    //     });
+    //   });
   };
   return (
     <div>

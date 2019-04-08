@@ -32,7 +32,7 @@ export const setSettings = settings => ({
 export const startSetSettings = () => {
   return async dispatch => {
     const res = await axios.get("/api/settings");
-    dispatch(setSettings(res.data[0]));
+    dispatch(setSettings(res.data));
   };
   // return (dispatch, getState) => {
   //   // need to populate with more settings based on role; admin and owner can see everything

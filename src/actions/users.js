@@ -8,9 +8,10 @@ export const addUser = user => ({
   user
 });
 
-export const startAddUser = user => {
+export const startAddUser = () => {
   return async dispatch => {
-    const res = await axios.post("/api/users", user);
+    // const res = await axios.post("/api/users", user);
+    const res = await axios.get("/auth/google");
     dispatch(addUser(res.data));
   };
   // return (dispatch, getState) => {
