@@ -59,8 +59,8 @@ export const UserSettingsForm = props => {
     setSignInMethods(newSignInMethods);
 
     props.onSubmit({
-      signInMethods: newSignInMethods,
-      ...props.settings
+      ...props.settings,
+      signInMethods: newSignInMethods
     });
   };
   const onSubmit = e => {

@@ -30,10 +30,10 @@ export const SettingsForm = props => {
       setError(error);
       setSuccess(success);
       props.onSubmit({
+        ...props.settings,
         siteTitle,
         siteDescription,
-        requireInviteCodes,
-        ...props.settings
+        requireInviteCodes
       });
     }
   };
