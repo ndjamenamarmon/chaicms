@@ -152,6 +152,18 @@ export const startAddUserRoles = () => {
   // };
 };
 
+export const setUserRoles = user_roles => ({
+  type: "SET_USER_ROLES",
+  user_roles
+});
+
+export const startSetUserRoles = () => {
+  return async dispatch => {
+    const res = await axios.get("/api/user_roles");
+    dispatch(setUserRoles(res.data));
+  };
+};
+
 // SET_USER_ROLE_ID
 // export const setUserRoleId = userRole => ({
 //   type: "SET_USER_ROLE_ID",

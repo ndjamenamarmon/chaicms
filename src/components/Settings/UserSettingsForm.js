@@ -40,6 +40,11 @@ export const UserSettingsForm = props => {
           }
         ]
   );
+  const [defaultUserRole, setDefaultUserRole] = useState(
+    props.settings && props.settings.defaultUserRole
+      ? props.settings.defaultUserRole
+      : "member"
+  );
 
   const toggleSignInMethod = e => {
     const signInMethodToChange = e.target.name;
@@ -65,12 +70,38 @@ export const UserSettingsForm = props => {
   };
   const onSubmit = e => {
     e.preventDefault();
+
+    props.onSubmit({
+      ...props.settings,
+      signInMethods,
+      defaultUserRole
+    });
   };
   return (
     <form className="form" onSubmit={onSubmit}>
       {error && <p className="form__error">{error}</p>}
       {success && <p className="form__success">{success}</p>}
 
+      <h3>Default User Settings</h3>
+      <label className="label">
+        User role for new sign-ups
+        <select
+          value={defaultUserRole}
+          onChange={e => setDefaultUserRole(e.target.value)}
+          className="select select--fullWidth"
+        >
+          {props.userRoles &&
+            props.userRoles.map(userRole => {
+              return (
+                <option value={userRole.name} key={userRole._id}>
+                  {userRole.displayName}
+                </option>
+              );
+            })}
+        </select>
+      </label>
+
+      <h3>Authentication Methods</h3>
       {signInMethods.map(signInMethod => {
         return (
           <div key={signInMethod.type} className="invite-code">
@@ -88,6 +119,9 @@ export const UserSettingsForm = props => {
           </div>
         );
       })}
+      <div>
+        <button className="button">Save Settings</button>
+      </div>
     </form>
   );
 };

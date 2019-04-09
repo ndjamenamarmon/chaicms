@@ -5,6 +5,7 @@ const SignInMethodsSchema = require("./SignInMethods");
 const settingsSchema = new Schema({
   requireInviteCodes: Boolean,
   signInMethods: [SignInMethodsSchema],
+  defaultUserRole: String,
   siteDescription: String,
   siteTitle: String,
   theme: String,

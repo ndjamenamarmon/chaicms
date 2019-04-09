@@ -58,9 +58,9 @@ export class SettingsPage extends React.Component {
           )}
           <TabPanel>
             <div className="content-container content-container--centered">
-              <h3>Authentication Methods</h3>
               <UserSettingsForm
                 settings={this.props.settings}
+                userRoles={this.props.userRoles}
                 onSubmit={this.onSubmit}
               />
             </div>
@@ -74,7 +74,8 @@ export class SettingsPage extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     settings: state.settings,
-    inviteCodes: state.inviteCodes
+    inviteCodes: state.inviteCodes,
+    userRoles: state.userRoles
   };
 };
 

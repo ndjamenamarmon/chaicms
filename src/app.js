@@ -10,7 +10,7 @@ import { startSetFields } from "./actions/fields";
 import { startSetEntries } from "./actions/entries";
 import { startSetInviteCodes } from "./actions/inviteCodes";
 import { startSetUsers } from "./actions/users";
-import { startAddUserRoles } from "./actions/userRoles";
+import { startAddUserRoles, startSetUserRoles } from "./actions/userRoles";
 import "normalize.css/normalize.css";
 import "react-dates/lib/css/_datepicker.css";
 import { firebase } from "./firebase/firebase";
@@ -46,15 +46,17 @@ store.dispatch(startLogin()).then(() => {
 
     // TO DO: Do not dispatch all this until the user is past the registration screen; ping the db api directly for checking the invite code
     store.dispatch(startSetUsers()).then(() => {
-      store.dispatch(startSetSettings()).then(() => {
-        store.dispatch(startSetContentTypes()).then(() => {
-          store.dispatch(startSetFields()).then(() => {
-            store.dispatch(startSetEntries()).then(() => {
-              store.dispatch(startSetInviteCodes()).then(() => {
-                renderApp();
-                if (history.location.pathname === "/") {
-                  history.push("/registration");
-                }
+      store.dispatch(startSetUserRoles()).then(() => {
+        store.dispatch(startSetSettings()).then(() => {
+          store.dispatch(startSetContentTypes()).then(() => {
+            store.dispatch(startSetFields()).then(() => {
+              store.dispatch(startSetEntries()).then(() => {
+                store.dispatch(startSetInviteCodes()).then(() => {
+                  renderApp();
+                  if (history.location.pathname === "/") {
+                    history.push("/registration");
+                  }
+                });
               });
             });
           });
