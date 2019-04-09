@@ -41,7 +41,7 @@ ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
 store.dispatch(startLogin()).then(() => {
   console.log(store.getState().auth);
-  if (store.getState().auth) {
+  if (store.getState().auth.uid) {
     store.dispatch(startAddUserRoles());
 
     // TO DO: Do not dispatch all this until the user is past the registration screen; ping the db api directly for checking the invite code
@@ -62,6 +62,13 @@ store.dispatch(startLogin()).then(() => {
           });
         });
       });
+    });
+  } else {
+    store.dispatch(startAddUserRoles());
+    // store.dispatch(logout());
+    store.dispatch(startSetSettings()).then(() => {
+      renderApp();
+      history.push("/");
     });
   }
 });

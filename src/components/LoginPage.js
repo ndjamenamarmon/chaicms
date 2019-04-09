@@ -9,11 +9,11 @@ export const LoginPage = ({ startLogin, settings }) => (
         {settings ? settings.siteTitle : "ChaiCMS"}
       </h1>
       <p>{settings && settings.siteDescription}</p>
-      <button className="button" onClick={startLogin}>
+      {/* <button className="button" onClick={startLogin}>
         Login with Google
-      </button>
+      </button> */}
       <a className="button" href="/auth/google">
-        Login with Google - New.
+        Login with Google
       </a>
     </div>
   </div>
