@@ -8,6 +8,32 @@ export const UserRolesForm = props => {
 
   const onSubmit = e => {
     e.preventDefault();
+    const isChecked = e.target.checked ? true : false;
+    const changedPermission = e.target.value;
+    const changedUserRole = e.target.name;
+
+    const newUserRoles = userRoles.map(userRole => {
+      if(userRole._id === e.target.name) {
+        let newPermissions = userRole.permissions;
+        if(isChecked && userRole.permissions.includes(changedPermission)) {
+          newPermissions.permissions.push(changedPermission);
+        }
+        else if (!isChecked && userRole.permissions.includes(changedPermission)) {
+          newPermissions = newPermissions.filter(permission => {
+            return permission !== changedPermission
+          })
+        }
+        return {
+          ...userRole,
+          permissions: newPermissions
+        }
+      }
+      else {
+        return userRole;
+      }
+    })
+
+    setUserRoles(newUserRoles);
 
     // props.onSubmit({
     //   ...props.settings,
@@ -23,7 +49,7 @@ export const UserRolesForm = props => {
       <h3>User Role Permissions</h3>
 
       {userRoles.map(userRole => {
-        console.log(userRole.permissions);
+        // console.log(userRole);
         let permissionTypes = [
           "CONTENT_TYPES",
           "ENTRIES",
@@ -36,7 +62,7 @@ export const UserRolesForm = props => {
         return (
           <div key={userRole._id}>
             <h4>{userRole.displayName}</h4>
-            <table>
+            <table style={{width: '100%'}}>
               <thead>
                 <tr>
                   <th />
@@ -48,54 +74,84 @@ export const UserRolesForm = props => {
               </thead>
               <tbody>
                 {permissionTypes.map(permissionType => {
-                  console.log(permissionType);
-                  // {permission.split("CREATE_")[0]}
                   return (
                     <tr key={userRole._id + permissionType}>
-                      <th>{permissionType}</th>
-                      <td>
-                        {userRole.permissions.filter(permission => {
-                          if (
-                            permission.split(permissionType)[0] === "CREATE_"
-                          ) {
-                            return permission;
-                          } else return false;
-                        }).length > 0
-                          ? "X"
-                          : ""}
+                      <td>{permissionType}</td>
+                      <td style={{textAlign: 'center'}}>
+                        {(
+                            <input
+                              type="checkbox"
+                              className="checkbox"
+                              value={`CREATE_${permissionType}`}
+                              name={userRole._id}
+                              onChange={onSubmit}
+                              checked={userRole.permissions.filter(permission => {
+                                if (
+                                  permission.split(permissionType)[0] === "CREATE_"
+                                ) {
+                                  return permission;
+                                } else return false;
+                              }).length > 0}
+                              aria-label={`CREATE_${permissionType}`}
+                            />
+                          )}
                       </td>
-                      <td>
-                        {userRole.permissions.filter(permission => {
-                          if (
-                            permission.split(permissionType)[0] === "READ_"
-                          ) {
-                            return permission;
-                          } else return false;
-                        }).length > 0
-                          ? "X"
-                          : ""}
+                      <td style={{textAlign: 'center'}}>
+                        {(
+                            <input
+                              type="checkbox"
+                              className="checkbox"
+                              value={`READ_${permissionType}`}
+                              name={userRole._id}
+                              onChange={onSubmit}
+                              checked={userRole.permissions.filter(permission => {
+                                if (
+                                  permission.split(permissionType)[0] === "READ_"
+                                ) {
+                                  return permission;
+                                } else return false;
+                              }).length > 0}
+                              aria-label={`READ_${permissionType}`}
+                            />
+                          )}
                       </td>
-                      <td>
-                        {userRole.permissions.filter(permission => {
-                          if (
-                            permission.split(permissionType)[0] === "UPDATE_"
-                          ) {
-                            return permission;
-                          } else return false;
-                        }).length > 0
-                          ? "X"
-                          : ""}
+                      <td style={{textAlign: 'center'}}>
+                        {(
+                            <input
+                              type="checkbox"
+                              className="checkbox"
+                              value={`UPDATE_${permissionType}`}
+                              name={userRole._id}
+                              onChange={onSubmit}
+                              checked={userRole.permissions.filter(permission => {
+                                if (
+                                  permission.split(permissionType)[0] === "UPDATE_"
+                                ) {
+                                  return permission;
+                                } else return false;
+                              }).length > 0}
+                              aria-label={`UPDATE_${permissionType}`}
+                            />
+                          )}
                       </td>
-                      <td>
-                        {userRole.permissions.filter(permission => {
-                          if (
-                            permission.split(permissionType)[0] === "DELETE_"
-                          ) {
-                            return permission;
-                          } else return false;
-                        }).length > 0
-                          ? "X"
-                          : ""}
+                      <td style={{textAlign: 'center'}}>
+                        {(
+                            <input
+                              type="checkbox"
+                              className="checkbox"
+                              value={`DELETE_${permissionType}`}
+                              name={userRole._id}
+                              onChange={onSubmit}
+                              checked={userRole.permissions.filter(permission => {
+                                if (
+                                  permission.split(permissionType)[0] === "DELETE_"
+                                ) {
+                                  return permission;
+                                } else return false;
+                              }).length > 0}
+                              aria-label={`DELETE_${permissionType}`}
+                            />
+                          )}
                       </td>
                     </tr>
                   );
