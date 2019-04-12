@@ -5,6 +5,7 @@ import "react-tabs/style/react-tabs.css";
 import SettingsForm from "./Settings/SettingsForm";
 import InviteCodesForm from "./Settings/InviteCodesForm";
 import UserSettingsForm from "./Settings/UserSettingsForm";
+import UserRolesForm from "./Settings/UserRolesForm";
 import { startEditSettings } from "../actions/settings";
 import {
   startAddInviteCode,
@@ -35,6 +36,7 @@ export class SettingsPage extends React.Component {
             <Tab>General Settings</Tab>
             {this.props.settings.requireInviteCodes && <Tab>Invite Codes</Tab>}
             <Tab>User Settings</Tab>
+            <Tab>User Roles</Tab>
           </TabList>
 
           <TabPanel>
@@ -59,6 +61,15 @@ export class SettingsPage extends React.Component {
           <TabPanel>
             <div className="content-container content-container--centered">
               <UserSettingsForm
+                settings={this.props.settings}
+                userRoles={this.props.userRoles}
+                onSubmit={this.onSubmit}
+              />
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <div className="content-container content-container--centered">
+              <UserRolesForm
                 settings={this.props.settings}
                 userRoles={this.props.userRoles}
                 onSubmit={this.onSubmit}
