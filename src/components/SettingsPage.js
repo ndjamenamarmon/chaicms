@@ -7,6 +7,7 @@ import InviteCodesForm from "./Settings/InviteCodesForm";
 import UserSettingsForm from "./Settings/UserSettingsForm";
 import UserRolesForm from "./Settings/UserRolesForm";
 import { startEditSettings } from "../actions/settings";
+import { startEditUserRole } from "../actions/userRoles";
 import {
   startAddInviteCode,
   startEditInviteCode
@@ -15,6 +16,9 @@ import {
 export class SettingsPage extends React.Component {
   onSubmit = settings => {
     this.props.startEditSettings(settings);
+  };
+  onUserRolesSubmit = newUserRole => {
+    this.props.startEditUserRole(newUserRole);
   };
   onGenerateInviteCode = () => {
     this.props.startAddInviteCode();
@@ -73,6 +77,7 @@ export class SettingsPage extends React.Component {
                 settings={this.props.settings}
                 userRoles={this.props.userRoles}
                 onSubmit={this.onSubmit}
+                onUserRolesSubmit={this.onUserRolesSubmit}
               />
             </div>
           </TabPanel>
@@ -92,6 +97,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   startEditSettings: settings => dispatch(startEditSettings(settings)),
+  startEditUserRole: newUserRole => dispatch(startEditUserRole(newUserRole)),
   startAddInviteCode: () => dispatch(startAddInviteCode()),
   startEditInviteCode: (id, code) => dispatch(startEditInviteCode(id, code))
 });

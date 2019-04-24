@@ -164,6 +164,20 @@ export const startSetUserRoles = () => {
   };
 };
 
+// EDIT_USER_ROLE
+export const editUserRole = updates => ({
+  type: "EDIT_USER_ROLE",
+  updates
+});
+
+export const startEditUserRole = updates => {
+  return async dispatch => {
+    console.log(updates);
+    const res = await axios.put(`/api/user_roles/${updates._id}`, updates);
+    dispatch(editUserRole(updates));
+  };
+};
+
 // SET_USER_ROLE_ID
 // export const setUserRoleId = userRole => ({
 //   type: "SET_USER_ROLE_ID",
