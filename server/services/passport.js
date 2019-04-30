@@ -1,9 +1,11 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+var GitHubStrategy = require("passport-github").Strategy;
 const mongoose = require("mongoose");
 const keys = require("../config/keys");
 
 const User = mongoose.model("users"); // fetching out of mongoose
+const Settings = mongoose.model("settings");
 
 // first arg is user model, second is done
 passport.serializeUser((user, done) => {
@@ -51,3 +53,35 @@ passport.use(
     }
   )
 ); // new instance of google strategy, pass in config
+
+passport.use(
+  new GitHubStrategy(
+    {
+      clientID: keys.githubClientID,
+      clientSecret: keys.githubClientSecret,
+      callbackURL: "/auth/github/callback"
+    },
+    function(accessToken, refreshToken, profile, done) {
+      User.findOne({ githubId: profile.id }).then(existingUser => {
+        if (existingUser) {
+          done(null, existingUser);
+        } else {
+          Settings.find({}, function(err, settings) {}).then(
+            existingSettings => {
+              new User({
+                githubId: profile.id,
+                displayName: profile.displayName,
+                email: profile._json.email,
+                isApproved: true,
+                photoURL: profile._json.avatar_url,
+                role: existingSettings[0].defaultUserRole
+              })
+                .save()
+                .then(user => done(null, user));
+            }
+          );
+        }
+      });
+    }
+  )
+);

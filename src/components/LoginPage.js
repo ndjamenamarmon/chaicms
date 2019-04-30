@@ -9,12 +9,17 @@ export const LoginPage = ({ startLogin, settings }) => (
         {settings ? settings.siteTitle : "ChaiCMS"}
       </h1>
       <p>{settings && settings.siteDescription}</p>
-      {/* <button className="button" onClick={startLogin}>
-        Login with Google
-      </button> */}
-      <a className="button" href="/auth/google">
-        Login with Google
-      </a>
+      {settings.signInMethods.map(signInMethod => {
+        if (signInMethod.enabled) {
+          return (
+            <p>
+              <a className="button" href={`/auth/${signInMethod.type}`}>
+                Login with {signInMethod.name}
+              </a>
+            </p>
+          );
+        }
+      })}
     </div>
   </div>
 );

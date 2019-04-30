@@ -12,7 +12,16 @@ module.exports = app => {
     "/auth/google/callback",
     passport.authenticate("google"),
     (req, res) => {
-      // res.redirect("/dashboard");
+      res.redirect("/dashboard");
+    }
+  );
+
+  app.get("/auth/github", passport.authenticate("github"));
+
+  app.get(
+    "/auth/github/callback",
+    passport.authenticate("github"),
+    (req, res) => {
       res.redirect("/dashboard");
     }
   );
@@ -20,7 +29,6 @@ module.exports = app => {
   app.get("/api/logout", (req, res) => {
     req.logout(); // takes the cookie with id and kills it
     res.redirect("/");
-    // res.redirect("/");
   });
 
   app.get("/api/current_user", (req, res) => {

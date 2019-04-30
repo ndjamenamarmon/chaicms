@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { startLogin } from "../actions/auth";
 import { startAddUser } from "../actions/users";
 import { startEditInviteCode } from "../actions/inviteCodes";
-// import database from "../firebase/firebase";
 import axios from "axios";
 
 export const RegistrationPage = ({
@@ -39,15 +38,6 @@ export const RegistrationPage = ({
         const requireInviteCodes = res.data.requireInviteCodes;
         // If invite codes are not required, register the user and log them in
         if (!requireInviteCodes) {
-          // const newUser = {
-          //   googleId: auth.uid,
-          //   displayName: auth.displayName,
-          //   email: auth.email,
-          //   photoURL: auth.photoURL,
-          //   role: "member",
-          //   isApproved: false
-          // };
-          // startAddUser(newUser).then(() => {
           startAddUser().then(() => {
             history.push("/dashboard");
           });
@@ -94,23 +84,6 @@ export const RegistrationPage = ({
         });
       });
     }
-
-    // database
-    //   .ref("invite_codes")
-    //   .once("value")
-    //   .then(snapshot => {
-    //     snapshot.forEach(childSnapshot => {
-    //       if (
-    //         childSnapshot.val().code === inviteCode &&
-    //         childSnapshot.val().status === "enabled"
-    //       ) {
-    //         inviteCodeExists = {
-    //           id: childSnapshot.key,
-    //           ...childSnapshot.val()
-    //         };
-    //       }
-    //     });
-    //   });
   };
   return (
     <div>
