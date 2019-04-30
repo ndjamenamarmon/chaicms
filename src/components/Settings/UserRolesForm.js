@@ -30,7 +30,6 @@ export const UserRolesForm = props => {
         return userRole;
       }
     });
-    console.log("new user roles", newUserRoles);
 
     setUserRoles(newUserRoles);
 
@@ -41,8 +40,6 @@ export const UserRolesForm = props => {
         return false;
       }
     })[0];
-
-    console.log(newUserRole);
 
     props.onUserRolesSubmit(newUserRole);
   };
