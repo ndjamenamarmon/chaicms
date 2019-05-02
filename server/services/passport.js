@@ -98,6 +98,7 @@ passport.use(
         Settings.find({}, function(err, settings) {}).then(existingSettings => {
           new User({
             displayName: username,
+            email: username,
             isApproved: true,
             role: existingSettings[0].defaultUserRole
           })

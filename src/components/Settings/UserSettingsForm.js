@@ -11,7 +11,7 @@ export const UserSettingsForm = props => {
           {
             type: "email",
             name: "Email / Password",
-            enabled: false
+            enabled: true
           },
           {
             type: "phone",
