@@ -21,7 +21,7 @@ export const UserSettingsForm = props => {
           {
             type: "google",
             name: "Google",
-            enabled: true
+            enabled: false
           },
           {
             type: "facebook",
