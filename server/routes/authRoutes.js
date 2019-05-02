@@ -26,6 +26,14 @@ module.exports = app => {
     }
   );
 
+  app.post(
+    "/login",
+    passport.authenticate("local", { failureRedirect: "/login" }),
+    function(req, res) {
+      res.redirect("/dashboard");
+    }
+  );
+
   app.get("/api/logout", (req, res) => {
     req.logout(); // takes the cookie with id and kills it
     res.redirect("/");
