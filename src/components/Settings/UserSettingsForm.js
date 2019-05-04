@@ -8,11 +8,11 @@ export const UserSettingsForm = props => {
     props.settings.signInMethods.length > 0
       ? props.settings.signInMethods
       : [
-          {
-            type: "email",
-            name: "Email / Password",
-            enabled: true
-          },
+          // {
+          //   type: "email",
+          //   name: "Email / Password",
+          //   enabled: true
+          // },
           {
             type: "phone",
             name: "Phone Number",

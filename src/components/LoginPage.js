@@ -25,59 +25,59 @@ export const LoginPage = ({ startLogin, settings }) => {
         </h1>
         <p>{settings && settings.siteDescription}</p>
         {settings.signInMethods.map(signInMethod => {
-          if (signInMethod.enabled && signInMethod.type === "email") {
-            return (
-              <div key={signInMethod.type}>
-                <button className="button" onClick={openModal}>
-                  Login with {signInMethod.name}
-                </button>
-                <Modal
-                  style={{
-                    overlay: {
-                      backgroundColor: "rgba(0, 0, 0, 0.75)",
-                      zIndex: 100
-                    }
-                  }}
-                  isOpen={modalIsOpen}
-                  onRequestClose={closeModal}
-                  contentLabel="Login Modal"
-                  closeTimeoutMS={200}
-                  className="modal"
-                >
-                  <h3 className="modal__title">
-                    Register or Log In with Email and Password
-                  </h3>
-                  <div className="modal__body">
-                    <form className="form">
-                      <label className="label">
-                        E-mail Address
-                        <span className="fieldRequired">Required</span>
-                        <div>
-                          <input type="text" className="text-input" />
-                        </div>
-                      </label>
-                      <label className="label">
-                        Password
-                        <span className="fieldRequired">Required</span>
-                        <div>
-                          <input type="password" className="text-input" />
-                        </div>
-                      </label>
-                      <button className="button" onClick={closeModal}>
-                        Log In
-                      </button>{" "}
-                      <button
-                        className="button button--secondary"
-                        onClick={closeModal}
-                      >
-                        Cancel
-                      </button>
-                    </form>
-                  </div>
-                </Modal>
-              </div>
-            );
-          }
+          // if (signInMethod.enabled && signInMethod.type === "email") {
+          //   return (
+          //     <div key={signInMethod.type}>
+          //       <button className="button" onClick={openModal}>
+          //         Login with {signInMethod.name}
+          //       </button>
+          //       <Modal
+          //         style={{
+          //           overlay: {
+          //             backgroundColor: "rgba(0, 0, 0, 0.75)",
+          //             zIndex: 100
+          //           }
+          //         }}
+          //         isOpen={modalIsOpen}
+          //         onRequestClose={closeModal}
+          //         contentLabel="Login Modal"
+          //         closeTimeoutMS={200}
+          //         className="modal"
+          //       >
+          //         <h3 className="modal__title">
+          //           Register or Log In with Email and Password
+          //         </h3>
+          //         <div className="modal__body">
+          //           <form className="form">
+          //             <label className="label">
+          //               E-mail Address
+          //               <span className="fieldRequired">Required</span>
+          //               <div>
+          //                 <input type="text" className="text-input" />
+          //               </div>
+          //             </label>
+          //             <label className="label">
+          //               Password
+          //               <span className="fieldRequired">Required</span>
+          //               <div>
+          //                 <input type="password" className="text-input" />
+          //               </div>
+          //             </label>
+          //             <button className="button" onClick={closeModal}>
+          //               Log In
+          //             </button>{" "}
+          //             <button
+          //               className="button button--secondary"
+          //               onClick={closeModal}
+          //             >
+          //               Cancel
+          //             </button>
+          //           </form>
+          //         </div>
+          //       </Modal>
+          //     </div>
+          //   );
+          // }
           if (signInMethod.enabled && signInMethod.type !== "email") {
             return (
               <p key={signInMethod.type}>

@@ -1,7 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
-const LocalStrategy = require("passport-local").Strategy;
+// const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 const keys = require("../config/keys");
 
@@ -87,25 +87,25 @@ passport.use(
   )
 );
 
-passport.use(
-  new LocalStrategy(function(username, password, done) {
-    User.findOne({ username: username }).then(existingUser => {
-      if (existingUser && existingUser.verifyPassword(password)) {
-        done(null, existingUser);
-      } else if (existingUser && !existingUser.verifyPassword(password)) {
-        done(null, false);
-      } else {
-        Settings.find({}, function(err, settings) {}).then(existingSettings => {
-          new User({
-            displayName: username,
-            email: username,
-            isApproved: true,
-            role: existingSettings[0].defaultUserRole
-          })
-            .save()
-            .then(user => done(null, user));
-        });
-      }
-    });
-  })
-);
+// passport.use(
+//   new LocalStrategy(function(username, password, done) {
+//     User.findOne({ username: username }).then(existingUser => {
+//       if (existingUser && existingUser.verifyPassword(password)) {
+//         done(null, existingUser);
+//       } else if (existingUser && !existingUser.verifyPassword(password)) {
+//         done(null, false);
+//       } else {
+//         Settings.find({}, function(err, settings) {}).then(existingSettings => {
+//           new User({
+//             displayName: username,
+//             email: username,
+//             isApproved: true,
+//             role: existingSettings[0].defaultUserRole
+//           })
+//             .save()
+//             .then(user => done(null, user));
+//         });
+//       }
+//     });
+//   })
+// );
