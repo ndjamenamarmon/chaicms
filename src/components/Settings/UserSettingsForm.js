@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import Modal from "react-modal";
 import Toggle from "react-toggle";
+
+Modal.setAppElement("#app");
 
 export const UserSettingsForm = props => {
   const [error, setError] = useState(null);
@@ -45,28 +48,77 @@ export const UserSettingsForm = props => {
       ? props.settings.defaultUserRole
       : "member"
   );
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [currentSignInMethod, setCurrentSignInMethod] = useState();
+  const [newClientID, setNewClientID] = useState("");
+  const [newClientSecret, setNewClientSecret] = useState("");
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModalAndSave = e => {
+    e.preventDefault();
+
+    let newSignInMethods = signInMethods.map(signInMethod => {
+      if (signInMethod.type === currentSignInMethod) {
+        signInMethod.enabled = true;
+        signInMethod.clientID = newClientID;
+        signInMethod.clientSecret = newClientSecret;
+      }
+      return signInMethod;
+    });
+    setSignInMethods(newSignInMethods);
+    props.onSubmit({
+      ...props.settings,
+      signInMethods: newSignInMethods
+    });
+
+    setNewClientID("");
+    setNewClientSecret("");
+    setCurrentSignInMethod();
+    setModalIsOpen(false);
+  };
+
+  const cancelModal = e => {
+    e.preventDefault();
+
+    let newSignInMethods = signInMethods.map(signInMethod => {
+      if (signInMethod.type === currentSignInMethod) {
+        signInMethod.enabled = false;
+      }
+      return signInMethod;
+    });
+    setSignInMethods(newSignInMethods);
+    setCurrentSignInMethod();
+
+    setModalIsOpen(false);
+  };
 
   const toggleSignInMethod = e => {
     const signInMethodToChange = e.target.name;
     let enabledStatus;
     if (e.target.checked) {
-      enabledStatus = true;
+      //enabledStatus = true;
+      openModal();
+      setCurrentSignInMethod(signInMethodToChange);
     } else {
       enabledStatus = false;
+      setCurrentSignInMethod();
+
+      let newSignInMethods = signInMethods.map(signInMethod => {
+        if (signInMethod.type === signInMethodToChange) {
+          signInMethod.enabled = enabledStatus;
+        }
+        return signInMethod;
+      });
+      setSignInMethods(newSignInMethods);
+
+      props.onSubmit({
+        ...props.settings,
+        signInMethods: newSignInMethods
+      });
     }
-
-    let newSignInMethods = signInMethods.map(signInMethod => {
-      if (signInMethod.type === signInMethodToChange) {
-        signInMethod.enabled = enabledStatus;
-      }
-      return signInMethod;
-    });
-    setSignInMethods(newSignInMethods);
-
-    props.onSubmit({
-      ...props.settings,
-      signInMethods: newSignInMethods
-    });
   };
   const onSubmit = e => {
     e.preventDefault();
@@ -82,24 +134,28 @@ export const UserSettingsForm = props => {
       {error && <p className="form__error">{error}</p>}
       {success && <p className="form__success">{success}</p>}
 
-      <h3>Default User Settings</h3>
-      <label className="label">
-        User role for new sign-ups
-        <select
-          value={defaultUserRole}
-          onChange={e => setDefaultUserRole(e.target.value)}
-          className="select select--fullWidth"
-        >
-          {props.userRoles &&
-            props.userRoles.map(userRole => {
-              return (
-                <option value={userRole.name} key={userRole._id}>
-                  {userRole.displayName}
-                </option>
-              );
-            })}
-        </select>
-      </label>
+      {props.userRoles && (
+        <div>
+          <h3>Default User Settings</h3>
+          <label className="label">
+            User role for new sign-ups
+            <select
+              value={defaultUserRole}
+              onChange={e => setDefaultUserRole(e.target.value)}
+              className="select select--fullWidth"
+            >
+              {props.userRoles &&
+                props.userRoles.map(userRole => {
+                  return (
+                    <option value={userRole.name} key={userRole._id}>
+                      {userRole.displayName}
+                    </option>
+                  );
+                })}
+            </select>
+          </label>
+        </div>
+      )}
 
       <h3>Authentication Methods</h3>
       {signInMethods.map(signInMethod => {
@@ -119,9 +175,63 @@ export const UserSettingsForm = props => {
           </div>
         );
       })}
-      <div>
+      {modalIsOpen && (
+        <Modal
+          style={{
+            overlay: {
+              backgroundColor: "rgba(0, 0, 0, 0.75)",
+              zIndex: 100
+            }
+          }}
+          isOpen={modalIsOpen}
+          onRequestClose={cancelModal}
+          contentLabel="Sign In Method Keys"
+          closeTimeoutMS={200}
+          className="modal"
+        >
+          <h3 className="modal__title">Enter API Keys</h3>
+          <div className="modal__body">
+            <form className="form">
+              <label className="label">
+                Client ID
+                <span className="fieldRequired">Required</span>
+                <div>
+                  <input
+                    type="text"
+                    className="text-input"
+                    value={newClientID}
+                    onChange={e => setNewClientID(e.target.value)}
+                  />
+                </div>
+              </label>
+              <label className="label">
+                Client Secret
+                <span className="fieldRequired">Required</span>
+                <div>
+                  <input
+                    type="text"
+                    className="text-input"
+                    value={newClientSecret}
+                    onChange={e => setNewClientSecret(e.target.value)}
+                  />
+                </div>
+              </label>
+              <button className="button" onClick={closeModalAndSave}>
+                Save
+              </button>{" "}
+              <button
+                className="button button--secondary"
+                onClick={cancelModal}
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </Modal>
+      )}
+      {/* <div>
         <button className="button">Save Settings</button>
-      </div>
+      </div> */}
     </form>
   );
 };
