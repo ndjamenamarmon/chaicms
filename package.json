@@ -39,6 +39,7 @@
     "passport-github": "^1.1.0",
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
     "pretty": "^2.0.0",
     "raf": "3.4.1",
     "react": "^16.7.0-alpha.0",

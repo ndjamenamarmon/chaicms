@@ -2,6 +2,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
+const TwitterStrategy = require("passport-twitter").Strategy;
 const mongoose = require("mongoose");
 const keys = require("../config/keys");
 
@@ -135,6 +136,44 @@ var setPassportStrategies = () => {
                       displayName: profile.displayName,
                       email: profile.email,
                       photoURL: profile.profile_pic,
+                      isApproved: true,
+                      role: newUserRole
+                    })
+                      .save()
+                      .then(user => done(null, user));
+                  });
+                }
+              });
+            }
+          )
+        );
+      } else if (signInMethod.type === "twitter" && signInMethod.enabled) {
+        passport.use(
+          new TwitterStrategy(
+            {
+              clientID: signInMethod.clientID,
+              clientSecret: signInMethod.clientSecret,
+              callbackURL: "/auth/twitter/callback"
+            },
+            function(accessToken, refreshToken, profile, done) {
+              User.findOne({ twitterId: profile.id }).then(existingUser => {
+                if (existingUser) {
+                  done(null, existingUser);
+                } else {
+                  User.count({}, function(err, count) {
+                    let newUserRole;
+                    if (count === 0) {
+                      newUserRole = "owner";
+                    } else {
+                      newUserRole = existingSettings[0].defaultUserRole
+                        ? existingSettings[0].defaultUserRole
+                        : "member";
+                    }
+                    new User({
+                      twitterId: profile.id,
+                      displayName: profile.name,
+                      email: profile.email,
+                      photoURL: profile.profile_image_url_https,
                       isApproved: true,
                       role: newUserRole
                     })
