@@ -23,7 +23,7 @@ passport.deserializeUser((id, done) => {
 var setPassportStrategies = () => {
   Settings.find({}, function(err, settings) {}).then(existingSettings => {
     existingSettings[0].signInMethods.map(signInMethod => {
-      if (signInMethod.type === "google") {
+      if (signInMethod.type === "google" && signInMethod.enabled) {
         passport.use(
           new GoogleStrategy(
             {
@@ -49,7 +49,9 @@ var setPassportStrategies = () => {
                     if (count === 0) {
                       newUserRole = "owner";
                     } else {
-                      newUserRole = "member";
+                      newUserRole = existingSettings[0].defaultUserRole
+                        ? existingSettings[0].defaultUserRole
+                        : "member";
                     }
                     new User({
                       googleId: profile.id,
@@ -67,64 +69,47 @@ var setPassportStrategies = () => {
             }
           )
         ); // new instance of google strategy, pass in config
+      } else if (signInMethod.type === "github" && signInMethod.enabled) {
+        passport.use(
+          new GitHubStrategy(
+            {
+              clientID: signInMethod.clientID,
+              clientSecret: signInMethod.clientSecret,
+              callbackURL: "/auth/github/callback"
+            },
+            function(accessToken, refreshToken, profile, done) {
+              User.findOne({ githubId: profile.id }).then(existingUser => {
+                if (existingUser) {
+                  done(null, existingUser);
+                } else {
+                  User.count({}, function(err, count) {
+                    let newUserRole;
+                    if (count === 0) {
+                      newUserRole = "owner";
+                    } else {
+                      newUserRole = existingSettings[0].defaultUserRole
+                        ? existingSettings[0].defaultUserRole
+                        : "member";
+                    }
+                    new User({
+                      githubId: profile.id,
+                      displayName: profile.displayName,
+                      email: profile._json.email,
+                      isApproved: true,
+                      photoURL: profile._json.avatar_url,
+                      role: newUserRole
+                    })
+                      .save()
+                      .then(user => done(null, user));
+                  });
+                }
+              });
+            }
+          )
+        );
       }
     });
   });
 };
 
 setPassportStrategies();
-
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: keys.githubClientID,
-      clientSecret: keys.githubClientSecret,
-      callbackURL: "/auth/github/callback"
-    },
-    function(accessToken, refreshToken, profile, done) {
-      User.findOne({ githubId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          done(null, existingUser);
-        } else {
-          Settings.find({}, function(err, settings) {}).then(
-            existingSettings => {
-              new User({
-                githubId: profile.id,
-                displayName: profile.displayName,
-                email: profile._json.email,
-                isApproved: true,
-                photoURL: profile._json.avatar_url,
-                role: existingSettings[0].defaultUserRole
-              })
-                .save()
-                .then(user => done(null, user));
-            }
-          );
-        }
-      });
-    }
-  )
-);
-
-// passport.use(
-//   new LocalStrategy(function(username, password, done) {
-//     User.findOne({ username: username }).then(existingUser => {
-//       if (existingUser && existingUser.verifyPassword(password)) {
-//         done(null, existingUser);
-//       } else if (existingUser && !existingUser.verifyPassword(password)) {
-//         done(null, false);
-//       } else {
-//         Settings.find({}, function(err, settings) {}).then(existingSettings => {
-//           new User({
-//             displayName: username,
-//             email: username,
-//             isApproved: true,
-//             role: existingSettings[0].defaultUserRole
-//           })
-//             .save()
-//             .then(user => done(null, user));
-//         });
-//       }
-//     });
-//   })
-// );

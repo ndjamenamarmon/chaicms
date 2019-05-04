@@ -16,11 +16,11 @@ export const UserSettingsForm = props => {
           //   name: "Email / Password",
           //   enabled: true
           // },
-          {
-            type: "phone",
-            name: "Phone Number",
-            enabled: false
-          },
+          // {
+          //   type: "phone",
+          //   name: "Phone Number",
+          //   enabled: false
+          // },
           {
             type: "google",
             name: "Google",
