@@ -1,7 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github").Strategy;
-// const LocalStrategy = require("passport-local").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const mongoose = require("mongoose");
 const keys = require("../config/keys");
 
@@ -97,6 +97,45 @@ var setPassportStrategies = () => {
                       email: profile._json.email,
                       isApproved: true,
                       photoURL: profile._json.avatar_url,
+                      role: newUserRole
+                    })
+                      .save()
+                      .then(user => done(null, user));
+                  });
+                }
+              });
+            }
+          )
+        );
+      } else if (signInMethod.type === "facebook" && signInMethod.enabled) {
+        passport.use(
+          new FacebookStrategy(
+            {
+              clientID: signInMethod.clientID,
+              clientSecret: signInMethod.clientSecret,
+              callbackURL: "/auth/facebook/callback",
+              profileFields: ["id", "displayName", "email", "profile_pic"]
+            },
+            function(accessToken, refreshToken, profile, done) {
+              User.findOne({ facebookId: profile.id }).then(existingUser => {
+                if (existingUser) {
+                  done(null, existingUser);
+                } else {
+                  User.count({}, function(err, count) {
+                    let newUserRole;
+                    if (count === 0) {
+                      newUserRole = "owner";
+                    } else {
+                      newUserRole = existingSettings[0].defaultUserRole
+                        ? existingSettings[0].defaultUserRole
+                        : "member";
+                    }
+                    new User({
+                      facebookId: profile.id,
+                      displayName: profile.displayName,
+                      email: profile.email,
+                      photoURL: profile.profile_pic,
+                      isApproved: true,
                       role: newUserRole
                     })
                       .save()
