@@ -20,40 +20,59 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: keys.googleClientID,
-      clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/callback",
-      proxy: true
-    },
-    (accessToken, refreshToken, profile, done) => {
-      // console.log("profile", profile);
+var setPassportStrategies = () => {
+  Settings.find({}, function(err, settings) {}).then(existingSettings => {
+    existingSettings[0].signInMethods.map(signInMethod => {
+      if (signInMethod.type === "google") {
+        passport.use(
+          new GoogleStrategy(
+            {
+              clientID: signInMethod.clientID,
+              clientSecret: signInMethod.clientSecret,
+              callbackURL: "/auth/google/callback",
+              proxy: true
+            },
+            (accessToken, refreshToken, profile, done) => {
+              // console.log("profile", profile);
 
-      // initiate a search over all records in collection
-      // returns a promise (async)
-      // findOne grabs an instance from the User collection
-      User.findOne({ googleId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          // we already have a record with the given profile id
-          done(null, existingUser); // first argument is error
-        } else {
-          // we don't have a user record with this ID, make a new record
-          new User({
-            googleId: profile.id,
-            displayName: profile.displayName,
-            email: profile.email,
-            isApproved: true,
-            photoURL: profile.photoURL
-          })
-            .save()
-            .then(user => done(null, user)); // new instance of a user, then save to db
-        }
-      });
-    }
-  )
-); // new instance of google strategy, pass in config
+              // initiate a search over all records in collection
+              // returns a promise (async)
+              // findOne grabs an instance from the User collection
+              User.findOne({ googleId: profile.id }).then(existingUser => {
+                if (existingUser) {
+                  // we already have a record with the given profile id
+                  done(null, existingUser); // first argument is error
+                } else {
+                  // we don't have a user record with this ID, make a new record
+                  User.count({}, function(err, count) {
+                    let newUserRole;
+                    if (count === 0) {
+                      newUserRole = "owner";
+                    } else {
+                      newUserRole = "member";
+                    }
+                    new User({
+                      googleId: profile.id,
+                      displayName: profile.displayName,
+                      email: profile.email,
+                      isApproved: true,
+                      photoURL: profile.photoURL,
+                      role: newUserRole
+                    })
+                      .save()
+                      .then(user => done(null, user)); // new instance of a user, then save to db
+                  });
+                }
+              });
+            }
+          )
+        ); // new instance of google strategy, pass in config
+      }
+    });
+  });
+};
+
+setPassportStrategies();
 
 passport.use(
   new GitHubStrategy(

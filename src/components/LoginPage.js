@@ -11,7 +11,6 @@ export const LoginPage = ({ startEditSettings, settings }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const onSubmit = settings => {
-    console.log("onSubmit", settings);
     startEditSettings(settings);
   };
 
