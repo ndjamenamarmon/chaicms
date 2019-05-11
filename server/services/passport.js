@@ -58,7 +58,9 @@ var setPassportStrategies = () => {
                       googleId: profile.id,
                       displayName: profile.displayName,
                       email: profile.email,
-                      isApproved: true,
+                      isApproved: existingSettings[0].requireInviteCodes
+                        ? false
+                        : true,
                       photoURL: profile.photoURL,
                       role: newUserRole
                     })
@@ -96,7 +98,9 @@ var setPassportStrategies = () => {
                       githubId: profile.id,
                       displayName: profile.displayName,
                       email: profile._json.email,
-                      isApproved: true,
+                      isApproved: existingSettings[0].requireInviteCodes
+                        ? false
+                        : true,
                       photoURL: profile._json.avatar_url,
                       role: newUserRole
                     })
@@ -136,7 +140,9 @@ var setPassportStrategies = () => {
                       displayName: profile.displayName,
                       email: profile.email,
                       photoURL: profile.profile_pic,
-                      isApproved: true,
+                      isApproved: existingSettings[0].requireInviteCodes
+                        ? false
+                        : true,
                       role: newUserRole
                     })
                       .save()
@@ -174,7 +180,9 @@ var setPassportStrategies = () => {
                       displayName: profile.name,
                       email: profile.email,
                       photoURL: profile.profile_image_url_https,
-                      isApproved: true,
+                      isApproved: existingSettings[0].requireInviteCodes
+                        ? false
+                        : true,
                       role: newUserRole
                     })
                       .save()
