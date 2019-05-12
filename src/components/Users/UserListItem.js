@@ -10,7 +10,6 @@ const UserListItem = ({
   isApproved,
   userRoles
 }) => {
-  console.log(userRoles);
   const roleDisplay = userRoles.filter(userRole => {
     if (userRole.name === role) {
       return userRole;
@@ -20,7 +19,7 @@ const UserListItem = ({
   return (
     <Link
       className="card-list-item card-list-item--no-space-between"
-      to={`/users`}
+      to={`/users/edit/${_id}`}
     >
       <img src={photoURL} className="card-list-item__image" />
       <div>

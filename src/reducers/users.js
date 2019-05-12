@@ -17,6 +17,8 @@ export default (state = usersReducerDefaultState, action) => {
           return user;
         }
       });
+    case "REMOVE_USER":
+      return state.filter(({ id }) => id !== action.id);
     case "SET_USERS":
       return action.users;
     default:

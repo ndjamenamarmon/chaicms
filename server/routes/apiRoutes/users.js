@@ -62,7 +62,13 @@ module.exports = app => {
     // res.send(req.body);
   });
 
-  // app.delete("/api/users/:id", (req, res) => {
-
-  // });
+  app.delete("/api/users/:id", (req, res) => {
+    User.findOneAndDelete({ _id: req.params.id }, req.body, (err, data) => {
+      if (!err) {
+        res.send({ message: "deleted" });
+      } else {
+        res.send(err);
+      }
+    });
+  });
 };

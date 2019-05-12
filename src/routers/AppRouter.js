@@ -25,6 +25,7 @@ import EditEntryPage from "../components/Entries/EditEntryPage";
 
 // Users
 import UsersPage from "../components/Users/UsersPage";
+import EditUserPage from "../components/Users/EditUserPage";
 
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
@@ -107,6 +108,12 @@ const AppRouter = props => {
           <PrivateRoute
             path="/users"
             component={UsersPage}
+            exact={true}
+            accessRole={["admin", "owner"]}
+          />
+          <PrivateRoute
+            path="/users/edit/:id"
+            component={EditUserPage}
             accessRole={["admin", "owner"]}
           />
           <PrivateRoute
