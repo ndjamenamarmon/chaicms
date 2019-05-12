@@ -5,17 +5,23 @@ import UserListItem from "./UserListItem";
 
 export const UsersList = props => (
   <div>
-    <div className="list-header">
+    <div className="card-list-header">
       <div>Users</div>
     </div>
-    <div className="list-body">
+    <div className="card-list-body card-list-body--two-columns">
       {props.users.length === 0 ? (
-        <div className="list-item list-item--message">
+        <div className="card-list-item card-list-item--message">
           <span>No users</span>
         </div>
       ) : (
         props.users.map(user => {
-          return <UserListItem {...user} key={user._id} />;
+          return (
+            <UserListItem
+              {...user}
+              userRoles={props.userRoles}
+              key={user._id}
+            />
+          );
         })
       )}
     </div>
@@ -24,7 +30,8 @@ export const UsersList = props => (
 
 const mapStateToProps = state => {
   return {
-    users: state.users
+    users: state.users,
+    userRoles: state.userRoles
   };
 };
 

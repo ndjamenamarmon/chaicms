@@ -57,11 +57,11 @@ var setPassportStrategies = () => {
                     new User({
                       googleId: profile.id,
                       displayName: profile.displayName,
-                      email: profile.email,
+                      email: profile.emails[0].value,
                       isApproved: existingSettings[0].requireInviteCodes
                         ? false
                         : true,
-                      photoURL: profile.photoURL,
+                      photoURL: profile.photos[0].value,
                       role: newUserRole
                     })
                       .save()

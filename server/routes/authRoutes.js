@@ -4,7 +4,7 @@ module.exports = app => {
   app.get(
     "/auth/google",
     passport.authenticate("google", {
-      scope: ["profile", "email"]
+      scope: ["profile", "email"] //could this be used to pass client id/client secret instead of current method?
     })
   );
 
