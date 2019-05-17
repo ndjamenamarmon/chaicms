@@ -30,6 +30,7 @@ export class EditUserPage extends React.Component {
           <UserForm
             user={this.props.user}
             userRoles={this.props.userRoles}
+            users={this.props.users}
             onSubmit={this.onSubmit}
             onRemove={this.onRemove}
           />
@@ -42,7 +43,8 @@ export class EditUserPage extends React.Component {
 const mapStateToProps = (state, props) => {
   return {
     user: state.users.find(user => user._id === props.match.params.id),
-    userRoles: state.userRoles
+    userRoles: state.userRoles,
+    users: state.users
   };
 };
 
