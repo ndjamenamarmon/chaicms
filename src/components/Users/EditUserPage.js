@@ -15,6 +15,7 @@ export class EditUserPage extends React.Component {
     });
     this.props.history.push("/users");
   };
+
   render() {
     return (
       <div>
@@ -27,6 +28,19 @@ export class EditUserPage extends React.Component {
           </div>
         </div>
         <div className="content-container">
+          <img
+            src={this.props.user.photoURL}
+            className="card-list-item__image"
+          />
+          <div>
+            <h3 className="card-list-item__title">
+              {this.props.user.displayName}
+            </h3>
+            <span className="card-list-item__sub-title">
+              E-mail address: {this.props.user.email}
+            </span>
+          </div>
+
           <UserForm
             user={this.props.user}
             userRoles={this.props.userRoles}
