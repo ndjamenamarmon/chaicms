@@ -1,4 +1,3 @@
-// import { firebase, googleAuthProvider } from "../firebase/firebase";
 import axios from "axios";
 
 export const login = (uid, displayName, email, photoURL) => ({
@@ -11,8 +10,6 @@ export const login = (uid, displayName, email, photoURL) => ({
 
 export const startLogin = () => {
   return async dispatch => {
-    console.log("startLogin was called");
-    // return firebase.auth().signInWithPopup(googleAuthProvider);
     const res = await axios.get("/api/current_user");
     dispatch(
       login(
@@ -24,14 +21,3 @@ export const startLogin = () => {
     );
   };
 };
-
-// Is this used?
-// export const logout = () => ({
-//   type: "LOGOUT"
-// });
-
-// export const startLogout = () => {
-//   return () => {
-//     return firebase.auth().signOut();
-//   };
-// };
