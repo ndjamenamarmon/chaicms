@@ -2,7 +2,7 @@ import React, { useState, useReducer, useEffect } from "react";
 import Modal from "react-modal";
 import { connect } from "react-redux";
 // import { startLogin } from "../actions/auth";
-import { startEditSettings, startSetSettings } from "../actions/settings";
+import { startEditSettings, startSetPublicSettings } from "../actions/settings";
 import UserSettingsForm from "./Settings/UserSettingsForm";
 
 Modal.setAppElement("#app");
@@ -10,13 +10,13 @@ Modal.setAppElement("#app");
 export const LoginPage = ({
   startEditSettings,
   settings,
-  startSetSettings
+  startSetPublicSettings
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(async () => {
-    await startSetSettings();
-  });
+    await startSetPublicSettings();
+  }, []);
 
   const onSubmit = settings => {
     startEditSettings(settings);
@@ -124,7 +124,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   // startLogin: () => dispatch(startLogin()),
   startEditSettings: settings => dispatch(startEditSettings(settings)),
-  startSetSettings: settings => dispatch(startSetSettings())
+  startSetPublicSettings: settings => dispatch(startSetPublicSettings())
 });
 
 export default connect(

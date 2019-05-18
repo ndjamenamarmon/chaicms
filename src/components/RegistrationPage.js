@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { startLogin } from "../actions/auth";
-import { startSetSettings } from "../actions/settings";
+import { startSetPublicSettings } from "../actions/settings";
 import { startEditUser, startSetUsers } from "../actions/users";
-import {
-  startEditInviteCode,
-  startSetInviteCodes
-} from "../actions/inviteCodes";
+import { startEditInviteCode } from "../actions/inviteCodes";
 import axios from "axios";
 
 export const RegistrationPage = ({
   startLogin,
-  startSetSettings,
+  startSetPublicSettings,
   startAddUser,
   startSetUsers,
   startEditInviteCode,
@@ -20,13 +17,11 @@ export const RegistrationPage = ({
   settings,
   users,
   auth,
-  inviteCodes,
   history
 }) => {
   useEffect(async () => {
-    await startSetSettings();
+    await startSetPublicSettings();
     await startSetUsers();
-    await startSetInviteCodes();
   }, []);
   const [needInviteCodeEntry, setNeedInviteCodeEntry] = useState(false);
   const [inviteCode, setInviteCode] = useState("");
@@ -66,12 +61,14 @@ export const RegistrationPage = ({
 
     // check if invite code is valid
     let inviteCodeExists = undefined;
-    const res = await axios.get("/api/invite_codes");
-    inviteCodeExists = res.data.filter(item => {
-      if (item.code === inviteCode && item.status === "enabled") {
-        return item;
-      }
-    });
+    // const res = await axios.get("/api/invite_codes");
+    const res = await axios.get(`/api/invite_codes/byCode/${inviteCode}`);
+    // inviteCodeExists = res.data.filter(item => {
+    //   if (item.code === inviteCode && item.status === "enabled") {
+    //     return item;
+    //   }
+    // });
+    inviteCodeExists = res.data.length > 0;
 
     if (!inviteCode || !inviteCodeExists) {
       const error = "Please provide a valid invite code";
@@ -135,8 +132,7 @@ const mapStateToProps = (state, props) => {
   return {
     settings: state.settings,
     users: state.users,
-    auth: state.auth,
-    inviteCodes: state.inviteCodes
+    auth: state.auth
   };
 };
 
@@ -145,9 +141,8 @@ const mapDispatchToProps = dispatch => ({
   startEditUser: (id, user) => dispatch(startEditUser(id, user)),
   startEditInviteCode: (id, updates) =>
     dispatch(startEditInviteCode(id, updates)),
-  startSetSettings: () => dispatch(startSetSettings()),
-  startSetUsers: () => dispatch(startSetUsers()),
-  startSetInviteCodes: () => dispatch(startSetInviteCodes())
+  startSetPublicSettings: () => dispatch(startSetPublicSettings()),
+  startSetUsers: () => dispatch(startSetUsers())
 });
 
 export default connect(

@@ -1,16 +1,18 @@
 // const passport = require("passport");
 const mongoose = require("mongoose");
+const requireLogin = require("../middleware/requireLogin");
 
 const InviteCode = mongoose.model("invite_codes");
 
 module.exports = app => {
-  app.get("/api/invite_codes", (req, res) => {
+  // PRIVATE
+  app.get("/api/invite_codes", requireLogin, (req, res) => {
     InviteCode.find({}, function(err, invite_codes) {
       res.send(invite_codes);
     });
   });
 
-  app.post("/api/invite_codes", async (req, res) => {
+  app.post("/api/invite_codes", requireLogin, async (req, res) => {
     // Would also add createdBy and lastUpdatedBy here once user auth is hooked up
     let update = new InviteCode({
       createdAt: Date.now(),
@@ -27,7 +29,7 @@ module.exports = app => {
     }
   });
 
-  app.put("/api/invite_codes/:id", (req, res) => {
+  app.put("/api/invite_codes/:id", requireLogin, (req, res) => {
     // Would also add lastUpdatedBy here once user auth is hooked up
     let update = new InviteCode({
       _id: req.params.id,
@@ -44,7 +46,7 @@ module.exports = app => {
     });
   });
 
-  app.delete("/api/invite_codes/:id", (req, res) => {
+  app.delete("/api/invite_codes/:id", requireLogin, (req, res) => {
     InviteCode.findOneAndDelete(
       { _id: req.params.id },
       req.body,
@@ -56,5 +58,15 @@ module.exports = app => {
         }
       }
     );
+  });
+
+  // PUBLIC
+  app.get("/api/invite_codes/byCode/:code", (req, res) => {
+    InviteCode.find({ code: req.params.code, status: "enabled" }, function(
+      err,
+      invite_codes
+    ) {
+      res.send(invite_codes);
+    });
   });
 };

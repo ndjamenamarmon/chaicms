@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import AppRouter, { history } from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
 import { startLogin } from "./actions/auth";
-import { startSetSettings } from "./actions/settings";
+import { startSetPublicSettings } from "./actions/settings";
 import { startSetUsers } from "./actions/users";
 import { startAddUserRoles } from "./actions/userRoles";
 import "normalize.css/normalize.css";
@@ -44,7 +44,7 @@ store.dispatch(startLogin()).then(() => {
     });
   } else {
     store.dispatch(startAddUserRoles());
-    store.dispatch(startSetSettings()).then(() => {
+    store.dispatch(startSetPublicSettings()).then(() => {
       renderApp();
       history.push("/");
     });

@@ -76,3 +76,10 @@ export const startSetSettings = () => {
   //     });
   // };
 };
+
+export const startSetPublicSettings = () => {
+  return async dispatch => {
+    const res = await axios.get("/api/public/settings");
+    dispatch(setSettings(res.data));
+  };
+};
