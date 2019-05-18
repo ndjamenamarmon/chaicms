@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { startLogin } from "../actions/auth";
-import { startAddUser } from "../actions/users";
-import { startEditInviteCode } from "../actions/inviteCodes";
+import { startSetSettings } from "../actions/settings";
+import { startEditUser, startSetUsers } from "../actions/users";
+import {
+  startEditInviteCode,
+  startSetInviteCodes
+} from "../actions/inviteCodes";
 import axios from "axios";
 
 export const RegistrationPage = ({
   startLogin,
+  startSetSettings,
   startAddUser,
+  startSetUsers,
   startEditInviteCode,
+  startSetInviteCodes,
   startSetUserRoleId,
   settings,
   users,
@@ -16,31 +23,36 @@ export const RegistrationPage = ({
   inviteCodes,
   history
 }) => {
-  const [registrationCheck, setRegistrationCheck] = useState(false);
+  useEffect(async () => {
+    await startSetSettings();
+    await startSetUsers();
+    await startSetInviteCodes();
+  }, []);
   const [needInviteCodeEntry, setNeedInviteCodeEntry] = useState(false);
   const [inviteCode, setInviteCode] = useState("");
   const [error, setError] = useState(null);
 
   useEffect(async () => {
-    setRegistrationCheck(true);
-    if (!registrationCheck) {
-      // this is to keep this code from running every time useEffect runs
-      // Check if user is registered (exists in users object in db)
+    if (users.length > 0) {
+      const requireInviteCodes = settings.requireInviteCodes;
+
+      // Check if user is registered (exists in users object in db) and is approved
       const userExists = users.find(user => {
-        return user._id === auth.uid;
+        return user._id === auth.uid && user.isApproved === true;
       });
       if (userExists) {
         history.push("/dashboard");
       } else {
         // Check if invite codes are required - this needs to be coming directly from db, not redux store
         // let requireInviteCodes;
-        const res = await axios.get("/api/settings");
-        const requireInviteCodes = res.data.requireInviteCodes;
+        // const res = await axios.get("/api/settings");
+
         // If invite codes are not required, register the user and log them in
         if (!requireInviteCodes) {
-          startAddUser().then(() => {
-            history.push("/dashboard");
-          });
+          // startAddUser(auth).then(() => {
+          //   history.push("/dashboard");
+          // });
+          history.push("/");
         } else {
           setNeedInviteCodeEntry(true);
           // If invite codes are required, check if the user has one (should come in through url, saved in sessionStorage, or can be entered by user on this screen)
@@ -48,7 +60,7 @@ export const RegistrationPage = ({
         }
       }
     }
-  });
+  }, [users]);
   const onSubmit = async e => {
     e.preventDefault();
 
@@ -70,19 +82,24 @@ export const RegistrationPage = ({
       // register user
       // expire invite code
       const updateInviteCode = { status: "expired" };
-      const newUser = {
-        googleId: auth.uid,
-        displayName: auth.displayName,
-        email: auth.email,
-        photoURL: auth.photoURL,
-        role: "member",
-        isApproved: true
-      };
-      startAddUser(newUser).then(() => {
+      // const newUser = {
+      //   googleId: auth.uid,
+      //   displayName: auth.displayName,
+      //   email: auth.email,
+      //   photoURL: auth.photoURL,
+      //   role: "member",
+      //   isApproved: true
+      // };
+      startEditUser(auth.uid, { isApproved: true }).then(() => {
         startEditInviteCode(inviteCodeExists.id, updateInviteCode).then(() => {
           history.push("/dashboard");
         });
       });
+      // startAddUser(newUser).then(() => {
+      //   startEditInviteCode(inviteCodeExists.id, updateInviteCode).then(() => {
+      //     history.push("/dashboard");
+      //   });
+      // });
     }
   };
   return (
@@ -125,9 +142,12 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   startLogin: () => dispatch(startLogin()),
-  startAddUser: user => dispatch(startAddUser(user)),
+  startEditUser: (id, user) => dispatch(startEditUser(id, user)),
   startEditInviteCode: (id, updates) =>
-    dispatch(startEditInviteCode(id, updates))
+    dispatch(startEditInviteCode(id, updates)),
+  startSetSettings: () => dispatch(startSetSettings()),
+  startSetUsers: () => dispatch(startSetUsers()),
+  startSetInviteCodes: () => dispatch(startSetInviteCodes())
 });
 
 export default connect(

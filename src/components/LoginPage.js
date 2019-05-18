@@ -1,14 +1,22 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import Modal from "react-modal";
 import { connect } from "react-redux";
 // import { startLogin } from "../actions/auth";
-import { startEditSettings } from "../actions/settings";
+import { startEditSettings, startSetSettings } from "../actions/settings";
 import UserSettingsForm from "./Settings/UserSettingsForm";
 
 Modal.setAppElement("#app");
 
-export const LoginPage = ({ startEditSettings, settings }) => {
+export const LoginPage = ({
+  startEditSettings,
+  settings,
+  startSetSettings
+}) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  useEffect(async () => {
+    await startSetSettings();
+  });
 
   const onSubmit = settings => {
     startEditSettings(settings);
@@ -115,7 +123,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   // startLogin: () => dispatch(startLogin()),
-  startEditSettings: settings => dispatch(startEditSettings(settings))
+  startEditSettings: settings => dispatch(startEditSettings(settings)),
+  startSetSettings: settings => dispatch(startSetSettings())
 });
 
 export default connect(

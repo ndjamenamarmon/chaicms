@@ -35,10 +35,9 @@ import { startLogin } from "../actions/auth";
 export const history = createHistory();
 
 const AppRouter = props => {
-  useEffect(() => {
-    console.log("useEffect");
-    props.startLogin();
-  });
+  // useEffect(() => {
+  //   props.startLogin();
+  // });
   return (
     <Router history={history}>
       <div>
@@ -128,13 +127,15 @@ const AppRouter = props => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    startLogin: () => dispatch(startLogin())
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     startLogin: () => dispatch(startLogin())
+//   };
+// };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(AppRouter);
+// export default connect(
+//   null,
+//   mapDispatchToProps
+// )(AppRouter);
+
+export default AppRouter;

@@ -42,27 +42,31 @@ ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 store.dispatch(startLogin()).then(() => {
   console.log(store.getState().auth);
   if (store.getState().auth.uid) {
-    store.dispatch(startAddUserRoles());
+    store.dispatch(startSetUsers()).then(() => {
+      renderApp();
+      if (history.location.pathname === "/") {
+        history.push("/registration");
+      }
+    });
+
+    // store.dispatch(startAddUserRoles());
 
     // TO DO: Do not dispatch all this until the user is past the registration screen; ping the db api directly for checking the invite code
-    store.dispatch(startSetUsers()).then(() => {
-      store.dispatch(startSetUserRoles()).then(() => {
-        store.dispatch(startSetSettings()).then(() => {
-          store.dispatch(startSetContentTypes()).then(() => {
-            store.dispatch(startSetFields()).then(() => {
-              store.dispatch(startSetEntries()).then(() => {
-                store.dispatch(startSetInviteCodes()).then(() => {
-                  renderApp();
-                  if (history.location.pathname === "/") {
-                    history.push("/registration");
-                  }
-                });
-              });
-            });
-          });
-        });
-      });
-    });
+    // store.dispatch(startSetUsers()).then(() => {
+    //   store.dispatch(startSetUserRoles()).then(() => {
+    //     store.dispatch(startSetSettings()).then(() => {
+    //       store.dispatch(startSetContentTypes()).then(() => {
+    //         store.dispatch(startSetFields()).then(() => {
+    //           store.dispatch(startSetEntries()).then(() => {
+    //             store.dispatch(startSetInviteCodes()).then(() => {
+
+    //             });
+    //           });
+    //         });
+    //       });
+    //     });
+    //   });
+    // });
   } else {
     store.dispatch(startAddUserRoles());
     // store.dispatch(logout());

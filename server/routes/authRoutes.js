@@ -12,7 +12,7 @@ module.exports = app => {
     "/auth/google/callback",
     passport.authenticate("google"),
     (req, res) => {
-      res.redirect("/dashboard");
+      res.redirect("/registration");
     }
   );
 
@@ -22,7 +22,7 @@ module.exports = app => {
     "/auth/github/callback",
     passport.authenticate("github"),
     (req, res) => {
-      res.redirect("/dashboard");
+      res.redirect("/registration");
     }
   );
 
@@ -32,7 +32,7 @@ module.exports = app => {
     "/auth/facebook/callback",
     passport.authenticate("facebook"),
     (req, res) => {
-      res.redirect("/dashboard");
+      res.redirect("/registration");
     }
   );
 
@@ -42,7 +42,7 @@ module.exports = app => {
     "/auth/twitter/callback",
     passport.authenticate("twitter"),
     (req, res) => {
-      res.redirect("/dashboard");
+      res.redirect("/registration");
     }
   );
 

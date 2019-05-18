@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
 import selectContentTypes from "../selectors/contentTypes";
 // import { startLogout } from "../actions/auth";
+import { startSetContentTypes } from "../actions/contentTypes";
 
 export const Sidebar = props => {
+  useEffect(() => {
+    props.startSetContentTypes();
+  }, []);
   return (
     <Menu>
       <ul className="sidebar-list">
@@ -85,6 +89,12 @@ export const Sidebar = props => {
   );
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    startSetContentTypes: () => dispatch(startSetContentTypes())
+  };
+};
+
 const mapStateToProps = state => {
   return {
     contentTypes: selectContentTypes(state.contentTypes, { sortBy: "title" }),
@@ -98,5 +108,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Sidebar);
