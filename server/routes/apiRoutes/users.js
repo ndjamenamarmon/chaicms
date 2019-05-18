@@ -5,6 +5,7 @@ const requireLogin = require("../middleware/requireLogin");
 const User = mongoose.model("users");
 
 module.exports = app => {
+  // PRIVATE
   app.get("/api/users", requireLogin, (req, res) => {
     // res.send(req.user);
     User.find({}, function(err, users) {

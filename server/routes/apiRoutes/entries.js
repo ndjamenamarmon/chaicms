@@ -1,17 +1,18 @@
 // const passport = require("passport");
 const mongoose = require("mongoose");
+const requireLogin = require("../middleware/requireLogin");
 
 const Entry = mongoose.model("entries");
 
 module.exports = app => {
-  app.get("/api/entries", (req, res) => {
+  // PRIVATE
+  app.get("/api/entries", requireLogin, (req, res) => {
     Entry.find({}, function(err, entries) {
       res.send(entries);
     });
   });
 
-  app.post("/api/entries", async (req, res) => {
-    // Would also add createdBy and lastUpdatedBy here once user auth is hooked up
+  app.post("/api/entries", requireLogin, async (req, res) => {
     let update = new Entry({
       createdAt: Date.now(),
       lastUpdated: Date.now(),
@@ -27,8 +28,7 @@ module.exports = app => {
     }
   });
 
-  app.put("/api/entries/:id", (req, res) => {
-    // Would also add lastUpdatedBy here once user auth is hooked up
+  app.put("/api/entries/:id", requireLogin, (req, res) => {
     let update = new Entry({
       _id: req.params.id,
       lastUpdated: Date.now(),
@@ -44,7 +44,7 @@ module.exports = app => {
     });
   });
 
-  app.delete("/api/entries/:id", (req, res) => {
+  app.delete("/api/entries/:id", requireLogin, (req, res) => {
     Entry.findOneAndDelete({ _id: req.params.id }, req.body, (err, data) => {
       if (!err) {
         res.send({ message: "deleted" });

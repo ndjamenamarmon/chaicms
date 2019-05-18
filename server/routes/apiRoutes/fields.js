@@ -1,17 +1,18 @@
 // const passport = require("passport");
 const mongoose = require("mongoose");
+const requireLogin = require("../middleware/requireLogin");
 
 const Field = mongoose.model("fields");
 
 module.exports = app => {
-  app.get("/api/fields", (req, res) => {
+  // PRIVATE
+  app.get("/api/fields", requireLogin, (req, res) => {
     Field.find({}, function(err, fields) {
       res.send(fields);
     });
   });
 
-  app.post("/api/fields", async (req, res) => {
-    // Would also add createdBy and lastUpdatedBy here once user auth is hooked up
+  app.post("/api/fields", requireLogin, async (req, res) => {
     let update = new Field({
       createdAt: Date.now(),
       lastUpdated: Date.now(),
@@ -27,8 +28,7 @@ module.exports = app => {
     }
   });
 
-  app.put("/api/fields/:id", (req, res) => {
-    // Would also add lastUpdatedBy here once user auth is hooked up
+  app.put("/api/fields/:id", requireLogin, (req, res) => {
     let update = new Field({
       _id: req.params.id,
       lastUpdated: Date.now(),
@@ -44,7 +44,7 @@ module.exports = app => {
     });
   });
 
-  app.delete("/api/fields/:id", (req, res) => {
+  app.delete("/api/fields/:id", requireLogin, (req, res) => {
     Field.findOneAndDelete({ _id: req.params.id }, req.body, (err, data) => {
       if (!err) {
         res.send({ message: "deleted" });

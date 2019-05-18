@@ -1,17 +1,18 @@
 // const passport = require("passport");
 const mongoose = require("mongoose");
+const requireLogin = require("../middleware/requireLogin");
 
 const ContentType = mongoose.model("content_types");
 
 module.exports = app => {
-  app.get("/api/content_types", (req, res) => {
+  // PRIVATE
+  app.get("/api/content_types", requireLogin, (req, res) => {
     ContentType.find({}, function(err, contentTypes) {
       res.send(contentTypes);
     });
   });
 
-  app.post("/api/content_types", async (req, res) => {
-    // Would also add createdBy and lastUpdatedBy here once user auth is hooked up
+  app.post("/api/content_types", requireLogin, async (req, res) => {
     let update = new ContentType({
       createdAt: Date.now(),
       lastUpdated: Date.now(),
@@ -27,8 +28,7 @@ module.exports = app => {
     }
   });
 
-  app.put("/api/content_types/:id", (req, res) => {
-    // Would also add lastUpdatedBy here once user auth is hooked up
+  app.put("/api/content_types/:id", requireLogin, (req, res) => {
     let update = new ContentType({
       _id: req.params.id,
       lastUpdated: Date.now(),
@@ -44,7 +44,7 @@ module.exports = app => {
     });
   });
 
-  app.delete("/api/content_types/:id", (req, res) => {
+  app.delete("/api/content_types/:id", requireLogin, (req, res) => {
     ContentType.findOneAndDelete(
       { _id: req.params.id },
       req.body,
