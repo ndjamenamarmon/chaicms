@@ -2,10 +2,25 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import EntryForm from "./EntryForm.js";
-import { startAddEntry } from "../../actions/entries";
+import { startAddEntry, startSetEntries } from "../../actions/entries";
 // import selectContentTypes from "../../selectors/contentTypes";
+import { startSetContentTypes } from "../../actions/contentTypes";
+import { startSetFields } from "../../actions/fields";
 
 export class AddEntryPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true
+    };
+  }
+  async componentDidMount() {
+    await this.props.startSetEntries();
+    await this.props.startSetContentTypes();
+    await this.props.startSetFields();
+    this.setState({ loading: false });
+  }
+
   onSubmit = entry => {
     this.props.startAddEntry(entry);
     this.props.history.push(`/entry/${this.props.contentType.apiKey}`);
@@ -22,29 +37,33 @@ export class AddEntryPage extends React.Component {
     // console.log(this.props.contentType);
     return (
       <div>
-        <div className="page-header">
-          <div className="content-container">
-            <h1 className="page-header__title">
-              Add {this.props.contentType.title}
-            </h1>
-            <Link
-              className="page-header__actions"
-              to={`/entry/${this.props.contentType.apiKey}`}
-            >
-              &laquo; Back
-            </Link>
+        {!this.state.loading && this.props.contentType && (
+          <div>
+            <div className="page-header">
+              <div className="content-container">
+                <h1 className="page-header__title">
+                  Add {this.props.contentType.title}
+                </h1>
+                <Link
+                  className="page-header__actions"
+                  to={`/entry/${this.props.contentType.apiKey}`}
+                >
+                  &laquo; Back
+                </Link>
+              </div>
+            </div>
+            <div className="content-container">
+              <EntryForm
+                onSubmit={this.onSubmit}
+                contentType={this.props.contentType}
+                fields={this.props.fields}
+                entries={this.props.entries}
+                entry={this.emptyEntry}
+                currentUser={this.props.currentUser}
+              />
+            </div>
           </div>
-        </div>
-        <div className="content-container">
-          <EntryForm
-            onSubmit={this.onSubmit}
-            contentType={this.props.contentType}
-            fields={this.props.fields}
-            entries={this.props.entries}
-            entry={this.emptyEntry}
-            currentUser={this.props.currentUser}
-          />
-        </div>
+        )}
       </div>
     );
   }
@@ -63,7 +82,10 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  startAddEntry: entry => dispatch(startAddEntry(entry))
+  startAddEntry: entry => dispatch(startAddEntry(entry)),
+  startSetEntries: () => dispatch(startSetEntries()),
+  startSetContentTypes: () => dispatch(startSetContentTypes()),
+  startSetFields: () => dispatch(startSetFields())
 });
 
 export default connect(
