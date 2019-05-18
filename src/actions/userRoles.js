@@ -16,6 +16,7 @@ export const startAddUserRoles = () => {
         displayName: "Author",
         permissions: [
           "CREATE_ENTRIES",
+          "CREATE_OWN_ENTRIES",
           "READ_OWN_ENTRIES",
           "UPDATE_OWN_ENTRIES"
         ]
@@ -27,7 +28,11 @@ export const startAddUserRoles = () => {
           "CREATE_ENTRIES",
           "READ_ENTRIES",
           "UPDATE_ENTRIES",
-          "DELETE_ENTRIES"
+          "DELETE_ENTRIES",
+          "CREATE_OWN_ENTRIES",
+          "READ_OWN_ENTRIES",
+          "UPDATE_OWN_ENTRIES",
+          "DELETE_OWN_ENTRIES"
         ]
       },
       {
@@ -48,7 +53,11 @@ export const startAddUserRoles = () => {
           "UPDATE_FIELDS",
           "CREATE_ENTRIES",
           "UPDATE_ENTRIES",
-          "DELETE_ENTRIES"
+          "DELETE_ENTRIES",
+          "CREATE_OWN_ENTRIES",
+          "READ_OWN_ENTRIES",
+          "UPDATE_OWN_ENTRIES",
+          "DELETE_OWN_ENTRIES"
         ]
       },
       {
@@ -71,7 +80,15 @@ export const startAddUserRoles = () => {
           "UPDATE_ENTRIES",
           "DELETE_ENTRIES",
           "UPDATE_SETTINGS",
-          "UPDATE_USER_ROLES"
+          "UPDATE_USER_ROLES",
+          "CREATE_OWN_ENTRIES",
+          "READ_OWN_ENTRIES",
+          "UPDATE_OWN_ENTRIES",
+          "DELETE_OWN_ENTRIES",
+          "CREATE_INVITE_CODES",
+          "UPDATE_INVITE_CODES",
+          "DELETE_INVITE_CODES",
+          "UPDATE_USERS"
         ]
       },
       {
@@ -94,7 +111,17 @@ export const startAddUserRoles = () => {
           "UPDATE_ENTRIES",
           "DELETE_ENTRIES",
           "UPDATE_SETTINGS",
-          "UPDATE_USER_ROLES"
+          "UPDATE_USER_ROLES",
+          "CREATE_INVITE_CODES",
+          "CREATE_USER_ROLES",
+          "CREATE_USERS",
+          "UPDATE_OWN_ENTRIES",
+          "DELETE_OWN_ENTRIES",
+          "UPDATE_INVITE_CODES",
+          "DELETE_INVITE_CODES",
+          "DELETE_USER_ROLES",
+          "UPDATE_USERS",
+          "DELETE_USERS"
         ]
       }
     ];
