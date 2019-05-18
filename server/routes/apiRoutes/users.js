@@ -1,10 +1,11 @@
 // const passport = require("passport");
 const mongoose = require("mongoose");
+const requireLogin = require("../middleware/requireLogin");
 
 const User = mongoose.model("users");
 
 module.exports = app => {
-  app.get("/api/users", (req, res) => {
+  app.get("/api/users", requireLogin, (req, res) => {
     // res.send(req.user);
     User.find({}, function(err, users) {
       // var userMap = {};
@@ -23,7 +24,7 @@ module.exports = app => {
   //   res.send(req.body);
   // });
 
-  app.put("/api/users/:id", (req, res) => {
+  app.put("/api/users/:id", requireLogin, (req, res) => {
     // res.send(req.params.id);
 
     // User.findOne({ _id: req.params.id }).then(user => {
@@ -62,12 +63,23 @@ module.exports = app => {
     // res.send(req.body);
   });
 
-  app.delete("/api/users/:id", (req, res) => {
+  app.delete("/api/users/:id", requireLogin, (req, res) => {
     User.findOneAndDelete({ _id: req.params.id }, req.body, (err, data) => {
       if (!err) {
         res.send({ message: "deleted" });
       } else {
         res.send(err);
+      }
+    });
+  });
+
+  // PUBLIC
+  app.get("/api/users/:id", (req, res) => {
+    User.find({ _id: req.params.id }, function(err, users) {
+      if (users.length > 0) {
+        res.send(users[0]);
+      } else {
+        res.send(null);
       }
     });
   });

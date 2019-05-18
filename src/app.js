@@ -5,7 +5,6 @@ import AppRouter, { history } from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
 import { startLogin } from "./actions/auth";
 import { startSetPublicSettings } from "./actions/settings";
-import { startSetUsers } from "./actions/users";
 import { startAddUserRoles } from "./actions/userRoles";
 import "normalize.css/normalize.css";
 import "react-dates/lib/css/_datepicker.css";
@@ -36,12 +35,10 @@ ReactDOM.render(<LoadingPage />, document.getElementById("app"));
 
 store.dispatch(startLogin()).then(() => {
   if (store.getState().auth.uid) {
-    store.dispatch(startSetUsers()).then(() => {
-      renderApp();
-      if (history.location.pathname === "/") {
-        history.push("/registration");
-      }
-    });
+    renderApp();
+    if (history.location.pathname === "/") {
+      history.push("/registration");
+    }
   } else {
     store.dispatch(startAddUserRoles());
     store.dispatch(startSetPublicSettings()).then(() => {

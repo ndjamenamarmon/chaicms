@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { startLogin } from "../actions/auth";
 import { startSetPublicSettings } from "../actions/settings";
-import { startEditUser, startSetUsers } from "../actions/users";
+import { startEditUser } from "../actions/users";
 import { startEditInviteCode } from "../actions/inviteCodes";
 import axios from "axios";
 
@@ -10,7 +10,6 @@ export const RegistrationPage = ({
   startLogin,
   startSetPublicSettings,
   startAddUser,
-  startSetUsers,
   startEditInviteCode,
   startSetInviteCodes,
   startSetUserRoleId,
@@ -21,7 +20,6 @@ export const RegistrationPage = ({
 }) => {
   useEffect(async () => {
     await startSetPublicSettings();
-    await startSetUsers();
   }, []);
   const [needInviteCodeEntry, setNeedInviteCodeEntry] = useState(false);
   const [inviteCode, setInviteCode] = useState("");
@@ -32,9 +30,12 @@ export const RegistrationPage = ({
       const requireInviteCodes = settings.requireInviteCodes;
 
       // Check if user is registered (exists in users object in db) and is approved
-      const userExists = users.find(user => {
-        return user._id === auth.uid && user.isApproved === true;
-      });
+      const res = await axios.get(`/api/users/${auth.uid}`);
+      const userExists =
+        res.data && res.data.isApproved === true ? true : false;
+      // const userExists = users.find(user => {
+      //   return user._id === auth.uid && user.isApproved === true;
+      // });
       if (userExists) {
         history.push("/dashboard");
       } else {
@@ -141,8 +142,7 @@ const mapDispatchToProps = dispatch => ({
   startEditUser: (id, user) => dispatch(startEditUser(id, user)),
   startEditInviteCode: (id, updates) =>
     dispatch(startEditInviteCode(id, updates)),
-  startSetPublicSettings: () => dispatch(startSetPublicSettings()),
-  startSetUsers: () => dispatch(startSetUsers())
+  startSetPublicSettings: () => dispatch(startSetPublicSettings())
 });
 
 export default connect(
