@@ -98,11 +98,12 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   return {
     contentTypes: selectContentTypes(state.contentTypes, { sortBy: "title" }),
-    userRole:
-      state.auth.uid &&
-      state.users.find(user => {
-        return user._id === state.auth.uid;
-      }).role
+    // userRole:
+    //   state.auth.uid &&
+    //   state.users.find(user => {
+    //     return user._id === state.auth.uid;
+    //   }).role
+    userRole: state.auth.uid && state.user.role
   };
 };
 

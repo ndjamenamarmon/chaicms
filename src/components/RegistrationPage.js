@@ -11,10 +11,7 @@ export const RegistrationPage = ({
   startSetPublicSettings,
   startAddUser,
   startEditInviteCode,
-  startSetInviteCodes,
-  startSetUserRoleId,
   settings,
-  users,
   auth,
   history
 }) => {
@@ -26,7 +23,7 @@ export const RegistrationPage = ({
   const [error, setError] = useState(null);
 
   useEffect(async () => {
-    if (users.length > 0) {
+    if (settings.length !== 0) {
       const requireInviteCodes = settings.requireInviteCodes;
 
       // Check if user is registered (exists in users object in db) and is approved
@@ -56,7 +53,7 @@ export const RegistrationPage = ({
         }
       }
     }
-  }, [users]);
+  }, [settings]);
   const onSubmit = async e => {
     e.preventDefault();
 

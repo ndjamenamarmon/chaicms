@@ -16,9 +16,10 @@ const DashboardPage = props => (
 
 const mapStateToProps = state => {
   return {
-    currentUser: state.users.find(user => {
-      return user._id === state.auth.uid;
-    })
+    // currentUser: state.users.find(user => {
+    //   return user._id === state.auth.uid;
+    // })
+    currentUser: state.user
   };
 };
 

@@ -125,12 +125,15 @@ export const startAddUserRoles = () => {
         ]
       }
     ];
-    const getUserRoles = await axios.get("/api/user_roles");
-    if (getUserRoles.data.length === 0) {
-      userRoles.map(userRole => {
-        axios.post("/api/user_roles", userRole);
-      });
-    }
+    // const getUserRoles = await axios.get("/api/user_roles");
+    // if (getUserRoles.data.length === 0) {
+    //   userRoles.map(userRole => {
+    //     axios.post("/api/user_roles", userRole);
+    //   });
+    // }
+    userRoles.map(userRole => {
+      axios.post("/api/user_roles", userRole);
+    });
   };
   // return (dispatch, getState) => {
   //   const userRoles = [
@@ -199,7 +202,6 @@ export const editUserRole = updates => ({
 
 export const startEditUserRole = updates => {
   return async dispatch => {
-    console.log(updates);
     const res = await axios.put(`/api/user_roles/${updates._id}`, updates);
     dispatch(editUserRole(updates));
   };
