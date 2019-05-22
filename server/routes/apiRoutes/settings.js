@@ -1,6 +1,7 @@
 // const passport = require("passport");
 const mongoose = require("mongoose");
 const requireLogin = require("../middleware/requireLogin");
+const requirePermissions = require("../middleware/requirePermissions");
 
 const Settings = mongoose.model("settings");
 
@@ -12,25 +13,30 @@ module.exports = app => {
     });
   });
 
-  app.put("/api/settings", requireLogin, (req, res) => {
-    Settings.findOne({}, (err, settings) => {
-      if (!err) {
-        let update = new Settings({
-          _id: settings._id,
-          lastUpdated: Date.now(),
-          lastUpdatedBy: req.user ? req.user._id : "",
-          ...req.body
-        });
-        update.isNew = false;
-        update.save(err => {
-          if (err) res.send(err);
-          else {
-            res.send({ message: "ok" });
-          }
-        });
-      } else res.send(err);
-    });
-  });
+  app.put(
+    "/api/settings",
+    requireLogin,
+    requirePermissions(["UPDATE_SETTINGS"]),
+    (req, res) => {
+      Settings.findOne({}, (err, settings) => {
+        if (!err) {
+          let update = new Settings({
+            _id: settings._id,
+            lastUpdated: Date.now(),
+            lastUpdatedBy: req.user ? req.user._id : "",
+            ...req.body
+          });
+          update.isNew = false;
+          update.save(err => {
+            if (err) res.send(err);
+            else {
+              res.send({ message: "ok" });
+            }
+          });
+        } else res.send(err);
+      });
+    }
+  );
 
   // PUBLIC
   app.get("/api/public/settings", (req, res) => {
