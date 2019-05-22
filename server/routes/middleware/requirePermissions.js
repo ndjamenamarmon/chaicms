@@ -14,24 +14,26 @@ const UserRole = mongoose.model("user_roles");
 module.exports = permissions => {
   return function(req, res, next) {
     let permissionFound = false;
-    UserRole.findOne({ name: req.user.role }, (err, userRole) => {
-      permissions.forEach(p => {
-        userRole.permissions.forEach(permission => {
-          if (p === permission) {
-            if (!err) {
+    UserRole.findOne({ name: req.user.role }, (err, userRole) => {})
+      .then(userRole => {
+        permissions.forEach(p => {
+          userRole.permissions.forEach(permission => {
+            if (p === permission) {
               permissionFound = true;
             }
-          }
+          });
         });
-      });
-    }).then(() => {
-      if (!permissionFound) {
-        return res
-          .status(401)
-          .send({ error: "You do not have required permissions." });
-      }
 
-      next();
-    });
+        if (!permissionFound) {
+          return res
+            .status(401)
+            .send({ error: "You do not have required permissions." });
+        }
+
+        next();
+      })
+      .catch(err => {
+        return res.status(500).send({ error: "Server error" });
+      });
   };
 };
