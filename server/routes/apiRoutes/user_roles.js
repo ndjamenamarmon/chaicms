@@ -1,6 +1,7 @@
 // const passport = require("passport");
 const mongoose = require("mongoose");
 const requireLogin = require("../middleware/requireLogin");
+const requirePermissions = require("../middleware/requirePermissions");
 
 const UserRole = mongoose.model("user_roles");
 
@@ -33,40 +34,59 @@ module.exports = app => {
     });
   });
 
-  app.put("/api/user_roles/:id", requireLogin, (req, res) => {
-    // Would also add lastUpdatedBy here once user auth is hooked up
-    let update = new UserRole({
-      _id: req.params.id,
-      lastUpdated: Date.now(),
-      lastUpdatedBy: req.user._id,
-      ...req.body
-    });
-    update.isNew = false;
-    update.save(err => {
-      if (err) res.send(err);
-      else {
-        res.send({ message: "ok" });
-      }
-    });
-  });
+  app.put(
+    "/api/user_roles/:id",
+    requireLogin,
+    requirePermissions(["UPDATE_USER_ROLES"]),
+    (req, res) => {
+      // Would also add lastUpdatedBy here once user auth is hooked up
+      let update = new UserRole({
+        _id: req.params.id,
+        lastUpdated: Date.now(),
+        lastUpdatedBy: req.user._id,
+        ...req.body
+      });
+      update.isNew = false;
+      update.save(err => {
+        if (err) res.send(err);
+        else {
+          res.send({ message: "ok" });
+        }
+      });
+    }
+  );
 
-  app.delete("/api/user_roles/:id", requireLogin, (req, res) => {
-    UserRole.findOneAndDelete({ _id: req.params.id }, req.body, (err, data) => {
-      if (!err) {
-        res.send({ message: "deleted" });
-      } else {
-        res.send(err);
-      }
-    });
-  });
+  app.delete(
+    "/api/user_roles/:id",
+    requireLogin,
+    requirePermissions(["DELETE_USER_ROLES"]),
+    (req, res) => {
+      UserRole.findOneAndDelete(
+        { _id: req.params.id },
+        req.body,
+        (err, data) => {
+          if (!err) {
+            res.send({ message: "deleted" });
+          } else {
+            res.send(err);
+          }
+        }
+      );
+    }
+  );
 
-  app.delete("/api/user_roles", requireLogin, (req, res) => {
-    UserRole.deleteMany({}, (err, data) => {
-      if (!err) {
-        res.send({ message: "deleted all", count: data.deletedCount });
-      } else {
-        res.end(err);
-      }
-    });
-  });
+  app.delete(
+    "/api/user_roles",
+    requireLogin,
+    requirePermissions(["DELETE_USER_ROLES"]),
+    (req, res) => {
+      UserRole.deleteMany({}, (err, data) => {
+        if (!err) {
+          res.send({ message: "deleted all", count: data.deletedCount });
+        } else {
+          res.end(err);
+        }
+      });
+    }
+  );
 };
