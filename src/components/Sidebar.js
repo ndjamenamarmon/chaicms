@@ -8,7 +8,9 @@ import { startSetContentTypes } from "../actions/contentTypes";
 
 export const Sidebar = props => {
   useEffect(() => {
-    props.startSetContentTypes();
+    if (props.contentTypes.length === 0) {
+      props.startSetContentTypes();
+    }
   }, []);
   return (
     <Menu>
