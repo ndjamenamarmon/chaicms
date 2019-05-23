@@ -95,13 +95,19 @@ export const ContentTypeForm = props => {
       return contentType.apiKey === apiKeyValue;
     });
   };
-  const onTitleChange = e => {
+  const checkApiKeyFromDB = async apiKeyValue => {
+    const contentTypesFromDB = await axios.get("/api/contentTypes");
+    return contentTypesFromDB.data.find(contentType => {
+      return contentType.apiKey === apiKeyValue;
+    });
+  };
+  const onTitleChange = async e => {
     setTitle(e.target.value);
 
     let newApiKey = useCamelify(e.target.value);
     // let n = 1;
     // enforce uniqueness
-    while (checkApiKey(newApiKey)) {
+    while (await checkApiKey(newApiKey)) {
       newApiKey =
         newApiKey +
         Math.round(Math.random() * (999999999 - 100000000) + 100000000);
@@ -111,12 +117,12 @@ export const ContentTypeForm = props => {
 
     setApiKey(newApiKey);
   };
-  const onApiKeyChange = e => {
+  const onApiKeyChange = async e => {
     // enforce no whitespace
     const newApiKey = useCamelify(e.target.value);
 
     // enforce uniqueness
-    const apiKeyExists = checkApiKey(newApiKey);
+    const apiKeyExists = await checkApiKey(newApiKey);
     if (apiKeyExists) {
       setApiKeyError("This API Key already exists.");
     } else {
@@ -154,9 +160,20 @@ export const ContentTypeForm = props => {
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setFields(arrayMove(fields, oldIndex, newIndex));
   };
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
-    // TO DO: Check that apiKey is unique in db
+
+    const apiKeyExists = await this.checkApiKeyFromDB(apiKey);
+    if (apiKeyExists) {
+      this.setState(() => ({
+        apiKeyError: "This API Key already exists."
+      }));
+    } else {
+      this.setState(() => ({
+        apiKeyError: ""
+      }));
+    }
+
     if (!title || !apiKey || !titleField || apiKeyError) {
       const error = "Please provide title, API Key, and title field";
       const success = "";

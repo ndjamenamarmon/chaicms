@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import moment from "moment";
 import useSlugify from "../../hooks/useSlugify";
 import MarkdownEditor from "./FormFields/MarkdownEditor";
@@ -66,17 +67,16 @@ export const EntryForm = props => {
   const [errors, setErrors] = useState([]);
   const slugify = useSlugify(null);
 
-  const onSubmit = e => {
+  const onSubmit = async e => {
     e.preventDefault();
     let errors = [];
 
-    contentType.fields.map(fieldType => {
+    contentType.fields.map(async fieldType => {
       const entryValue = entry[fieldType];
 
       // enforce uniqueness if isUnique
-      // TO DO: Check unique fields against database
       if (getFieldValue(fieldType, "isUnique")) {
-        const valueExists = checkUniqueness(entryValue, fieldType);
+        const valueExists = await checkUniquenessFromDB(entryValue, fieldType);
         if (valueExists) {
           errors.push({
             field: fieldType,
@@ -134,6 +134,15 @@ export const EntryForm = props => {
       );
     });
   };
+  const checkUniquenessFromDB = async (value, uniqueField) => {
+    // look through entries that is not this entry
+    const entriesFromDB = await axios.get("/api/entries");
+    return entriesFromDB.data.find(singleEntry => {
+      return (
+        singleEntry[uniqueField] === value && singleEntry._id !== entry._id
+      );
+    });
+  };
   const onFieldChange = e => {
     const fieldName = e.target.name;
     const fieldType = e.target.dataset ? e.target.dataset.type : undefined;
@@ -171,10 +180,6 @@ export const EntryForm = props => {
     if (fieldIsUnique) {
       const valueExists = checkUniqueness(fieldValue, fieldName);
       if (valueExists) {
-        setFieldError({
-          message: "This value must be unique",
-          field: fieldName
-        });
         errors.push({
           field: fieldName,
           message: "This value must be unique"

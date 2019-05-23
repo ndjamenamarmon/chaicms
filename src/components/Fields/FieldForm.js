@@ -29,12 +29,18 @@ export default class FieldForm extends React.Component {
       return field.apiKey === apiKeyValue;
     });
   };
-  onNameChange = e => {
+  checkApiKeyFromDB = async apiKeyValue => {
+    const fieldsFromDB = await axios.get("/api/fields");
+    return fieldsFromDB.data.find(field => {
+      return field.apiKey === apiKeyValue;
+    });
+  };
+  onNameChange = async e => {
     const name = e.target.value;
     let apiKey = this.useCamelify(name);
 
     // enforce uniqueness
-    while (this.checkApiKey(apiKey)) {
+    while (await this.checkApiKey(apiKey)) {
       apiKey =
         apiKey +
         Math.round(Math.random() * (999999999 - 100000000) + 100000000);
@@ -45,12 +51,12 @@ export default class FieldForm extends React.Component {
       apiKey
     }));
   };
-  onApiKeyChange = e => {
+  onApiKeyChange = async e => {
     // enforce no whitespace
     const apiKey = this.useCamelify(e.target.value);
 
     // enforce uniqueness
-    const apiKeyExists = this.checkApiKey(apiKey);
+    const apiKeyExists = await this.checkApiKey(apiKey);
     if (apiKeyExists) {
       this.setState(() => ({
         apiKeyError: "This API Key already exists."
@@ -95,9 +101,20 @@ export default class FieldForm extends React.Component {
       isUnique
     }));
   };
-  onSubmit = e => {
+  onSubmit = async e => {
     e.preventDefault();
-    // TO DO: Check that apiKey/name is unique in db
+
+    const apiKeyExists = await this.checkApiKeyFromDB(apiKey);
+    if (apiKeyExists) {
+      this.setState(() => ({
+        apiKeyError: "This API Key already exists."
+      }));
+    } else {
+      this.setState(() => ({
+        apiKeyError: ""
+      }));
+    }
+
     if (
       !this.state.name ||
       !this.state.apiKey ||
