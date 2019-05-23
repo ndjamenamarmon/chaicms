@@ -4,6 +4,7 @@ import useSlugify from "../../hooks/useSlugify";
 import MarkdownEditor from "./FormFields/MarkdownEditor";
 import HtmlEditor from "./FormFields/HtmlEditor";
 import SingleDatePickerField from "./FormFields/SingleDatePickerField";
+import SingleDatePickerWithAMPMTimeField from "./FormFields/SingleDatePickerWithAMPMTimeField";
 import ReferenceManager from "./FormFields/ReferenceManager";
 import {
   SortableContainer,
@@ -274,6 +275,21 @@ export const EntryForm = props => {
                     </div>
                   )}
               </label>
+              {getFieldValue(fieldType, "type") === "Date and Time" &&
+                getFieldValue(fieldType, "display") ===
+                  "Date and Time AM/PM" && (
+                  <div>
+                    <SingleDatePickerWithAMPMTimeField
+                      date={
+                        entry[getFieldValue(fieldType, "apiKey")]
+                          ? moment(entry[getFieldValue(fieldType, "apiKey")])
+                          : moment()
+                      }
+                      name={getFieldValue(fieldType, "apiKey")}
+                      onChange={onComponentFieldChange}
+                    />
+                  </div>
+                )}
 
               {getFieldValue(fieldType, "type") === "Long Text" &&
                 getFieldValue(fieldType, "display") === "Multiple line" && (
