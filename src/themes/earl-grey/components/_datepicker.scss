@@ -14,3 +14,7 @@
 .SingleDatePickerInput__withBorder {
   border: 1px solid #cacccd;
 }
+
+.SingleDatePicker_picker {
+  z-index: 2;
+}
