@@ -40,34 +40,53 @@ module.exports = app => {
 
   // PUBLIC
   app.get("/api/public/settings", (req, res) => {
-    Settings.find({}, function(err, settings) {
-      res.send({
-        signInMethods: settings[0].signInMethods,
-        requireInviteCodes: settings[0].requireInviteCodes,
-        theme: settings[0].theme,
-        siteDescription: settings[0].siteDescription,
-        siteTitle: settings[0].siteTitle
-      });
-    });
-  });
-
-  // Only used when init the cms
-  app.post("/api/settings", (req, res) => {
-    Settings.findOne({}, async (err, settings) => {
-      if (err) {
+    Settings.find({}, async function(err, settings) {
+      if (settings[0]) {
+        res.send({
+          signInMethods: settings[0].signInMethods,
+          requireInviteCodes: settings[0].requireInviteCodes,
+          theme: settings[0].theme,
+          siteDescription: settings[0].siteDescription,
+          siteTitle: settings[0].siteTitle
+        });
+      } else {
+        // Initial Setup
         let update = new Settings({
+          theme: "earl-grey",
+          requireInviteCodes: false,
           createdAt: Date.now(),
           lastUpdated: Date.now(),
-          lastUpdatedBy: req.user._id,
           ...req.body
         });
+        // setup default fields
+        // setup default content types (page, post)
         try {
           const settings = await update.save();
           res.send(settings);
         } catch (err) {
           res.status(422).send(err);
         }
-      } else res.send(settings);
+      }
     });
   });
+
+  // Only used when init the cms
+  //   app.post("/api/settings", (req, res) => {
+  //     Settings.findOne({}, async (err, settings) => {
+  //       if (err) {
+  //         let update = new Settings({
+  //           createdAt: Date.now(),
+  //           lastUpdated: Date.now(),
+  //           lastUpdatedBy: req.user._id,
+  //           ...req.body
+  //         });
+  //         try {
+  //           const settings = await update.save();
+  //           res.send(settings);
+  //         } catch (err) {
+  //           res.status(422).send(err);
+  //         }
+  //       } else res.send(settings);
+  //     });
+  //   });
 };

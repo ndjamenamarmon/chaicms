@@ -23,178 +23,179 @@ passport.deserializeUser((id, done) => {
 
 var setPassportStrategies = () => {
   Settings.find({}, function(err, settings) {}).then(existingSettings => {
-    existingSettings[0].signInMethods.map(signInMethod => {
-      if (signInMethod.type === "google" && signInMethod.enabled) {
-        passport.use(
-          new GoogleStrategy(
-            {
-              clientID: signInMethod.clientID,
-              clientSecret: signInMethod.clientSecret,
-              callbackURL: "/auth/google/callback",
-              proxy: true
-            },
-            (accessToken, refreshToken, profile, done) => {
-              // console.log("profile", profile);
+    existingSettings[0] &&
+      existingSettings[0].signInMethods.map(signInMethod => {
+        if (signInMethod.type === "google" && signInMethod.enabled) {
+          passport.use(
+            new GoogleStrategy(
+              {
+                clientID: signInMethod.clientID,
+                clientSecret: signInMethod.clientSecret,
+                callbackURL: "/auth/google/callback",
+                proxy: true
+              },
+              (accessToken, refreshToken, profile, done) => {
+                // console.log("profile", profile);
 
-              // initiate a search over all records in collection
-              // returns a promise (async)
-              // findOne grabs an instance from the User collection
-              User.findOne({ googleId: profile.id }).then(existingUser => {
-                if (existingUser) {
-                  // we already have a record with the given profile id
-                  done(null, existingUser); // first argument is error
-                } else {
-                  // we don't have a user record with this ID, make a new record
-                  User.count({}, function(err, count) {
-                    let newUserRole;
-                    if (count === 0) {
-                      newUserRole = "owner";
-                    } else {
-                      newUserRole = existingSettings[0].defaultUserRole
-                        ? existingSettings[0].defaultUserRole
-                        : "member";
-                    }
-                    new User({
-                      googleId: profile.id,
-                      displayName: profile.displayName,
-                      email: profile.emails[0].value,
-                      isApproved: existingSettings[0].requireInviteCodes
-                        ? false
-                        : true,
-                      photoURL: profile.photos[0].value,
-                      role: newUserRole
-                    })
-                      .save()
-                      .then(user => done(null, user)); // new instance of a user, then save to db
-                  });
-                }
-              });
-            }
-          )
-        ); // new instance of google strategy, pass in config
-      } else if (signInMethod.type === "github" && signInMethod.enabled) {
-        passport.use(
-          new GitHubStrategy(
-            {
-              clientID: signInMethod.clientID,
-              clientSecret: signInMethod.clientSecret,
-              callbackURL: "/auth/github/callback"
-            },
-            function(accessToken, refreshToken, profile, done) {
-              User.findOne({ githubId: profile.id }).then(existingUser => {
-                if (existingUser) {
-                  done(null, existingUser);
-                } else {
-                  User.count({}, function(err, count) {
-                    let newUserRole;
-                    if (count === 0) {
-                      newUserRole = "owner";
-                    } else {
-                      newUserRole = existingSettings[0].defaultUserRole
-                        ? existingSettings[0].defaultUserRole
-                        : "member";
-                    }
-                    new User({
-                      githubId: profile.id,
-                      displayName: profile.displayName,
-                      email: profile._json.email,
-                      isApproved: existingSettings[0].requireInviteCodes
-                        ? false
-                        : true,
-                      photoURL: profile._json.avatar_url,
-                      role: newUserRole
-                    })
-                      .save()
-                      .then(user => done(null, user));
-                  });
-                }
-              });
-            }
-          )
-        );
-      } else if (signInMethod.type === "facebook" && signInMethod.enabled) {
-        passport.use(
-          new FacebookStrategy(
-            {
-              clientID: signInMethod.clientID,
-              clientSecret: signInMethod.clientSecret,
-              callbackURL: "/auth/facebook/callback",
-              profileFields: ["id", "displayName", "email", "profile_pic"]
-            },
-            function(accessToken, refreshToken, profile, done) {
-              User.findOne({ facebookId: profile.id }).then(existingUser => {
-                if (existingUser) {
-                  done(null, existingUser);
-                } else {
-                  User.count({}, function(err, count) {
-                    let newUserRole;
-                    if (count === 0) {
-                      newUserRole = "owner";
-                    } else {
-                      newUserRole = existingSettings[0].defaultUserRole
-                        ? existingSettings[0].defaultUserRole
-                        : "member";
-                    }
-                    new User({
-                      facebookId: profile.id,
-                      displayName: profile.displayName,
-                      email: profile.email,
-                      photoURL: profile.profile_pic,
-                      isApproved: existingSettings[0].requireInviteCodes
-                        ? false
-                        : true,
-                      role: newUserRole
-                    })
-                      .save()
-                      .then(user => done(null, user));
-                  });
-                }
-              });
-            }
-          )
-        );
-      } else if (signInMethod.type === "twitter" && signInMethod.enabled) {
-        passport.use(
-          new TwitterStrategy(
-            {
-              clientID: signInMethod.clientID,
-              clientSecret: signInMethod.clientSecret,
-              callbackURL: "/auth/twitter/callback"
-            },
-            function(accessToken, refreshToken, profile, done) {
-              User.findOne({ twitterId: profile.id }).then(existingUser => {
-                if (existingUser) {
-                  done(null, existingUser);
-                } else {
-                  User.count({}, function(err, count) {
-                    let newUserRole;
-                    if (count === 0) {
-                      newUserRole = "owner";
-                    } else {
-                      newUserRole = existingSettings[0].defaultUserRole
-                        ? existingSettings[0].defaultUserRole
-                        : "member";
-                    }
-                    new User({
-                      twitterId: profile.id,
-                      displayName: profile.name,
-                      email: profile.email,
-                      photoURL: profile.profile_image_url_https,
-                      isApproved: existingSettings[0].requireInviteCodes
-                        ? false
-                        : true,
-                      role: newUserRole
-                    })
-                      .save()
-                      .then(user => done(null, user));
-                  });
-                }
-              });
-            }
-          )
-        );
-      }
-    });
+                // initiate a search over all records in collection
+                // returns a promise (async)
+                // findOne grabs an instance from the User collection
+                User.findOne({ googleId: profile.id }).then(existingUser => {
+                  if (existingUser) {
+                    // we already have a record with the given profile id
+                    done(null, existingUser); // first argument is error
+                  } else {
+                    // we don't have a user record with this ID, make a new record
+                    User.count({}, function(err, count) {
+                      let newUserRole;
+                      if (count === 0) {
+                        newUserRole = "owner";
+                      } else {
+                        newUserRole = existingSettings[0].defaultUserRole
+                          ? existingSettings[0].defaultUserRole
+                          : "member";
+                      }
+                      new User({
+                        googleId: profile.id,
+                        displayName: profile.displayName,
+                        email: profile.emails[0].value,
+                        isApproved: existingSettings[0].requireInviteCodes
+                          ? false
+                          : true,
+                        photoURL: profile.photos[0].value,
+                        role: newUserRole
+                      })
+                        .save()
+                        .then(user => done(null, user)); // new instance of a user, then save to db
+                    });
+                  }
+                });
+              }
+            )
+          ); // new instance of google strategy, pass in config
+        } else if (signInMethod.type === "github" && signInMethod.enabled) {
+          passport.use(
+            new GitHubStrategy(
+              {
+                clientID: signInMethod.clientID,
+                clientSecret: signInMethod.clientSecret,
+                callbackURL: "/auth/github/callback"
+              },
+              function(accessToken, refreshToken, profile, done) {
+                User.findOne({ githubId: profile.id }).then(existingUser => {
+                  if (existingUser) {
+                    done(null, existingUser);
+                  } else {
+                    User.count({}, function(err, count) {
+                      let newUserRole;
+                      if (count === 0) {
+                        newUserRole = "owner";
+                      } else {
+                        newUserRole = existingSettings[0].defaultUserRole
+                          ? existingSettings[0].defaultUserRole
+                          : "member";
+                      }
+                      new User({
+                        githubId: profile.id,
+                        displayName: profile.displayName,
+                        email: profile._json.email,
+                        isApproved: existingSettings[0].requireInviteCodes
+                          ? false
+                          : true,
+                        photoURL: profile._json.avatar_url,
+                        role: newUserRole
+                      })
+                        .save()
+                        .then(user => done(null, user));
+                    });
+                  }
+                });
+              }
+            )
+          );
+        } else if (signInMethod.type === "facebook" && signInMethod.enabled) {
+          passport.use(
+            new FacebookStrategy(
+              {
+                clientID: signInMethod.clientID,
+                clientSecret: signInMethod.clientSecret,
+                callbackURL: "/auth/facebook/callback",
+                profileFields: ["id", "displayName", "email", "profile_pic"]
+              },
+              function(accessToken, refreshToken, profile, done) {
+                User.findOne({ facebookId: profile.id }).then(existingUser => {
+                  if (existingUser) {
+                    done(null, existingUser);
+                  } else {
+                    User.count({}, function(err, count) {
+                      let newUserRole;
+                      if (count === 0) {
+                        newUserRole = "owner";
+                      } else {
+                        newUserRole = existingSettings[0].defaultUserRole
+                          ? existingSettings[0].defaultUserRole
+                          : "member";
+                      }
+                      new User({
+                        facebookId: profile.id,
+                        displayName: profile.displayName,
+                        email: profile.email,
+                        photoURL: profile.profile_pic,
+                        isApproved: existingSettings[0].requireInviteCodes
+                          ? false
+                          : true,
+                        role: newUserRole
+                      })
+                        .save()
+                        .then(user => done(null, user));
+                    });
+                  }
+                });
+              }
+            )
+          );
+        } else if (signInMethod.type === "twitter" && signInMethod.enabled) {
+          passport.use(
+            new TwitterStrategy(
+              {
+                clientID: signInMethod.clientID,
+                clientSecret: signInMethod.clientSecret,
+                callbackURL: "/auth/twitter/callback"
+              },
+              function(accessToken, refreshToken, profile, done) {
+                User.findOne({ twitterId: profile.id }).then(existingUser => {
+                  if (existingUser) {
+                    done(null, existingUser);
+                  } else {
+                    User.count({}, function(err, count) {
+                      let newUserRole;
+                      if (count === 0) {
+                        newUserRole = "owner";
+                      } else {
+                        newUserRole = existingSettings[0].defaultUserRole
+                          ? existingSettings[0].defaultUserRole
+                          : "member";
+                      }
+                      new User({
+                        twitterId: profile.id,
+                        displayName: profile.name,
+                        email: profile.email,
+                        photoURL: profile.profile_image_url_https,
+                        isApproved: existingSettings[0].requireInviteCodes
+                          ? false
+                          : true,
+                        role: newUserRole
+                      })
+                        .save()
+                        .then(user => done(null, user));
+                    });
+                  }
+                });
+              }
+            )
+          );
+        }
+      });
   });
 };
 
