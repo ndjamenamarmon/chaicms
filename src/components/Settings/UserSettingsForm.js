@@ -53,55 +53,66 @@ export const UserSettingsForm = props => {
   const [newClientID, setNewClientID] = useState("");
   const [newClientSecret, setNewClientSecret] = useState("");
 
-  const openModal = () => {
-    setModalIsOpen(true);
-  };
+  // const openModal = () => {
+  //   setModalIsOpen(true);
+  // };
 
-  const closeModalAndSave = e => {
-    e.preventDefault();
+  // const closeModalAndSave = e => {
+  //   e.preventDefault();
 
-    let newSignInMethods = signInMethods.map(signInMethod => {
-      if (signInMethod.type === currentSignInMethod) {
-        signInMethod.enabled = true;
-        signInMethod.clientID = newClientID;
-        signInMethod.clientSecret = newClientSecret;
-      }
-      return signInMethod;
-    });
-    setSignInMethods(newSignInMethods);
-    props.onSubmit({
-      ...props.settings,
-      signInMethods: newSignInMethods
-    });
+  //   let newSignInMethods = signInMethods.map(signInMethod => {
+  //     if (signInMethod.type === currentSignInMethod) {
+  //       signInMethod.enabled = true;
+  //       signInMethod.clientID = newClientID;
+  //       signInMethod.clientSecret = newClientSecret;
+  //     }
+  //     return signInMethod;
+  //   });
+  //   setSignInMethods(newSignInMethods);
+  //   props.onSubmit({
+  //     ...props.settings,
+  //     signInMethods: newSignInMethods
+  //   });
 
-    setNewClientID("");
-    setNewClientSecret("");
-    setCurrentSignInMethod();
-    setModalIsOpen(false);
-  };
+  //   setNewClientID("");
+  //   setNewClientSecret("");
+  //   setCurrentSignInMethod();
+  //   setModalIsOpen(false);
+  // };
 
-  const cancelModal = e => {
-    e.preventDefault();
+  // const cancelModal = e => {
+  //   e.preventDefault();
 
-    let newSignInMethods = signInMethods.map(signInMethod => {
-      if (signInMethod.type === currentSignInMethod) {
-        signInMethod.enabled = false;
-      }
-      return signInMethod;
-    });
-    setSignInMethods(newSignInMethods);
-    setCurrentSignInMethod();
+  //   let newSignInMethods = signInMethods.map(signInMethod => {
+  //     if (signInMethod.type === currentSignInMethod) {
+  //       signInMethod.enabled = false;
+  //     }
+  //     return signInMethod;
+  //   });
+  //   setSignInMethods(newSignInMethods);
+  //   setCurrentSignInMethod();
 
-    setModalIsOpen(false);
-  };
+  //   setModalIsOpen(false);
+  // };
 
   const toggleSignInMethod = e => {
     const signInMethodToChange = e.target.name;
     let enabledStatus;
     if (e.target.checked) {
-      //enabledStatus = true;
-      openModal();
-      setCurrentSignInMethod(signInMethodToChange);
+      // openModal();
+      // setCurrentSignInMethod(signInMethodToChange);
+
+      let newSignInMethods = signInMethods.map(signInMethod => {
+        if (signInMethod.type === signInMethodToChange) {
+          signInMethod.enabled = true;
+        }
+        return signInMethod;
+      });
+      setSignInMethods(newSignInMethods);
+      props.onSubmit({
+        ...props.settings,
+        signInMethods: newSignInMethods
+      });
     } else {
       enabledStatus = false;
       setCurrentSignInMethod();
