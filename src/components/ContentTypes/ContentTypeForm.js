@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import moment from "moment";
+import axios from "axios";
 import Modal from "react-modal";
 import {
   SortableContainer,
@@ -97,9 +98,13 @@ export const ContentTypeForm = props => {
   };
   const checkApiKeyFromDB = async apiKeyValue => {
     const contentTypesFromDB = await axios.get("/api/contentTypes");
-    return contentTypesFromDB.data.find(contentType => {
-      return contentType.apiKey === apiKeyValue;
-    });
+    try {
+      return contentTypesFromDB.data.find(contentType => {
+        return contentType.apiKey === apiKeyValue;
+      });
+    } catch (err) {
+      return null;
+    }
   };
   const onTitleChange = async e => {
     setTitle(e.target.value);
@@ -163,15 +168,11 @@ export const ContentTypeForm = props => {
   const onSubmit = async e => {
     e.preventDefault();
 
-    const apiKeyExists = await this.checkApiKeyFromDB(apiKey);
+    const apiKeyExists = await checkApiKeyFromDB(apiKey);
     if (apiKeyExists) {
-      this.setState(() => ({
-        apiKeyError: "This API Key already exists."
-      }));
+      setApiKeyError("This API Key already exists.");
     } else {
-      this.setState(() => ({
-        apiKeyError: ""
-      }));
+      setApiKeyError(null);
     }
 
     if (!title || !apiKey || !titleField || apiKeyError) {

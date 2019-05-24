@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import axios from "axios";
 
 export default class FieldForm extends React.Component {
   constructor(props) {
@@ -104,8 +105,8 @@ export default class FieldForm extends React.Component {
   onSubmit = async e => {
     e.preventDefault();
 
-    const apiKeyExists = await this.checkApiKeyFromDB(apiKey);
-    if (apiKeyExists) {
+    const apiKeyExists = await this.checkApiKeyFromDB(this.state.apiKey);
+    if (this.state.apiKeyExists) {
       this.setState(() => ({
         apiKeyError: "This API Key already exists."
       }));
