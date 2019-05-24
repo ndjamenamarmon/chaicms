@@ -4,7 +4,7 @@ import axios from "axios";
 
 // ADD DEFAULT USER ROLES
 export const startAddUserRoles = () => {
-  return async dispatch => {
+  return dispatch => {
     const userRoles = [
       {
         name: "member",
@@ -115,6 +115,8 @@ export const startAddUserRoles = () => {
           "CREATE_INVITE_CODES",
           "CREATE_USER_ROLES",
           "CREATE_USERS",
+          "CREATE_OWN_ENTRIES",
+          "READ_OWN_ENTRIES",
           "UPDATE_OWN_ENTRIES",
           "DELETE_OWN_ENTRIES",
           "UPDATE_INVITE_CODES",

@@ -4,9 +4,10 @@ import { Provider } from "react-redux";
 import AppRouter, { history } from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
 import { startLogin } from "./actions/auth";
-import { startSetPublicSettings } from "./actions/settings";
+import { startSetPublicSettings, startEditSettings } from "./actions/settings";
 // import { startAddUserRoles } from "./actions/userRoles";
 import { startSetUser } from "./actions/user";
+import { startAddUserRoles } from "./actions/userRoles";
 import "normalize.css/normalize.css";
 import "react-dates/lib/css/_datepicker.css";
 import LoadingPage from "./components/LoadingPage";
@@ -45,8 +46,14 @@ store.dispatch(startLogin()).then(() => {
   } else {
     // store.dispatch(startAddUserRoles());
     store.dispatch(startSetPublicSettings()).then(() => {
-      renderApp();
-      history.push("/");
+      if (store.getState().settings.isSetup) {
+        renderApp();
+        history.push("/");
+      } else {
+        store.dispatch(startAddUserRoles());
+        renderApp();
+        history.push("/");
+      }
     });
   }
 });

@@ -19,7 +19,7 @@ export const LoginPage = ({
   }, []);
 
   const onSubmit = settings => {
-    startEditSettings(settings);
+    startEditSettings({ ...settings, isSetup: true });
   };
 
   const openModal = () => {

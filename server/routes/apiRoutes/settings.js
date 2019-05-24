@@ -54,6 +54,7 @@ module.exports = app => {
         let update = new Settings({
           theme: "earl-grey",
           requireInviteCodes: false,
+          isSetup: false,
           createdAt: Date.now(),
           lastUpdated: Date.now(),
           ...req.body
