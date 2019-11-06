@@ -41,7 +41,7 @@ module.exports = app => {
   // PUBLIC
   app.get("/api/public/settings", (req, res) => {
     Settings.find({}, async function(err, settings) {
-      if (settings[0]) {
+      if (settings.length !== 0 && settings[0]) {
         res.send({
           signInMethods: settings[0].signInMethods,
           requireInviteCodes: settings[0].requireInviteCodes,

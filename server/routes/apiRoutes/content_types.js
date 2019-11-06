@@ -26,8 +26,8 @@ module.exports = app => {
       let update = new ContentType({
         createdAt: Date.now(),
         lastUpdated: Date.now(),
-        createdBy: req.user._id,
-        lastUpdatedBy: req.user._id,
+        createdBy: req.user ? req.user._id : "",
+        lastUpdatedBy: req.user ? req.user._id : "",
         ...req.body
       });
       try {
