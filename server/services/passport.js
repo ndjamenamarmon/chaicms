@@ -79,7 +79,7 @@ if (keys.githubClientID && keys.githubClientSecret) {
       {
         clientID: keys.githubClientID,
         clientSecret: keys.githubClientSecret,
-        callbackURL: "/auth/github/callback"
+        callbackURL: `${keys.appUrl}/auth/github/callback`
       },
       function(accessToken, refreshToken, profile, done) {
         Settings.find({}, function(err, settings) {}).then(existingSettings => {
