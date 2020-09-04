@@ -62,7 +62,7 @@
     "redux-mock-store": "1.5.3",
     "redux-thunk": "2.3.0",
     "sass-loader": "7.1.0",
-    "showdown": "^1.9.0",
+    "showdown": "^1.9.1",
     "style-loader": "0.23.1",
     "uuid": "^3.3.2",
     "validator": "10.8.0",
